@@ -1,0 +1,172 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans:
+    var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-redaction: var(--font-redaction), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.5rem;
+
+  /* Base colors */
+  --background: rgba(19, 19, 19, 1);
+  --foreground: rgba(221, 219, 203, 1);
+
+  /* Card colors */
+  --card: rgba(19, 19, 19, 1);
+  --card-foreground: rgba(221, 219, 203, 1);
+
+  /* Popover colors */
+  --popover: rgba(34, 34, 34, 1);
+  --popover-foreground: rgba(221, 219, 203, 1);
+
+  /* Primary colors - adjusted to match the new accent */
+  --primary: rgba(130, 230, 100, 1);
+  --primary-foreground: rgba(19, 19, 19, 1);
+
+  /* Secondary colors */
+  --secondary: rgba(45, 45, 45, 1);
+  --secondary-foreground: rgba(221, 219, 203, 1);
+
+  /* Muted colors */
+  --muted: rgba(45, 45, 45, 1);
+  --muted-foreground: rgba(170, 168, 155, 1);
+
+  /* Accent colors - updated to #c1ff72 */
+  --accent: rgba(193, 255, 114, 1);
+  --accent-foreground: rgba(19, 19, 19, 1);
+
+  /* Destructive colors */
+  --destructive: rgba(224, 49, 49, 1);
+  --destructive-foreground: rgba(255, 255, 255, 1);
+
+  /* Border and input colors */
+  --border: rgba(55, 55, 55, 1);
+  --input: rgba(55, 55, 55, 1);
+  --ring: rgba(193, 255, 114, 0.7);
+
+  /* Chart colors - adjusted green tones */
+  --chart-1: rgba(193, 255, 114, 1);
+  --chart-2: rgba(140, 230, 90, 1);
+  --chart-3: rgba(80, 200, 80, 1);
+  --chart-4: rgba(221, 219, 203, 0.8);
+  --chart-5: rgba(110, 240, 100, 1);
+
+  /* Sidebar colors */
+  --sidebar: rgba(24, 24, 24, 1);
+  --sidebar-foreground: rgba(221, 219, 203, 1);
+  --sidebar-primary: rgba(140, 230, 90, 1);
+  --sidebar-primary-foreground: rgba(19, 19, 19, 1);
+  --sidebar-accent: rgba(45, 45, 45, 1);
+  --sidebar-accent-foreground: rgba(221, 219, 203, 1);
+  --sidebar-border: rgba(55, 55, 55, 1);
+  --sidebar-ring: rgba(193, 255, 114, 0.7);
+}
+
+.dark {
+  /* Base colors */
+  --background: rgba(19, 19, 19, 1);
+  --foreground: rgba(221, 219, 203, 1);
+
+  /* Card colors */
+  --card: rgba(19, 19, 19, 1);
+  --card-foreground: rgba(221, 219, 203, 1);
+
+  /* Popover colors */
+  --popover: rgba(34, 34, 34, 1);
+  --popover-foreground: rgba(221, 219, 203, 1);
+
+  /* Primary colors - adjusted to match the new accent */
+  --primary: rgba(130, 230, 100, 1);
+  --primary-foreground: rgba(19, 19, 19, 1);
+
+  /* Secondary colors */
+  --secondary: rgba(45, 45, 45, 1);
+  --secondary-foreground: rgba(221, 219, 203, 1);
+
+  /* Muted colors */
+  --muted: rgba(45, 45, 45, 1);
+  --muted-foreground: rgba(170, 168, 155, 0.65);
+
+  /* Accent colors - updated to #c1ff72 */
+  --accent: rgba(193, 255, 114, 1);
+  --accent-foreground: rgba(19, 19, 19, 1);
+
+  /* Destructive colors */
+  --destructive: rgba(224, 49, 49, 1);
+  --destructive-foreground: rgba(255, 255, 255, 1);
+
+  /* Border and input colors */
+  --border: rgba(55, 55, 55, 1);
+  --input: rgba(55, 55, 55, 1);
+  --ring: rgba(193, 255, 114, 0.7);
+
+  /* Chart colors - adjusted green tones */
+  --chart-1: rgba(193, 255, 114, 1);
+  --chart-2: rgba(140, 230, 90, 1);
+  --chart-3: rgba(80, 200, 80, 1);
+  --chart-4: rgba(221, 219, 203, 0.8);
+  --chart-5: rgba(110, 240, 100, 1);
+
+  /* Sidebar colors */
+  --sidebar: rgba(34, 34, 34, 1);
+  --sidebar-foreground: rgba(221, 219, 203, 1);
+  --sidebar-primary: rgba(140, 230, 90, 1);
+  --sidebar-primary-foreground: rgba(19, 19, 19, 1);
+  --sidebar-accent: rgba(45, 45, 45, 1);
+  --sidebar-accent-foreground: rgba(221, 219, 203, 1);
+  --sidebar-border: rgba(55, 55, 55, 1);
+  --sidebar-ring: rgba(193, 255, 114, 0.7);
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
