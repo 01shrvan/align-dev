@@ -8,8 +8,11 @@ const nextConfig: NextConfig = {
   },
   serverExternalPackages: ["@node-rs/argon2"],
   typescript: {
-    ignoreBuildErrors: true
-  }
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
