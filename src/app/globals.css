@@ -7,7 +7,7 @@
   --font-sans:
     var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-redaction: var(--font-redaction), ui-sans-serif, system-ui, sans-serif;
+  --font-redaction: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
@@ -165,8 +165,10 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    font-family: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif !important;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif !important;
   }
 }

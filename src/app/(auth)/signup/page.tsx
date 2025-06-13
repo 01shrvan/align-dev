@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="h-screen bg-black text-white flex overflow-hidden">
+    <div className="h-screen bg-black text-white flex overflow-hidden font-sans">
       <div className="hidden lg:flex lg:w-1/2 items-center justify-center p-12">
         <div className="w-80 h-80">
           <Image src={logo || "/placeholder.svg"} alt="Align Logo" className="w-full h-full" priority />
@@ -25,8 +25,12 @@ export default function Page() {
 
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className="text-5xl lg:text-6xl font-bold">Thoughts connecting</h1>
-              <h2 className="text-2xl font-normal">Join today.</h2>
+              <h1 className="text-5xl lg:text-6xl font-semibold tracking-tight leading-none font-sans">
+                Thoughts connecting
+              </h1>
+              <h2 className="text-2xl font-light text-gray-200 tracking-wide font-sans">
+                Join today.
+              </h2>
             </div>
 
             <div className="space-y-4">
@@ -34,10 +38,12 @@ export default function Page() {
             </div>
 
             <div className="space-y-3">
-              <p className="text-base font-medium">Already have an account?</p>
+              <p className="text-base font-medium text-gray-300 font-sans">
+                Already have an account?
+              </p>
               <Link
                 href="/login"
-                className="inline-block px-6 py-2 border border-gray-600 rounded-full text-blue-400 hover:bg-gray-900 transition-colors font-medium text-sm"
+                className="inline-block px-6 py-2.5 border border-gray-600 rounded-full text-blue-400 hover:bg-gray-900 hover:border-gray-500 transition-all duration-200 font-medium text-sm tracking-wide font-sans"
               >
                 Sign in
               </Link>
@@ -45,11 +51,14 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="absolute bottom-6 left-6">
-          <Link href="https://x.com/yourusername" className="text-white hover:text-gray-300 text-xl font-bold">
+        {/* <div className="absolute bottom-6 left-6">
+          <Link 
+            href="https://x.com/yourusername" 
+            className="text-white hover:text-gray-300 text-xl font-semibold tracking-wide transition-colors duration-200 font-sans"
+          >
             X
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   )
