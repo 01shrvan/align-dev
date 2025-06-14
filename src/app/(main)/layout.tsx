@@ -20,11 +20,11 @@ export default async function Layout({
     <SessionProvider value={session}>
       <div className="flex min-h-screen flex-col">
         <Navbar />
-        <div className="mx-auto flex w-full max-w-7xl grow gap-5 p-5">
+        <div className="mx-auto flex w-full max-w-7xl grow pt-5">
           <MenuBar className="sticky top-[5.25rem] hidden h-fit flex-none space-y-3 rounded-2xl px-3 py-5 shadow-lg sm:block lg:px-5 xl:w-80 bg-card/80 backdrop-blur-sm border border-border/50" />
-          {children}
+          <div className="border-l border-dashed border-border pl-5 ml-5 flex-1">{children}</div>
         </div>
-        <MenuBar className="sticky bottom-0 flex w-full justify-center gap-5 border-t p-3 sm:hidden bg-card/90 backdrop-blur-md border-t-border/60" />
+        <MenuBar className="sticky bottom-0 flex w-full justify-center gap-5 border-t p-3 sm:hidden bg-card/80 backdrop-blur-md border-t-border/60" />
       </div>
     </SessionProvider>
   )
