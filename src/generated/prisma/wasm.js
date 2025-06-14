@@ -140,6 +140,13 @@ exports.Prisma.SessionScalarFieldEnum = {
   expiresAt: 'expiresAt'
 };
 
+exports.Prisma.PostScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -171,10 +178,17 @@ exports.Prisma.SessionOrderByRelevanceFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.PostOrderByRelevanceFieldEnum = {
+  id: 'id',
+  content: 'content',
+  userId: 'userId'
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Session: 'Session'
+  Session: 'Session',
+  Post: 'Post'
 };
 
 /**

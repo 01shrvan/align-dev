@@ -4,9 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans:
-    var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
   --font-redaction: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -17,8 +16,8 @@
   --background: rgba(19, 19, 19, 1);
   --foreground: rgba(221, 219, 203, 1);
 
-  /* Card colors */
-  --card: rgba(19, 19, 19, 1);
+  /* Card colors - made slightly different from background */
+  --card: rgba(28, 28, 28, 1);
   --card-foreground: rgba(221, 219, 203, 1);
 
   /* Popover colors */
@@ -73,8 +72,8 @@
   --background: rgba(19, 19, 19, 1);
   --foreground: rgba(221, 219, 203, 1);
 
-  /* Card colors */
-  --card: rgba(19, 19, 19, 1);
+  /* Card colors - made slightly different from background */
+  --card: rgba(28, 28, 28, 1);
   --card-foreground: rgba(221, 219, 203, 1);
 
   /* Popover colors */
