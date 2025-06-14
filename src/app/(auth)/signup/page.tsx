@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="h-screen bg-black text-white flex overflow-hidden font-sans">
+    <div className="h-screen text-white flex overflow-hidden font-sans">
       <div className="hidden lg:flex lg:w-1/2 items-center justify-center p-12">
         <div className="w-80 h-80">
           <Image src={logo || "/placeholder.svg"} alt="Align Logo" className="w-full h-full" priority />
@@ -50,15 +50,6 @@ export default function Page() {
             </div>
           </div>
         </div>
-
-        {/* <div className="absolute bottom-6 left-6">
-          <Link 
-            href="https://x.com/yourusername" 
-            className="text-white hover:text-gray-300 text-xl font-semibold tracking-wide transition-colors duration-200 font-sans"
-          >
-            X
-          </Link>
-        </div> */}
       </div>
     </div>
   )

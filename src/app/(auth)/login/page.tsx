@@ -10,18 +10,15 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="h-screen bg-black text-white flex overflow-hidden">
-      {/* Left side - Image */}
+    <div className="h-screen text-white flex overflow-hidden">
       <div className="hidden lg:flex lg:w-1/2 items-center justify-center p-12">
         <div className="w-80 h-80">
           <Image src={logo || "/placeholder.svg"} alt="Login" className="w-full h-full object-contain" priority />
         </div>
       </div>
 
-      {/* Right side - Content */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 py-8">
         <div className="max-w-md">
-          {/* Mobile logo */}
           <div className="lg:hidden mb-6 w-12 h-12">
             <Image
               src={logo || "/placeholder.svg"}
@@ -37,7 +34,6 @@ export default function Page() {
               <h2 className="text-2xl font-normal">Login today.</h2>
             </div>
 
-            {/* Login Form */}
             <div className="space-y-4">
               <LoginForm />
             </div>
