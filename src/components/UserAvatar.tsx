@@ -1,28 +1,28 @@
-import avatarPlaceholder from "@/assets/avatar-placeholder.png";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import { User } from "lucide-react";
 
 interface UserAvatarProps {
-  avatarUrl: string | null | undefined;
+  avatarUrl?: string | null | undefined;
   size?: number;
   className?: string;
 }
 
 export default function UserAvatar({
-  avatarUrl,
-  size,
+  size = 48,
   className,
 }: UserAvatarProps) {
   return (
-    <Image
-      src={avatarUrl || avatarPlaceholder}
-      alt="User avatar"
-      width={size ?? 48}
-      height={size ?? 48}
+    <div
       className={cn(
-        "aspect-square h-fit flex-none rounded-full bg-secondary object-cover",
+        "aspect-square h-fit flex-none rounded-full bg-secondary flex items-center justify-center",
         className,
       )}
-    />
+      style={{ width: size, height: size }}
+    >
+      <User 
+        size={size * 0.6} 
+        className="text-muted-foreground"
+      />
+    </div>
   );
 }
