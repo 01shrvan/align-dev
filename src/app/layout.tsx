@@ -15,10 +15,11 @@ export const metadata: Metadata = {
     template: "%s | Align Network",
     default: "Align Network",
   },
-  description: "",
-  icons: {
-    icon: "/logo.svg",
-  },
+  description: "A thought-based matchmaking platform that fosters meaningful connections",
+  icons: [
+    { rel: "icon", url: "/favicon.ico" },
+    { rel: "icon", url: "/logo.svg", type: "image/svg+xml" },
+  ],
 };
 
 export default function RootLayout({
