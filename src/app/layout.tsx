@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+import ReactQueryProvider from "./ReactQueryProvider";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -31,7 +32,9 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={`${dmSans.variable} font-sans antialiased`}>
-        {children}
+        <ReactQueryProvider>
+          {children}
+        </ReactQueryProvider>
         <Toaster />
       </body>
     </html>
