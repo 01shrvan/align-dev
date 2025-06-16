@@ -1,58 +1,76 @@
-import { Button } from "@/components/ui/button";
+"use client";
 import { Bell, Bookmark, Home, Mail } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
 
 interface MenuBarProps {
   className?: string;
 }
 
+const menuItems = [
+  {
+    href: "/",
+    icon: Home,
+    label: "Home",
+    title: "Home",
+  },
+  {
+    href: "/notifications",
+    icon: Bell,
+    label: "Notifications",
+    title: "Notifications",
+  },
+  {
+    href: "/messages",
+    icon: Mail,
+    label: "Messages",
+    title: "Messages",
+  },
+  {
+    href: "/bookmarks",
+    icon: Bookmark,
+    label: "Bookmarks",
+    title: "Bookmarks",
+  },
+];
+
 export default function MenuBar({ className }: MenuBarProps) {
+  const pathname = usePathname();
+
   return (
-    <div className={className}>
-      <Button
-        variant="ghost"
-        className="flex items-center justify-start gap-3"
-        title="Home"
-        asChild
-      >
-        <Link href="/">
-          <Home />
-          <span className="hidden lg:inline">Home</span>
-        </Link>
-      </Button>
-      <Button
-        variant="ghost"
-        className="flex items-center justify-start gap-3"
-        title="Notifications"
-        asChild
-      >
-        <Link href="/notifications">
-          <Bell />
-          <span className="hidden lg:inline">Notifications</span>
-        </Link>
-      </Button>
-      <Button
-        variant="ghost"
-        className="flex items-center justify-start gap-3"
-        title="Messages"
-        asChild
-      >
-        <Link href="/messages">
-          <Mail />
-          <span className="hidden lg:inline">Messages</span>
-        </Link>
-      </Button>
-      <Button
-        variant="ghost"
-        className="flex items-center justify-start gap-3"
-        title="Bookmarks"
-        asChild
-      >
-        <Link href="/bookmarks">
-          <Bookmark />
-          <span className="hidden lg:inline">Bookmarks</span>
-        </Link>
-      </Button>
-    </div>
+    <nav className={className}>
+      {menuItems.map((item) => {
+        const isActive =
+          item.href === "/"
+            ? pathname === "/"
+            : pathname.startsWith(item.href);
+
+        const IconComponent = item.icon;
+
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={clsx(
+              "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
+              isActive 
+                ? "text-[rgba(130,230,100,1)]" 
+                : "text-muted-foreground"
+            )}
+            title={item.title}
+          >
+            <IconComponent 
+              size={20} 
+              fill={isActive ? "rgba(130, 230, 100, 1)" : "none"}
+              stroke={isActive ? "rgba(130, 230, 100, 1)" : "currentColor"}
+              strokeWidth={1.5}
+              className="shrink-0"
+            />
+            <span className="hidden lg:inline">{item.label}</span>
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
