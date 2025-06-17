@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { FollowerInfo } from "@/lib/types";
 
 export async function GET(
-  req: Request,
+  _: Request,
   { params: { userId } }: { params: { userId: string } },
 ) {
   try {
@@ -49,7 +49,7 @@ export async function GET(
 }
 
 export async function POST(
-  req: Request,
+  _: Request,
   { params: { userId } }: { params: { userId: string } },
 ) {
   try {
@@ -81,8 +81,8 @@ export async function POST(
 }
 
 export async function DELETE(
-  req: Request,
-  { params: { userId } }: { params: { userId: string } },
+  _: Request,
+  { params: { userId } }: { params: { userId: string } }
 ) {
   try {
     const { user: loggedInUser } = await validateRequest();

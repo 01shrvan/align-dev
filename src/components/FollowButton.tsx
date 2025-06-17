@@ -8,52 +8,57 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 
 interface FollowButtonProps {
-    userId: string;
-    initialState: FollowerInfo;
+  userId: string;
+  initialState: FollowerInfo;
 }
 
 export default function FollowButton({
-    userId,
-    initialState,
+  userId,
+  initialState,
 }: FollowButtonProps) {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    const { data } = useFollowerInfo(userId, initialState);
+  const { data } = useFollowerInfo(userId, initialState);
 
-    const queryKey: QueryKey = ["follower-info", userId];
+  const queryKey: QueryKey = ["follower-info", userId];
 
-    const { mutate } = useMutation({
-        mutationFn: () =>
-            data.isFollowedByUser
-                ? kyInstance.delete(`/api/users/${userId}/followers`)
-                : kyInstance.post(`/api/users/${userId}/followers`),
-        onMutate: async () => {
-            await queryClient.cancelQueries({ queryKey });
+  const { mutate } = useMutation({
+    mutationFn: () =>
+      data.isFollowedByUser
+        ? kyInstance.delete(`/api/users/${userId}/followers`)
+        : kyInstance.post(`/api/users/${userId}/followers`),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey });
 
-            const previousState = queryClient.getQueryData<FollowerInfo>(queryKey);
+      const previousState = queryClient.getQueryData<FollowerInfo>(queryKey);
 
-            queryClient.setQueryData<FollowerInfo>(queryKey, () => ({
-                followers:
-                    (previousState?.followers || 0) +
-                    (previousState?.isFollowedByUser ? -1 : 1),
-                isFollowedByUser: !previousState?.isFollowedByUser,
-            }));
+      queryClient.setQueryData<FollowerInfo>(queryKey, () => ({
+        followers:
+          (previousState?.followers || 0) +
+          (previousState?.isFollowedByUser ? -1 : 1),
+        isFollowedByUser: !previousState?.isFollowedByUser,
+      }));
 
-            return { previousState };
-        },
-        onError(error, variables, context) {
-            queryClient.setQueryData(queryKey, context?.previousState);
-            console.error(error);
-            toast.error("Something went wrong. Please try again.");
-        },
-    });
+      return { previousState };
+    },
+    onSuccess: () => {
+      toast.success(
+        data.isFollowedByUser ? "Successfully unfollowed!" : "Successfully followed!"
+      );
+    },
+    onError(error, variables, context) {
+      queryClient.setQueryData(queryKey, context?.previousState);
+      console.error(error);
+      toast.error("Something went wrong. Please try again.");
+    },
+  });
 
-    return (
-        <Button
-            variant={data.isFollowedByUser ? "secondary" : "default"}
-            onClick={() => mutate()}
-        >
-            {data.isFollowedByUser ? "Unfollow" : "Follow"}
-        </Button>
-    );
+  return (
+    <Button
+      variant={data.isFollowedByUser ? "secondary" : "default"}
+      onClick={() => mutate()}
+    >
+      {data.isFollowedByUser ? "Unfollow" : "Follow"}
+    </Button>
+  );
 }
