@@ -43,7 +43,7 @@ export default function FollowButton({
     },
     onSuccess: () => {
       toast.success(
-        data.isFollowedByUser ? "Successfully unfollowed!" : "Successfully followed!"
+        data.isFollowedByUser ? "Successfully followed!" : "Successfully unfollowed!"
       );
     },
     onError(error, variables, context) {
