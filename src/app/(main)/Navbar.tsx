@@ -6,14 +6,31 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-10 bg-card/80 backdrop-blur-sm border border-border/50 shadow-sm">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-5 px-5 py-3">
-        <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-primary">
-          <Image src={logo} alt="Align Network Logo" className="h-8 w-8" />
-          Align Network
-        </Link>
-        <SearchField />
-        <UserButton className="sm:ms-auto" />
+    <header className="sticky top-0 z-10 bg-card/80 backdrop-blur-sm border-b border-border/50 shadow-sm">
+      {/* Mobile Layout */}
+      <div className="block sm:hidden">
+        <div className="flex items-center justify-between px-4 py-3">
+          <Link href="/" className="flex items-center gap-2 text-lg font-bold text-primary">
+            <Image src={logo} alt="Align Network Logo" className="h-6 w-6" />
+            Align Network
+          </Link>
+          <UserButton />
+        </div>
+        <div className="px-4 pb-3">
+          <SearchField />
+        </div>
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden sm:block">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-5 px-5 py-3">
+          <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-primary">
+            <Image src={logo} alt="Align Network Logo" className="h-8 w-8" />
+            Align Network
+          </Link>
+          <SearchField />
+          <UserButton className="sm:ms-auto" />
+        </div>
       </div>
     </header>
   );
