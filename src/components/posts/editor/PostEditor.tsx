@@ -8,9 +8,11 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { submitPost } from "./actions";
 import "./styles.css";
+import { useState } from "react";
 
 export default function PostEditor() {
   const { user } = useSession();
+  const [loading, setLoading] = useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -30,8 +32,14 @@ export default function PostEditor() {
     }) || "";
 
   async function onSubmit() {
-    await submitPost(input);
-    editor?.commands.clearContent();
+    if (loading) return;
+    setLoading(true);
+    try {
+      await submitPost(input);
+      editor?.commands.clearContent();
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -48,10 +56,10 @@ export default function PostEditor() {
       <div className="flex justify-end">
         <Button
           onClick={onSubmit}
-          disabled={!input.trim()}
+          disabled={!input.trim() || loading}
           className="min-w-20"
         >
-          Post
+          {loading ? "Posting..." : "Post"}
         </Button>
       </div>
     </div>
