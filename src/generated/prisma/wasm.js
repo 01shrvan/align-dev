@@ -140,6 +140,11 @@ exports.Prisma.SessionScalarFieldEnum = {
   expiresAt: 'expiresAt'
 };
 
+exports.Prisma.FollowScalarFieldEnum = {
+  followerId: 'followerId',
+  followingId: 'followingId'
+};
+
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   content: 'content',
@@ -178,6 +183,11 @@ exports.Prisma.SessionOrderByRelevanceFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.FollowOrderByRelevanceFieldEnum = {
+  followerId: 'followerId',
+  followingId: 'followingId'
+};
+
 exports.Prisma.PostOrderByRelevanceFieldEnum = {
   id: 'id',
   content: 'content',
@@ -188,6 +198,7 @@ exports.Prisma.PostOrderByRelevanceFieldEnum = {
 exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
+  Follow: 'Follow',
   Post: 'Post'
 };
 
