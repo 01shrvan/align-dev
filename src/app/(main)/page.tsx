@@ -6,8 +6,8 @@ import FollowingFeed from "./FollowingFeed"
 
 export default function Home() {
   return (
-    <main className="flex w-full min-w-0">
-      <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5">
+    <main className="flex w-full min-w-0 min-h-full">
+      <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5 min-h-full">
         <PostEditor />
         <div className="border-b border-dashed border-border mt-1 mb-2" />
         <Tabs defaultValue="for-you" className="w-full">
