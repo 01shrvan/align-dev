@@ -180,7 +180,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\ADMIN\\Desktop\\projects\\align-1\\src\\generated\\prisma",
+      "value": "C:\\Users\\Sandeep\\Desktop\\projects\\align\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -196,7 +196,7 @@ const config = {
     "previewFeatures": [
       "fullTextSearch"
     ],
-    "sourceFilePath": "C:\\Users\\ADMIN\\Desktop\\projects\\align-1\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\Sandeep\\Desktop\\projects\\align\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
