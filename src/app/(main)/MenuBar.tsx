@@ -1,5 +1,5 @@
 "use client";
-import { Bell, Bookmark, Home, Mail } from "lucide-react";
+import { Bell, Bookmark, Home, Mail, Briefcase } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -32,6 +32,12 @@ const menuItems = [
     icon: Bookmark,
     label: "Bookmarks",
     title: "Bookmarks",
+  },
+  {
+    href: "/jobs",
+    icon: Briefcase,
+    label: "Jobs",
+    title: "Jobs",
   },
 ];
 
