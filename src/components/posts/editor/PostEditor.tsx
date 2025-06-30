@@ -47,7 +47,7 @@ export default function PostEditor() {
         </div>
         <EditorContent
           editor={editor}
-          className="max-h-[20rem] w-full overflow-y-auto rounded-2xl bg-background px-5 py-3"
+          className="w-full rounded-2xl bg-background px-5 py-3 resize-y min-h-[6rem] max-h-[40vh] overflow-auto scrollbar-hide"
         />
       </div>
       <div className="flex justify-end">
