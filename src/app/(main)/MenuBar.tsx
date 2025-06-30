@@ -1,5 +1,5 @@
 "use client";
-import { Bell, Bookmark, Home, Mail, Briefcase } from "lucide-react";
+import { Bell, Bookmark, Home, Mail, Briefcase, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -38,6 +38,12 @@ const menuItems = [
     icon: Briefcase,
     label: "Jobs",
     title: "Jobs",
+  },
+  {
+    href: "/ava",
+    icon: MessageCircle,
+    label: "Ava",
+    title: "Ava",
   },
 ];
 
