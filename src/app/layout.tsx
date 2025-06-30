@@ -1,14 +1,23 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import ReactQueryProvider from "./ReactQueryProvider";
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+
+import { Rubik_Glitch, Spline_Sans_Mono } from "next/font/google";
+
+const rubikGlitch = Rubik_Glitch({
+  variable: "--font-logo",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "400",
 });
+
+const splineSansMono = Spline_Sans_Mono({
+  variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
 
 export const metadata: Metadata = {
   title: {
@@ -32,10 +41,8 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className={`${dmSans.variable} font-sans antialiased`}>
-        <ReactQueryProvider>
-          {children}
-        </ReactQueryProvider>
+      <body className={`${rubikGlitch.variable} ${splineSansMono.variable} font-sans antialiased`}>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster />
       </body>
     </html>

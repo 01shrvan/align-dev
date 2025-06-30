@@ -1,7 +1,7 @@
 import SearchField from "@/components/SearchField.tsx";
 import UserButton from "@/components/UserButton";
 import Image from "next/image";
-import logo from "@/assets/logo.svg"
+import logo from "@/assets/logo.svg";
 import Link from "next/link";
 
 export default function Navbar() {
@@ -9,8 +9,11 @@ export default function Navbar() {
     <header className="sticky top-0 z-10 bg-card/80 backdrop-blur-sm border-b border-border/50 shadow-sm">
       <div className="block sm:hidden">
         <div className="flex items-center justify-between px-4 py-3">
-          <Link href="/" className="flex items-center gap-2 text-lg font-bold text-primary">
-            <Image src={logo} alt="Align Network Logo" className="h-6 w-6" />
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-3xl font-logo text-primary tracking-widest"
+          >
+            <Image src={logo} alt="Align Network Logo" className="h-8 w-8" />
             Align Network
           </Link>
           <UserButton />
@@ -22,7 +25,10 @@ export default function Navbar() {
 
       <div className="hidden sm:block">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-5 px-5 py-3">
-          <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-primary">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-3xl font-logo text-primary tracking-widest"
+          >
             <Image src={logo} alt="Align Network Logo" className="h-8 w-8" />
             Align Network
           </Link>
