@@ -44,7 +44,6 @@ export default function MenuBar({ className }: MenuBarProps) {
             key={item.href}
             href={item.href}
             className={clsx(
-              // Add sm:justify-start to align content to left on larger screens
               "flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start flex-1 sm:flex-none gap-1 sm:gap-3 py-2 text-sm font-medium transition-colors",
               isActive
                 ? "text-[rgba(130,230,100,1)]"
