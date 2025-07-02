@@ -28,7 +28,12 @@ export default function MenuBar({ className }: MenuBarProps) {
   const pathname = usePathname();
 
   return (
-    <nav className={className}>
+    <nav
+      className={clsx(
+        "flex w-full sm:flex-col sm:w-auto justify-between",
+        className
+      )}
+    >
       {menuItems.map((item) => {
         const isActive =
           item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
@@ -39,7 +44,7 @@ export default function MenuBar({ className }: MenuBarProps) {
             key={item.href}
             href={item.href}
             className={clsx(
-              "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
+              "flex flex-col sm:flex-row items-center justify-center sm:justify-start flex-1 sm:flex-none gap-1 sm:gap-3 px-4 py-3 sm:rounded-lg text-sm font-medium transition-colors",
               isActive
                 ? "text-[rgba(130,230,100,1)]"
                 : "text-muted-foreground"
@@ -53,7 +58,7 @@ export default function MenuBar({ className }: MenuBarProps) {
               strokeWidth={1.5}
               className="shrink-0"
             />
-            <span className="hidden lg:inline">{item.label}</span>
+            <span className="hidden sm:inline">{item.label}</span>
           </Link>
         );
       })}
