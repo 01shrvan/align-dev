@@ -5,6 +5,7 @@ import ReactQueryProvider from "./ReactQueryProvider";
 
 
 import { Rubik_Glitch, Spline_Sans_Mono } from "next/font/google";
+import RouteLoader from "@/components/ui/RouteLoader";
 
 const rubikGlitch = Rubik_Glitch({
   variable: "--font-logo",
@@ -42,7 +43,8 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={`${rubikGlitch.variable} ${splineSansMono.variable} font-sans antialiased`}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <RouteLoader />
+          <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster />
       </body>
     </html>
