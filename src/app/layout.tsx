@@ -42,9 +42,7 @@ export default function RootLayout({
       </head>
       <body className={`${rubikGlitch.variable} ${splineSansMono.variable} font-sans antialiased`}>
         <ReactQueryProvider>
-          <DelayedRender delay={5000}>
             {children}
-          </DelayedRender>
           </ReactQueryProvider>
         <Toaster />
       </body>

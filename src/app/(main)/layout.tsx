@@ -16,6 +16,8 @@ export default async function Layout({
     redirect("/login")
   }
 
+  await new Promise((resolve) => setTimeout(resolve, 5000))
+
   return (
     <SessionProvider value={session}>
       <div className="flex min-h-screen flex-col">
