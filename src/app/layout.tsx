@@ -2,10 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "sonner";
 import ReactQueryProvider from "./ReactQueryProvider";
-
-
 import { Rubik_Glitch, Spline_Sans_Mono } from "next/font/google";
-import RouteLoader from "@/components/ui/RouteLoader";
+import DelayedRender from "@/components/ui/DelayedRender";
 
 const rubikGlitch = Rubik_Glitch({
   variable: "--font-logo",
@@ -43,8 +41,11 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={`${rubikGlitch.variable} ${splineSansMono.variable} font-sans antialiased`}>
-        <RouteLoader />
-          <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ReactQueryProvider>
+          <DelayedRender delay={5000}>
+            {children}
+          </DelayedRender>
+          </ReactQueryProvider>
         <Toaster />
       </body>
     </html>
