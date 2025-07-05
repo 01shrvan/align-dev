@@ -7,8 +7,6 @@ import UserAvatar from "@/components/UserAvatar";
 import prisma from "@/lib/prisma";
 import {
   type FollowerInfo,
-  getUserDataSelect,
-  type UserData,
 } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { formatDate } from "date-fns";
@@ -174,8 +172,8 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
 
       <div className="space-y-3 text-sm sm:text-base">
         <div>
-          
-          {user.bio ? (
+          <strong>Bio:</strong>{" "}
+                    {user.bio ? (
             <p className="whitespace-pre-line break-words">{user.bio}</p>
           ) : (
             <span className="text-muted-foreground italic">No bio yet</span>
@@ -194,6 +192,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
         </div>
 
         <div>
+          <strong>Location:</strong>{" "}
           {user.location ? (
             <span>{user.location}</span>
           ) : (

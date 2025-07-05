@@ -13,7 +13,6 @@ export default async function OnboardingLayout({
         redirect("/login");
     }
 
-    // Check if user is already onboarded
     const fullUser = await prisma.user.findUnique({
         where: { id: user.id },
         select: { isOnboarded: true }
