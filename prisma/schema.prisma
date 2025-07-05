@@ -29,6 +29,13 @@ model User {
   posts        Post[]
   following    Follow[]  @relation("Following")
   followers    Follow[]  @relation("Followers")
+  
+  isOnboarded  Boolean   @default(false)
+  interests    String[]  @default([])
+  location     String?
+  age          Int?
+  gender       String?
+  occupation   String?
 
   createdAt DateTime @default(now())
 
@@ -44,7 +51,7 @@ model Session {
   @@map("sessions")
 }
 
-model Follow {Add commentMore actions
+model Follow {
   followerId  String
   follower    User   @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
   followingId String

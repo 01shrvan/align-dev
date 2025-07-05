@@ -131,6 +131,12 @@ exports.Prisma.UserScalarFieldEnum = {
   googleId: 'googleId',
   avatarUrl: 'avatarUrl',
   bio: 'bio',
+  isOnboarded: 'isOnboarded',
+  interests: 'interests',
+  location: 'location',
+  age: 'age',
+  gender: 'gender',
+  occupation: 'occupation',
   createdAt: 'createdAt'
 };
 
@@ -175,7 +181,11 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   passwordHash: 'passwordHash',
   googleId: 'googleId',
   avatarUrl: 'avatarUrl',
-  bio: 'bio'
+  bio: 'bio',
+  interests: 'interests',
+  location: 'location',
+  gender: 'gender',
+  occupation: 'occupation'
 };
 
 exports.Prisma.SessionOrderByRelevanceFieldEnum = {

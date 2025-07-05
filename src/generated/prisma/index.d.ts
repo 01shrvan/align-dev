@@ -1164,8 +1164,18 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    age: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    age: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1177,6 +1187,11 @@ export namespace Prisma {
     googleId: string | null
     avatarUrl: string | null
     bio: string | null
+    isOnboarded: boolean | null
+    location: string | null
+    age: number | null
+    gender: string | null
+    occupation: string | null
     createdAt: Date | null
   }
 
@@ -1189,6 +1204,11 @@ export namespace Prisma {
     googleId: string | null
     avatarUrl: string | null
     bio: string | null
+    isOnboarded: boolean | null
+    location: string | null
+    age: number | null
+    gender: string | null
+    occupation: string | null
     createdAt: Date | null
   }
 
@@ -1201,10 +1221,24 @@ export namespace Prisma {
     googleId: number
     avatarUrl: number
     bio: number
+    isOnboarded: number
+    interests: number
+    location: number
+    age: number
+    gender: number
+    occupation: number
     createdAt: number
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    age?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    age?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -1215,6 +1249,11 @@ export namespace Prisma {
     googleId?: true
     avatarUrl?: true
     bio?: true
+    isOnboarded?: true
+    location?: true
+    age?: true
+    gender?: true
+    occupation?: true
     createdAt?: true
   }
 
@@ -1227,6 +1266,11 @@ export namespace Prisma {
     googleId?: true
     avatarUrl?: true
     bio?: true
+    isOnboarded?: true
+    location?: true
+    age?: true
+    gender?: true
+    occupation?: true
     createdAt?: true
   }
 
@@ -1239,6 +1283,12 @@ export namespace Prisma {
     googleId?: true
     avatarUrl?: true
     bio?: true
+    isOnboarded?: true
+    interests?: true
+    location?: true
+    age?: true
+    gender?: true
+    occupation?: true
     createdAt?: true
     _all?: true
   }
@@ -1281,6 +1331,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -1311,6 +1373,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -1324,8 +1388,16 @@ export namespace Prisma {
     googleId: string | null
     avatarUrl: string | null
     bio: string | null
+    isOnboarded: boolean
+    interests: string[]
+    location: string | null
+    age: number | null
+    gender: string | null
+    occupation: string | null
     createdAt: Date
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -1353,6 +1425,12 @@ export namespace Prisma {
     googleId?: boolean
     avatarUrl?: boolean
     bio?: boolean
+    isOnboarded?: boolean
+    interests?: boolean
+    location?: boolean
+    age?: boolean
+    gender?: boolean
+    occupation?: boolean
     createdAt?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
@@ -1370,6 +1448,12 @@ export namespace Prisma {
     googleId?: boolean
     avatarUrl?: boolean
     bio?: boolean
+    isOnboarded?: boolean
+    interests?: boolean
+    location?: boolean
+    age?: boolean
+    gender?: boolean
+    occupation?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -1382,6 +1466,12 @@ export namespace Prisma {
     googleId?: boolean
     avatarUrl?: boolean
     bio?: boolean
+    isOnboarded?: boolean
+    interests?: boolean
+    location?: boolean
+    age?: boolean
+    gender?: boolean
+    occupation?: boolean
     createdAt?: boolean
   }
 
@@ -1411,6 +1501,12 @@ export namespace Prisma {
       googleId: string | null
       avatarUrl: string | null
       bio: string | null
+      isOnboarded: boolean
+      interests: string[]
+      location: string | null
+      age: number | null
+      gender: string | null
+      occupation: string | null
       createdAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -1817,6 +1913,12 @@ export namespace Prisma {
     readonly googleId: FieldRef<"User", 'String'>
     readonly avatarUrl: FieldRef<"User", 'String'>
     readonly bio: FieldRef<"User", 'String'>
+    readonly isOnboarded: FieldRef<"User", 'Boolean'>
+    readonly interests: FieldRef<"User", 'String[]'>
+    readonly location: FieldRef<"User", 'String'>
+    readonly age: FieldRef<"User", 'Int'>
+    readonly gender: FieldRef<"User", 'String'>
+    readonly occupation: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
     
@@ -4982,6 +5084,12 @@ export namespace Prisma {
     googleId: 'googleId',
     avatarUrl: 'avatarUrl',
     bio: 'bio',
+    isOnboarded: 'isOnboarded',
+    interests: 'interests',
+    location: 'location',
+    age: 'age',
+    gender: 'gender',
+    occupation: 'occupation',
     createdAt: 'createdAt'
   };
 
@@ -5047,7 +5155,11 @@ export namespace Prisma {
     passwordHash: 'passwordHash',
     googleId: 'googleId',
     avatarUrl: 'avatarUrl',
-    bio: 'bio'
+    bio: 'bio',
+    interests: 'interests',
+    location: 'location',
+    gender: 'gender',
+    occupation: 'occupation'
   };
 
   export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
@@ -5098,16 +5210,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'DateTime'
+   * Reference to a field of type 'Boolean'
    */
-  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-  /**
-   * Reference to a field of type 'DateTime[]'
-   */
-  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -5122,6 +5227,34 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -5140,6 +5273,12 @@ export namespace Prisma {
     googleId?: StringNullableFilter<"User"> | string | null
     avatarUrl?: StringNullableFilter<"User"> | string | null
     bio?: StringNullableFilter<"User"> | string | null
+    isOnboarded?: BoolFilter<"User"> | boolean
+    interests?: StringNullableListFilter<"User">
+    location?: StringNullableFilter<"User"> | string | null
+    age?: IntNullableFilter<"User"> | number | null
+    gender?: StringNullableFilter<"User"> | string | null
+    occupation?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
@@ -5156,6 +5295,12 @@ export namespace Prisma {
     googleId?: SortOrderInput | SortOrder
     avatarUrl?: SortOrderInput | SortOrder
     bio?: SortOrderInput | SortOrder
+    isOnboarded?: SortOrder
+    interests?: SortOrder
+    location?: SortOrderInput | SortOrder
+    age?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    occupation?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     sessions?: SessionOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
@@ -5176,6 +5321,12 @@ export namespace Prisma {
     passwordHash?: StringNullableFilter<"User"> | string | null
     avatarUrl?: StringNullableFilter<"User"> | string | null
     bio?: StringNullableFilter<"User"> | string | null
+    isOnboarded?: BoolFilter<"User"> | boolean
+    interests?: StringNullableListFilter<"User">
+    location?: StringNullableFilter<"User"> | string | null
+    age?: IntNullableFilter<"User"> | number | null
+    gender?: StringNullableFilter<"User"> | string | null
+    occupation?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
@@ -5192,10 +5343,18 @@ export namespace Prisma {
     googleId?: SortOrderInput | SortOrder
     avatarUrl?: SortOrderInput | SortOrder
     bio?: SortOrderInput | SortOrder
+    isOnboarded?: SortOrder
+    interests?: SortOrder
+    location?: SortOrderInput | SortOrder
+    age?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    occupation?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -5210,6 +5369,12 @@ export namespace Prisma {
     googleId?: StringNullableWithAggregatesFilter<"User"> | string | null
     avatarUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     bio?: StringNullableWithAggregatesFilter<"User"> | string | null
+    isOnboarded?: BoolWithAggregatesFilter<"User"> | boolean
+    interests?: StringNullableListFilter<"User">
+    location?: StringNullableWithAggregatesFilter<"User"> | string | null
+    age?: IntNullableWithAggregatesFilter<"User"> | number | null
+    gender?: StringNullableWithAggregatesFilter<"User"> | string | null
+    occupation?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
@@ -5364,6 +5529,12 @@ export namespace Prisma {
     googleId?: string | null
     avatarUrl?: string | null
     bio?: string | null
+    isOnboarded?: boolean
+    interests?: UserCreateinterestsInput | string[]
+    location?: string | null
+    age?: number | null
+    gender?: string | null
+    occupation?: string | null
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
@@ -5380,6 +5551,12 @@ export namespace Prisma {
     googleId?: string | null
     avatarUrl?: string | null
     bio?: string | null
+    isOnboarded?: boolean
+    interests?: UserCreateinterestsInput | string[]
+    location?: string | null
+    age?: number | null
+    gender?: string | null
+    occupation?: string | null
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
@@ -5396,6 +5573,12 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    interests?: UserUpdateinterestsInput | string[]
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    occupation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
@@ -5412,6 +5595,12 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    interests?: UserUpdateinterestsInput | string[]
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    occupation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
@@ -5428,6 +5617,12 @@ export namespace Prisma {
     googleId?: string | null
     avatarUrl?: string | null
     bio?: string | null
+    isOnboarded?: boolean
+    interests?: UserCreateinterestsInput | string[]
+    location?: string | null
+    age?: number | null
+    gender?: string | null
+    occupation?: string | null
     createdAt?: Date | string
   }
 
@@ -5440,6 +5635,12 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    interests?: UserUpdateinterestsInput | string[]
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    occupation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5452,6 +5653,12 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    interests?: UserUpdateinterestsInput | string[]
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    occupation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5610,6 +5817,30 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -5671,7 +5902,17 @@ export namespace Prisma {
     googleId?: SortOrder
     avatarUrl?: SortOrder
     bio?: SortOrder
+    isOnboarded?: SortOrder
+    interests?: SortOrder
+    location?: SortOrder
+    age?: SortOrder
+    gender?: SortOrder
+    occupation?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    age?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -5683,6 +5924,11 @@ export namespace Prisma {
     googleId?: SortOrder
     avatarUrl?: SortOrder
     bio?: SortOrder
+    isOnboarded?: SortOrder
+    location?: SortOrder
+    age?: SortOrder
+    gender?: SortOrder
+    occupation?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -5695,7 +5941,16 @@ export namespace Prisma {
     googleId?: SortOrder
     avatarUrl?: SortOrder
     bio?: SortOrder
+    isOnboarded?: SortOrder
+    location?: SortOrder
+    age?: SortOrder
+    gender?: SortOrder
+    occupation?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    age?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -5734,6 +5989,30 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -5832,6 +6111,10 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type UserCreateinterestsInput = {
+    set: string[]
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -5894,6 +6177,23 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type UserUpdateinterestsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -6098,6 +6398,22 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -6156,7 +6472,15 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -6164,7 +6488,23 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -6359,6 +6699,12 @@ export namespace Prisma {
     googleId?: string | null
     avatarUrl?: string | null
     bio?: string | null
+    isOnboarded?: boolean
+    interests?: UserCreateinterestsInput | string[]
+    location?: string | null
+    age?: number | null
+    gender?: string | null
+    occupation?: string | null
     createdAt?: Date | string
     posts?: PostCreateNestedManyWithoutUserInput
     following?: FollowCreateNestedManyWithoutFollowerInput
@@ -6374,6 +6720,12 @@ export namespace Prisma {
     googleId?: string | null
     avatarUrl?: string | null
     bio?: string | null
+    isOnboarded?: boolean
+    interests?: UserCreateinterestsInput | string[]
+    location?: string | null
+    age?: number | null
+    gender?: string | null
+    occupation?: string | null
     createdAt?: Date | string
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -6405,6 +6757,12 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    interests?: UserUpdateinterestsInput | string[]
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    occupation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUpdateManyWithoutUserNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
@@ -6420,6 +6778,12 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    interests?: UserUpdateinterestsInput | string[]
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    occupation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -6435,6 +6799,12 @@ export namespace Prisma {
     googleId?: string | null
     avatarUrl?: string | null
     bio?: string | null
+    isOnboarded?: boolean
+    interests?: UserCreateinterestsInput | string[]
+    location?: string | null
+    age?: number | null
+    gender?: string | null
+    occupation?: string | null
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
@@ -6450,6 +6820,12 @@ export namespace Prisma {
     googleId?: string | null
     avatarUrl?: string | null
     bio?: string | null
+    isOnboarded?: boolean
+    interests?: UserCreateinterestsInput | string[]
+    location?: string | null
+    age?: number | null
+    gender?: string | null
+    occupation?: string | null
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
@@ -6470,6 +6846,12 @@ export namespace Prisma {
     googleId?: string | null
     avatarUrl?: string | null
     bio?: string | null
+    isOnboarded?: boolean
+    interests?: UserCreateinterestsInput | string[]
+    location?: string | null
+    age?: number | null
+    gender?: string | null
+    occupation?: string | null
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
@@ -6485,6 +6867,12 @@ export namespace Prisma {
     googleId?: string | null
     avatarUrl?: string | null
     bio?: string | null
+    isOnboarded?: boolean
+    interests?: UserCreateinterestsInput | string[]
+    location?: string | null
+    age?: number | null
+    gender?: string | null
+    occupation?: string | null
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
@@ -6516,6 +6904,12 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    interests?: UserUpdateinterestsInput | string[]
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    occupation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
@@ -6531,6 +6925,12 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    interests?: UserUpdateinterestsInput | string[]
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    occupation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
@@ -6557,6 +6957,12 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    interests?: UserUpdateinterestsInput | string[]
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    occupation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
@@ -6572,6 +6978,12 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    interests?: UserUpdateinterestsInput | string[]
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    occupation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
@@ -6587,6 +6999,12 @@ export namespace Prisma {
     googleId?: string | null
     avatarUrl?: string | null
     bio?: string | null
+    isOnboarded?: boolean
+    interests?: UserCreateinterestsInput | string[]
+    location?: string | null
+    age?: number | null
+    gender?: string | null
+    occupation?: string | null
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     following?: FollowCreateNestedManyWithoutFollowerInput
@@ -6602,6 +7020,12 @@ export namespace Prisma {
     googleId?: string | null
     avatarUrl?: string | null
     bio?: string | null
+    isOnboarded?: boolean
+    interests?: UserCreateinterestsInput | string[]
+    location?: string | null
+    age?: number | null
+    gender?: string | null
+    occupation?: string | null
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -6633,6 +7057,12 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    interests?: UserUpdateinterestsInput | string[]
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    occupation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
@@ -6648,6 +7078,12 @@ export namespace Prisma {
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    isOnboarded?: BoolFieldUpdateOperationsInput | boolean
+    interests?: UserUpdateinterestsInput | string[]
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    occupation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
