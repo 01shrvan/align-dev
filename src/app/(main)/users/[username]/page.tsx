@@ -29,7 +29,33 @@ const getUser = cache(async (username: string, loggedInUserId: string) => {
         mode: "insensitive",
       },
     },
-    select: getUserDataSelect(loggedInUserId),
+    select: {
+      id: true,
+      username: true,
+      displayName: true,
+      avatarUrl: true,
+      bio: true,
+      createdAt: true,
+      interests: true,
+      occupation: true,
+      location: true,
+      age: true,
+      gender: true,
+      _count: {
+        select: {
+          posts: true,
+          followers: true,
+        },
+      },
+      followers: {
+        where: {
+          followerId: loggedInUserId,
+        },
+        select: {
+          followerId: true,
+        },
+      },
+    },
   });
 
   if (!user) notFound();
@@ -78,7 +104,26 @@ export default async function Page({ params: { username } }: PageProps) {
 }
 
 interface UserProfileProps {
-  user: UserData;
+  user: {
+    id: string;
+    username: string;
+    displayName: string;
+    avatarUrl: string | null;
+    bio: string | null;
+    createdAt: Date;
+    interests: string[];
+    occupation: string | null;
+    location: string | null;
+    age: number | null;
+    gender: string | null;
+    _count: {
+      posts: number;
+      followers: number;
+    };
+    followers: {
+      followerId: string;
+    }[];
+  };
   loggedInUserId: string;
 }
 
@@ -129,7 +174,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
 
       <div className="space-y-3 text-sm sm:text-base">
         <div>
-          <strong>Bio:</strong>{" "}
+          
           {user.bio ? (
             <p className="whitespace-pre-line break-words">{user.bio}</p>
           ) : (
@@ -147,6 +192,28 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
             </span>
           )}
         </div>
+
+        <div>
+          {user.location ? (
+            <span>{user.location}</span>
+          ) : (
+            <span className="text-muted-foreground italic">
+              No location specified
+            </span>
+          )}
+        </div>
+
+        {/* {user.age && (
+          <div>
+            <strong>Age:</strong> <span>{user.age}</span>
+          </div>
+        )} */}
+
+        {/* {user.gender && (
+          <div>
+            <strong>Gender:</strong> <span className="capitalize">{user.gender.replace('-', ' ')}</span>
+          </div>
+        )} */}
 
         <div>
           <strong>Interests:</strong>{" "}
