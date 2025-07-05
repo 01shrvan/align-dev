@@ -1,52 +1,44 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
 
-interface OnboardingState {
-  step: number;
-  totalSteps: number;
-  userData: {
+interface OnboardingUserData {
     displayName?: string;
     bio?: string;
     interests?: string[];
     location?: string;
     age?: number;
-    gender?: string;
+    gender?: "male" | "female" | "other" | "prefer-not-to-say";
     occupation?: string;
-  };
-  setStep: (step: number) => void;
-  nextStep: () => void;
-  prevStep: () => void;
-  updateUserData: (data: Partial<OnboardingState['userData']>) => void;
-  resetOnboarding: () => void;
 }
 
-export const useOnboardingStore = create<OnboardingState>()(
-  persist(
-    (set, get) => ({
-      step: 1,
-      totalSteps: 4,
-      userData: {},
-      setStep: (step) => set({ step }),
-      nextStep: () => {
-        const { step, totalSteps } = get();
-        if (step < totalSteps) {
-          set({ step: step + 1 });
-        }
-      },
-      prevStep: () => {
-        const { step } = get();
-        if (step > 1) {
-          set({ step: step - 1 });
-        }
-      },
-      updateUserData: (data) =>
+interface OnboardingStore {
+    step: number;
+    totalSteps: number;
+    userData: OnboardingUserData;
+    updateUserData: (data: Partial<OnboardingUserData>) => void;
+    nextStep: () => void;
+    prevStep: () => void;
+    resetOnboarding: () => void;
+}
+
+export const useOnboardingStore = create<OnboardingStore>((set) => ({
+    step: 1,
+    totalSteps: 4,
+    userData: {},
+    updateUserData: (data) =>
         set((state) => ({
-          userData: { ...state.userData, ...data },
+            userData: { ...state.userData, ...data },
         })),
-      resetOnboarding: () => set({ step: 1, userData: {} }),
-    }),
-    {
-      name: 'onboarding-storage',
-    }
-  )
-);
+    nextStep: () =>
+        set((state) => ({
+            step: Math.min(state.step + 1, state.totalSteps),
+        })),
+    prevStep: () =>
+        set((state) => ({
+            step: Math.max(state.step - 1, 1),
+        })),
+    resetOnboarding: () =>
+        set({
+            step: 1,
+            userData: {},
+        }),
+}));
