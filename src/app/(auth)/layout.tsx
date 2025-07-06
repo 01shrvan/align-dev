@@ -24,7 +24,6 @@ export default async function Layout({ children }: {
     const { user } = await validateRequest();
 
     if (user) {
-        // Check if user needs onboarding
         const fullUser = await prisma.user.findUnique({
             where: { id: user.id },
             select: { isOnboarded: true }

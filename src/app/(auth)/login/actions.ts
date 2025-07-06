@@ -113,7 +113,6 @@ export async function login(
             sessionCookie.attributes,
         );
 
-        // Redirect based on onboarding status
         if (existingUser.isOnboarded) {
             return redirect("/");
         } else {
