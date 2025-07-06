@@ -30,9 +30,10 @@
   
 import { z } from "zod";
 
-// Sign Up Schema
+const requiredString = z.string().trim().min(1, "Required");
+
 export const signUpSchema = z.object({
-  email: z.string().trim().min(1, "Required").email("Invalid email"),
+  email: requiredString.email("Invalid email"),
   username: z
     .string()
     .trim()
@@ -49,7 +50,6 @@ export const signUpSchema = z.object({
 
 export type SignUpValues = z.infer<typeof signUpSchema>;
 
-// Login Schema
 export const loginSchema = z.object({
   username: z.string().trim().min(1, "Required"),
   password: z.string().min(1, "Required"),
@@ -57,7 +57,6 @@ export const loginSchema = z.object({
 
 export type LoginValues = z.infer<typeof loginSchema>;
 
-// Onboarding Schema
 export const onboardingSchema = z.object({
   displayName: z
     .string()
@@ -73,7 +72,7 @@ export const onboardingSchema = z.object({
   age: z
     .number()
     .int()
-    .min(13, "Must be at least 13 years old")
+    .min(15, "Must be at least 15 years old")
     .max(120, "Invalid age")
     .optional(),
   gender: z.enum(["male", "female", "other", "prefer-not-to-say"]).optional(),
@@ -82,9 +81,15 @@ export const onboardingSchema = z.object({
 
 export type OnboardingValues = z.infer<typeof onboardingSchema>;
 
-// Create Post Schema
 export const createPostSchema = z.object({
   content: z.string().trim().min(1, "Post content is required"),
 });
 
 export type CreatePostValues = z.infer<typeof createPostSchema>;
+
+export const updateUserProfileSchema = z.object({
+  displayName: requiredString,
+  bio: z.string().max(1000, "Must be at most 1000 characters"),
+});
+
+export type UpdateUserProfileValues = z.infer<typeof updateUserProfileSchema>;

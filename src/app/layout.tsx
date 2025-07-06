@@ -3,7 +3,9 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import ReactQueryProvider from "./ReactQueryProvider";
 import { Rubik_Glitch, Spline_Sans_Mono } from "next/font/google";
-import DelayedRender from "@/components/ui/DelayedRender";
+import { extractRouterConfig } from "uploadthing/server";
+import { fileRouter } from "./api/uploadthing/core";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 
 const rubikGlitch = Rubik_Glitch({
   variable: "--font-logo",
@@ -41,9 +43,10 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={`${rubikGlitch.variable} ${splineSansMono.variable} font-sans antialiased`}>
+        <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
         <ReactQueryProvider>
-            {children}
-          </ReactQueryProvider>
+          {children}
+        </ReactQueryProvider>
         <Toaster />
       </body>
     </html>

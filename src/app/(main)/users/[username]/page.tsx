@@ -2,7 +2,6 @@ import { validateRequest } from "@/auth";
 import FollowButton from "@/components/FollowButton";
 import FollowerCount from "@/components/FollowerCount";
 import TrendsSidebar from "@/components/TrendsSidebar";
-import { Button } from "@/components/ui/button";
 import UserAvatar from "@/components/UserAvatar";
 import prisma from "@/lib/prisma";
 import {
@@ -14,6 +13,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import UserPosts from "./UserPosts";
+import EditProfileButton from "./EditProfileButton";
 
 interface PageProps {
   params: { username: string };
@@ -162,7 +162,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
         </div>
 
         {user.id === loggedInUserId ? (
-          <Button>Edit profile</Button>
+          <EditProfileButton user={user} />
         ) : (
           <FollowButton userId={user.id} initialState={followerInfo} />
         )}
@@ -173,7 +173,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
       <div className="space-y-3 text-sm sm:text-base">
         <div>
           <strong>Bio:</strong>{" "}
-                    {user.bio ? (
+          {user.bio ? (
             <p className="whitespace-pre-line break-words">{user.bio}</p>
           ) : (
             <span className="text-muted-foreground italic">No bio yet</span>
