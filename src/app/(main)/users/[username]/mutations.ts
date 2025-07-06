@@ -1,82 +1,80 @@
-import { toast } from "sonner";
 import { PostsPage } from "@/lib/types";
 import { useUploadThing } from "@/lib/uploadthing";
 import { UpdateUserProfileValues } from "@/lib/validation";
 import {
-    InfiniteData,
-    QueryFilters,
-    useMutation,
-    useQueryClient,
+  InfiniteData,
+  QueryFilters,
+  useMutation,
+  useQueryClient,
 } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { updateUserProfile } from "./actions";
 
 export function useUpdateProfileMutation() {
-    const router = useRouter();
+  const router = useRouter();
 
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    const { startUpload: startAvatarUpload } = useUploadThing("avatar");
+  const { startUpload: startAvatarUpload } = useUploadThing("avatar");
 
-    const mutation = useMutation({
-        mutationFn: async ({
-            values,
-            avatar,
-        }: {
-            values: UpdateUserProfileValues;
-            avatar?: File;
-        }) => {
-            return Promise.all([
-                updateUserProfile(values),
-                avatar && startAvatarUpload([avatar]),
-            ]);
+  const mutation = useMutation({
+    mutationFn: async ({
+      values,
+      avatar,
+    }: {
+      values: UpdateUserProfileValues;
+      avatar?: File;
+    }) => {
+      return Promise.all([
+        updateUserProfile(values),
+        avatar && startAvatarUpload([avatar]),
+      ]);
+    },
+    onSuccess: async ([updatedUser, uploadResult]) => {
+      const newAvatarUrl = uploadResult?.[0].serverData.avatarUrl;
+
+      const queryFilter: QueryFilters = {
+        queryKey: ["post-feed"],
+      };
+
+      await queryClient.cancelQueries(queryFilter);
+
+      queryClient.setQueriesData<InfiniteData<PostsPage, string | null>>(
+        queryFilter,
+        (oldData) => {
+          if (!oldData) return;
+
+          return {
+            pageParams: oldData.pageParams,
+            pages: oldData.pages.map((page) => ({
+              nextCursor: page.nextCursor,
+              posts: page.posts.map((post) => {
+                if (post.user.id === updatedUser.id) {
+                  return {
+                    ...post,
+                    user: {
+                      ...updatedUser,
+                      avatarUrl: newAvatarUrl || updatedUser.avatarUrl,
+                    },
+                  };
+                }
+                return post;
+              }),
+            })),
+          };
         },
-        onSuccess: async ([updatedUser, uploadResult]) => {
-            const newAvatarUrl = uploadResult?.[0].serverData.avatarUrl;
+      );
 
-            const queryFilter: QueryFilters = {
-                queryKey: ["post-feed"],
-            };
+      router.refresh();
 
-            await queryClient.cancelQueries(queryFilter);
+      toast.success("Profile updated");
+    },
+    onError(error) {
+      console.error(error);
+      toast.error("Failed to update profile. Please try again.");
+    },
+  });
 
-            queryClient.setQueriesData<InfiniteData<PostsPage, string | null>>(
-                queryFilter,
-                (oldData) => {
-                    if (!oldData) return;
-
-                    return {
-                        pageParams: oldData.pageParams,
-                        pages: oldData.pages.map((page) => ({
-                            nextCursor: page.nextCursor,
-                            posts: page.posts.map((post) => {
-                                if (post.user.id === updatedUser.id) {
-                                    return {
-                                        ...post,
-                                        user: {
-                                            ...updatedUser,
-                                            avatarUrl: newAvatarUrl || updatedUser.avatarUrl,
-                                        },
-                                    };
-                                }
-                                return post;
-                            }),
-                        })),
-                    };
-                },
-            );
-
-            router.refresh();
-
-            toast("Profile updated");
-        },
-        onError(error) {
-            console.error(error);
-            toast("Failed to update profile. Please try again.", {
-                style: { background: "#ef4444", color: "#fff" },
-            });
-        },
-    });
-
-    return mutation;
+  return mutation;
 }

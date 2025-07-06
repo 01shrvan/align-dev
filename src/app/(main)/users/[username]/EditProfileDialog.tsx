@@ -27,7 +27,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Camera } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Resizer from "react-image-file-resizer";
 import { useUpdateProfileMutation } from "./mutations";
@@ -55,39 +55,23 @@ export default function EditProfileDialog({
 
   const [croppedAvatar, setCroppedAvatar] = useState<Blob | null>(null);
 
-  // Reset form when dialog opens/closes or user changes
-  useEffect(() => {
-    if (open) {
-      form.reset({
-        displayName: user.displayName,
-        bio: user.bio || "",
-      });
-      setCroppedAvatar(null);
-    }
-  }, [open, user, form]);
-
   async function onSubmit(values: UpdateUserProfileValues) {
-    try {
-      const newAvatarFile = croppedAvatar
-        ? new File([croppedAvatar], `avatar_${user.id}.webp`, {
-            type: "image/webp",
-          })
-        : undefined;
+    const newAvatarFile = croppedAvatar
+      ? new File([croppedAvatar], `avatar_${user.id}.webp`)
+      : undefined;
 
-      await mutation.mutateAsync(
-        {
-          values,
-          avatar: newAvatarFile,
-        }
-      );
-      
-      // Only close and reset on successful mutation
-      setCroppedAvatar(null);
-      onOpenChange(false);
-    } catch (error) {
-      console.error("Failed to update profile:", error);
-      // Don't close dialog on error so user can retry
-    }
+    mutation.mutate(
+      {
+        values,
+        avatar: newAvatarFile,
+      },
+      {
+        onSuccess: () => {
+          setCroppedAvatar(null);
+          onOpenChange(false);
+        },
+      },
+    );
   }
 
   return (
@@ -164,39 +148,16 @@ function AvatarInput({ src, onImageCropped }: AvatarInputProps) {
   function onImageSelected(image: File | undefined) {
     if (!image) return;
 
-    // Validate file type
-    if (!image.type.startsWith('image/')) {
-      console.error('Please select a valid image file');
-      return;
-    }
-
-    // Validate file size (e.g., max 5MB)
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    if (image.size > maxSize) {
-      console.error('Image file is too large. Please select an image smaller than 5MB.');
-      return;
-    }
-
-    try {
-      Resizer.imageFileResizer(
-        image,
-        1024,
-        1024,
-        "WEBP",
-        100,
-        0,
-        (uri) => {
-          if (uri instanceof File) {
-            setImageToCrop(uri);
-          } else {
-            console.error('Failed to resize image');
-          }
-        },
-        "file",
-      );
-    } catch (error) {
-      console.error('Error resizing image:', error);
-    }
+    Resizer.imageFileResizer(
+      image,
+      1024,
+      1024,
+      "WEBP",
+      100,
+      0,
+      (uri) => setImageToCrop(uri as File),
+      "file",
+    );
   }
 
   return (
