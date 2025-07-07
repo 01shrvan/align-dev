@@ -7,6 +7,7 @@ import {
   updateUserProfileSchema,
   UpdateUserProfileValues,
 } from "@/lib/validation";
+import { revalidatePath } from "next/cache";
 
 export async function updateUserProfile(values: UpdateUserProfileValues) {
   const validatedValues = updateUserProfileSchema.parse(values);
@@ -22,4 +23,8 @@ export async function updateUserProfile(values: UpdateUserProfileValues) {
   });
 
   return updatedUser;
+}
+
+export async function revalidateUserProfile(username: string) {
+  revalidatePath(`/users/${username}`);
 }

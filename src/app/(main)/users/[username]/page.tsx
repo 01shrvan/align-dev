@@ -16,7 +16,7 @@ import UserPosts from "./UserPosts";
 import EditProfileButton from "./EditProfileButton";
 
 interface PageProps {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }
 
 const getUser = cache(async (username: string, loggedInUserId: string) => {
@@ -62,8 +62,9 @@ const getUser = cache(async (username: string, loggedInUserId: string) => {
 });
 
 export async function generateMetadata({
-  params: { username },
+  params,
 }: PageProps): Promise<Metadata> {
+  const { username } = await params;
   const { user: loggedInUser } = await validateRequest();
   if (!loggedInUser) return {};
 
@@ -73,7 +74,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params: { username } }: PageProps) {
+export default async function Page({ params }: PageProps) {
+  const { username } = await params;
   const { user: loggedInUser } = await validateRequest();
   if (!loggedInUser) {
     return (
@@ -138,7 +140,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
   return (
     <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-5 shadow-sm">
       <UserAvatar
-        avatarUrl={user.avatarUrl}
+        avatarUrl={user.avatarUrl ? `${user.avatarUrl}?t=${Date.now()}` : null}
         size={250}
         className="mx-auto size-full max-h-60 max-w-60 rounded-full"
       />
@@ -201,18 +203,6 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
             </span>
           )}
         </div>
-
-        {/* {user.age && (
-          <div>
-            <strong>Age:</strong> <span>{user.age}</span>
-          </div>
-        )} */}
-
-        {/* {user.gender && (
-          <div>
-            <strong>Gender:</strong> <span className="capitalize">{user.gender.replace('-', ' ')}</span>
-          </div>
-        )} */}
 
         <div>
           <strong>Interests:</strong>{" "}
