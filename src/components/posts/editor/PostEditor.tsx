@@ -21,7 +21,7 @@ export default function PostEditor() {
         italic: false,
       }),
       Placeholder.configure({
-        placeholder: "shrvan gay",
+        placeholder: "What's crack-a-lackin'?",
       }),
     ],
     immediatelyRender: false,

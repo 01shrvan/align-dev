@@ -24,9 +24,9 @@ export default function Post({ post }: PostProps) {
           <UserTooltip user={post.user}>
             <Link href={`/users/${post.user.username}`}>
               <AvatarComponent.Avatar>
-                <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
+                <AvatarComponent.AvatarImage src={post.user.avatarUrl as string} />
                 <AvatarComponent.AvatarFallback>
-                  {user.username[0]}
+                  {post.user.username[0]}
                 </AvatarComponent.AvatarFallback>
               </AvatarComponent.Avatar>
             </Link>
