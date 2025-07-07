@@ -158,6 +158,14 @@ exports.Prisma.PostScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.MediaScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  type: 'type',
+  url: 'url',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -204,12 +212,22 @@ exports.Prisma.PostOrderByRelevanceFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.MediaOrderByRelevanceFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  url: 'url'
+};
+exports.MediaType = exports.$Enums.MediaType = {
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
   Follow: 'Follow',
-  Post: 'Post'
+  Post: 'Post',
+  Media: 'Media'
 };
 
 /**

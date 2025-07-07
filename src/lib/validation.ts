@@ -83,6 +83,7 @@ export type OnboardingValues = z.infer<typeof onboardingSchema>;
 
 export const createPostSchema = z.object({
   content: z.string().trim().min(1, "Post content is required"),
+  mediaIds: z.array(z.string()).max(5, "Cannot have more than 5 attachments"),
 });
 
 export type CreatePostValues = z.infer<typeof createPostSchema>;
