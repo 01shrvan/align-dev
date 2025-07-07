@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import UserAvatar from "./UserAvatar";
+import * as AvatarComponent from "@/components/ui/avatar";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface UserButtonProps {
@@ -28,7 +28,12 @@ export default function UserButton({ className }: UserButtonProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className={cn("flex-none rounded-full", className)}>
-          <UserAvatar avatarUrl={user.avatarUrl} size={40} />
+          <AvatarComponent.Avatar>
+            <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
+            <AvatarComponent.AvatarFallback>
+              {user.username[0]}
+            </AvatarComponent.AvatarFallback>
+          </AvatarComponent.Avatar>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

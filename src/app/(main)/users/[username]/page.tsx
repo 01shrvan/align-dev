@@ -2,11 +2,9 @@ import { validateRequest } from "@/auth";
 import FollowButton from "@/components/FollowButton";
 import FollowerCount from "@/components/FollowerCount";
 import TrendsSidebar from "@/components/TrendsSidebar";
-import UserAvatar from "@/components/UserAvatar";
+
 import prisma from "@/lib/prisma";
-import {
-  type FollowerInfo,
-} from "@/lib/types";
+import { type FollowerInfo } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import type { Metadata } from "next";
@@ -14,6 +12,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import UserPosts from "./UserPosts";
 import EditProfileButton from "./EditProfileButton";
+import * as AvatarComponent from "@/components/ui/avatar";
 
 interface PageProps {
   params: Promise<{ username: string }>;
@@ -139,11 +138,12 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
 
   return (
     <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-5 shadow-sm">
-      <UserAvatar
-        avatarUrl={user.avatarUrl ? `${user.avatarUrl}?t=${Date.now()}` : null}
-        size={250}
-        className="mx-auto size-full max-h-60 max-w-60 rounded-full"
-      />
+      <AvatarComponent.Avatar className="mx-auto size-48">
+        <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
+        <AvatarComponent.AvatarFallback>
+          {user.username[0]}
+        </AvatarComponent.AvatarFallback>
+      </AvatarComponent.Avatar>
 
       <div className="flex flex-wrap gap-3 sm:flex-nowrap">
         <div className="me-auto space-y-3">

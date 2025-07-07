@@ -3,8 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   experimental: {
     staleTimes: {
-      dynamic: 30
-    }
+      dynamic: 30,
+    },
   },
   serverExternalPackages: ["@node-rs/argon2"],
   images: {
@@ -12,7 +12,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "utfs.io",
-        pathname: `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/*`,
+      },
+      {
+        protocol: "https",
+        hostname: "oqrhxcu8o6.ufs.sh",
       },
     ],
   },

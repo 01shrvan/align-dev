@@ -13,7 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
-import UserAvatar from "./UserAvatar";
+import * as AvatarComponent from "@/components/ui/avatar"
 
 interface UserTooltipProps extends PropsWithChildren {
   user: UserData;
@@ -37,7 +37,12 @@ export default function UserTooltip({ children, user }: UserTooltipProps) {
           <div className="flex max-w-80 flex-col gap-3 break-words px-4 py-4 md:min-w-52 text-white">
             <div className="flex items-center justify-between gap-2">
               <Link href={`/users/${user.username}`}>
-                <UserAvatar size={70} avatarUrl={user.avatarUrl} />
+                <AvatarComponent.Avatar>
+                  <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
+                  <AvatarComponent.AvatarFallback>
+                    {user.username[0]}
+                  </AvatarComponent.AvatarFallback>
+                </AvatarComponent.Avatar>
               </Link>
               {loggedInUser.id !== user.id && (
                 <FollowButton userId={user.id} initialState={followerState} />
@@ -48,7 +53,9 @@ export default function UserTooltip({ children, user }: UserTooltipProps) {
                 <div className="text-lg font-semibold font-bold hover:underline">
                   {user.displayName}
                 </div>
-                <div className="text-muted-foreground font-bold">@{user.username}</div>
+                <div className="text-muted-foreground font-bold">
+                  @{user.username}
+                </div>
               </Link>
             </div>
             {user.bio && (

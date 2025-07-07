@@ -4,10 +4,11 @@ import { useSession } from "@/app/(main)/SessionProvider";
 import { PostData } from "@/lib/types";
 import { formatRelativeDate } from "@/lib/utils";
 import Link from "next/link";
-import UserAvatar from "../UserAvatar";
+
 import PostMoreButton from "./PostMoreButton";
 import Linkify from "../Linkify";
 import UserTooltip from "../UserTooltip";
+import * as AvatarComponent from "@/components/ui/avatar"
 
 interface PostProps {
   post: PostData;
@@ -22,7 +23,12 @@ export default function Post({ post }: PostProps) {
         <div className="flex flex-wrap gap-3">
           <UserTooltip user={post.user}>
             <Link href={`/users/${post.user.username}`}>
-              <UserAvatar avatarUrl={post.user.avatarUrl} />
+              <AvatarComponent.Avatar>
+                <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
+                <AvatarComponent.AvatarFallback>
+                  {user.username[0]}
+                </AvatarComponent.AvatarFallback>
+              </AvatarComponent.Avatar>
             </Link>
           </UserTooltip>
           <div>
@@ -43,10 +49,7 @@ export default function Post({ post }: PostProps) {
           </div>
         </div>
         {post.user.id === user.id && (
-          <PostMoreButton
-            post={post}
-            className=""
-          />
+          <PostMoreButton post={post} className="" />
         )}
       </div>
       <Linkify>

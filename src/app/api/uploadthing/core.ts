@@ -22,10 +22,9 @@ export const fileRouter = {
 
         // Delete old avatar if it exists
         if (oldAvatarUrl) {
+          console.log(oldAvatarUrl);
           try {
-            const key = oldAvatarUrl.split(
-              `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
-            )[1];
+            const key = oldAvatarUrl;
 
             if (key) {
               await new UTApi().deleteFiles(key);
@@ -36,23 +35,17 @@ export const fileRouter = {
           }
         }
 
-        // Use the new URL format
-        const newAvatarUrl = file.url.replace(
-          "/f/",
-          `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
-        );
-
         // Update user in database
         await prisma.user.update({
           where: { id: metadata.user.id },
           data: {
-            avatarUrl: newAvatarUrl,
+            avatarUrl: file.ufsUrl,
           },
         });
 
-        console.log("Avatar updated successfully:", newAvatarUrl);
+        console.log("Avatar updated successfully:", file.ufsUrl);
 
-        return { avatarUrl: newAvatarUrl };
+        return { avatarUrl: file.ufsUrl };
       } catch (error) {
         console.error("Error in avatar upload completion:", error);
         throw new UploadThingError("Failed to update avatar");

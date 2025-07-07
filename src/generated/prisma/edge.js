@@ -190,7 +190,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\Sandeep\\Desktop\\projects\\align\\src\\generated\\prisma",
+      "value": "/Users/advaitjadhav/Desktop/work/align-dev/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -199,14 +199,14 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "darwin",
         "native": true
       }
     ],
     "previewFeatures": [
       "fullTextSearch"
     ],
-    "sourceFilePath": "C:\\Users\\Sandeep\\Desktop\\projects\\align\\prisma\\schema.prisma",
+    "sourceFilePath": "/Users/advaitjadhav/Desktop/work/align-dev/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
