@@ -6,6 +6,7 @@ import * as AvatarComponent from "@/components/ui/avatar";
 import Placeholder from "@tiptap/extension-placeholder";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { useDropzone } from "@uploadthing/react";
 import { useSubmitPostMutation } from "./mutations";
 import "./styles.css";
 import { ImageIcon, Loader2, X } from "lucide-react";
@@ -13,7 +14,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import useMediaUpload, { Attachment } from "./useMediaUpload";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
+import { ClipboardEvent, useRef } from "react";
 
 export default function PostEditor() {
   const { user } = useSession();
@@ -28,6 +29,13 @@ export default function PostEditor() {
     removeAttachment,
     reset: resetMediaUploads,
   } = useMediaUpload();
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: startUpload,
+  });
+
+  const { onClick, ...rootProps } = getRootProps();
+
 
   const editor = useEditor({
     extensions: [
@@ -62,6 +70,13 @@ export default function PostEditor() {
     );
   }
 
+  function onPaste(e: ClipboardEvent<HTMLInputElement>) {
+    const files = Array.from(e.clipboardData.items)
+      .filter((item) => item.kind === "file")
+      .map((item) => item.getAsFile()) as File[];
+    startUpload(files);
+  }
+
   return (
     <div className="flex flex-col gap-5 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 p-5 shadow-sm">
       <div className="flex gap-5">
@@ -71,10 +86,17 @@ export default function PostEditor() {
             {user.username[0]}
           </AvatarComponent.AvatarFallback>
         </AvatarComponent.Avatar>
-        <EditorContent
-          editor={editor}
-          className="w-full rounded-2xl bg-background px-5 py-3 resize-y min-h-[6rem] max-h-[40vh] overflow-auto scrollbar-hide"
-        />
+        <div {...rootProps} className="w-full">
+          <EditorContent
+            editor={editor}
+            className={cn(
+              "max-h-[20rem] w-full overflow-y-auto rounded-2xl bg-background px-5 py-3",
+              isDragActive && "outline-dashed",
+            )}
+            onPaste={onPaste}
+          />
+          <input {...getInputProps()} />
+        </div>
       </div>
       {!!attachments.length && (
         <AttachmentPreviews
@@ -120,9 +142,9 @@ function AddAttachmentsButton({
   return (
     <>
       <Button
-        variant="ghost"
+        variant="outline"
         size="icon"
-        className="text-primary hover:text-primary"
+        className="text-primary"
         disabled={disabled}
         onClick={() => fileInputRef.current?.click()}
       >
@@ -194,10 +216,10 @@ function AttachmentPreview({
           alt="Attachment preview"
           width={500}
           height={500}
-          className="size-fit max-h-[30rem] rounded-2xl"
+          className="size-fit max-h-[30rem] rounded-lg"
         />
       ) : (
-        <video controls className="size-fit max-h-[30rem] rounded-2xl">
+        <video controls className="size-fit max-h-[30rem] rounded-lg">
           <source src={src} type={file.type} />
         </video>
       )}
