@@ -56,8 +56,13 @@ export default function FollowingFeed() {
       className="space-y-5"
       onBottomReached={() => hasNextPage && !isFetching && fetchNextPage()}
     >
-      {posts.map((post) => (
-        <Post key={post.id} post={post} />
+      {posts.map((post, idx) => (
+        <>
+          <Post key={post.id} post={post} />
+          {idx !== posts.length - 1 && (
+            <div className="my-4 border-t border-dashed border-muted" />
+          )}
+        </>
       ))}
       {isFetchingNextPage && <Loader2 className="mx-auto my-3 animate-spin" />}
     </InfiniteScrollContainer>
