@@ -38,6 +38,7 @@ export default function Post({ post }: PostProps) {
               <Link
                 href={`/users/${post.user.username}`}
                 className="block font-medium hover:underline"
+                suppressHydrationWarning
               >
                 {post.user.displayName}
               </Link>
