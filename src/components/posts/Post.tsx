@@ -12,6 +12,7 @@ import UserTooltip from "../UserTooltip";
 import * as AvatarComponent from "@/components/ui/avatar"
 import { Media } from "@/generated/prisma";
 import LikeButton from "./LikeButton";
+import BookmarkButton from "./BookmarkButton";
 
 interface PostProps {
   post: PostData;
@@ -63,13 +64,23 @@ export default function Post({ post }: PostProps) {
         <MediaPreviews attachments={post.attachments} />
       )}
       <hr className="text-muted-foreground" />
-      <LikeButton
-        postId={post.id}
-        initialState={{
-          likes: post._count.likes,
-          isLikedByUser: post.likes.some((like) => like.userId === user.id),
-        }}
-      />
+      <div className="flex justify-between gap-5">
+        <LikeButton
+          postId={post.id}
+          initialState={{
+            likes: post._count.likes,
+            isLikedByUser: post.likes.some((like) => like.userId === user.id),
+          }}
+        />
+        <BookmarkButton
+          postId={post.id}
+          initialState={{
+            isBookmarkedByUser: post.bookmarks.some(
+              (bookmark) => bookmark.userId === user.id,
+            ),
+          }}
+        />
+      </div>
     </article>
   );
 }
