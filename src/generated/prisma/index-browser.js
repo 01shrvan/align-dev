@@ -166,6 +166,14 @@ exports.Prisma.MediaScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.LikeScalarFieldEnum = {
   userId: 'userId',
   postId: 'postId'
@@ -230,6 +238,13 @@ exports.Prisma.MediaOrderByRelevanceFieldEnum = {
   url: 'url'
 };
 
+exports.Prisma.CommentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  content: 'content',
+  userId: 'userId',
+  postId: 'postId'
+};
+
 exports.Prisma.LikeOrderByRelevanceFieldEnum = {
   userId: 'userId',
   postId: 'postId'
@@ -251,6 +266,7 @@ exports.Prisma.ModelName = {
   Follow: 'Follow',
   Post: 'Post',
   Media: 'Media',
+  Comment: 'Comment',
   Like: 'Like',
   Bookmark: 'Bookmark'
 };

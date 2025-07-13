@@ -2,7 +2,6 @@ import { validateRequest } from "@/auth";
 import FollowButton from "@/components/FollowButton";
 import FollowerCount from "@/components/FollowerCount";
 import TrendsSidebar from "@/components/TrendsSidebar";
-
 import prisma from "@/lib/prisma";
 import { type FollowerInfo } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
