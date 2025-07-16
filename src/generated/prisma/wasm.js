@@ -186,6 +186,16 @@ exports.Prisma.BookmarkScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  recipientId: 'recipientId',
+  issuerId: 'issuerId',
+  postId: 'postId',
+  type: 'type',
+  read: 'read',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -255,9 +265,22 @@ exports.Prisma.BookmarkOrderByRelevanceFieldEnum = {
   userId: 'userId',
   postId: 'postId'
 };
+
+exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  recipientId: 'recipientId',
+  issuerId: 'issuerId',
+  postId: 'postId'
+};
 exports.MediaType = exports.$Enums.MediaType = {
   IMAGE: 'IMAGE',
   VIDEO: 'VIDEO'
+};
+
+exports.NotificationType = exports.$Enums.NotificationType = {
+  LIKE: 'LIKE',
+  FOLLOW: 'FOLLOW',
+  COMMENT: 'COMMENT'
 };
 
 exports.Prisma.ModelName = {
@@ -268,7 +291,8 @@ exports.Prisma.ModelName = {
   Media: 'Media',
   Comment: 'Comment',
   Like: 'Like',
-  Bookmark: 'Bookmark'
+  Bookmark: 'Bookmark',
+  Notification: 'Notification'
 };
 
 /**
