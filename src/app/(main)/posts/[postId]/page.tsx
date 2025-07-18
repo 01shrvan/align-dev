@@ -91,7 +91,9 @@ async function UserInfoSidebar({ user }: UserInfoSidebarProps) {
                 >
                     <AvatarComponent.Avatar>
                         <AvatarComponent.AvatarImage src={user.avatarUrl as string} className='flex-none' />
-                        <AvatarComponent.AvatarFallback>{user.username[0]}</AvatarComponent.AvatarFallback>
+                        <AvatarComponent.AvatarFallback>
+                            {user.username[0]}
+                        </AvatarComponent.AvatarFallback>
                     </AvatarComponent.Avatar>
                     <div>
                         <p className="line-clamp-1 break-all font-semibold hover:underline">
