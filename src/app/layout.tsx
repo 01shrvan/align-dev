@@ -38,8 +38,8 @@ export const metadata: Metadata = {
     siteName: "Align Network",
     images: [
       {
-        url: "/logo.svg",
-        width: 1200,
+        url: "/logo.png",
+                width: 1200,
         height: 630,
         alt: "Align Network Logo",
       },
@@ -49,10 +49,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@01shrvan",
+    site: "@AlignNetwork",
     title: "Align Network",
     description: "A thought-based matchmaking platform that fosters meaningful connections",
-    images: ["/logo.svg"],
+    images: ["/logo.png"],
   },
   robots: {
     index: true,
