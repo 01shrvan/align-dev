@@ -49,6 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@01shrvan",
     title: "Align Network",
     description: "A thought-based matchmaking platform that fosters meaningful connections",
     images: ["/logo.svg"],
