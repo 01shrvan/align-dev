@@ -44,9 +44,9 @@ export default function Notification({ notification }: NotificationProps) {
                 <div className="my-1">{icon}</div>
                 <div className="space-y-3">
                     <AvatarComponent.Avatar className="mx-auto size-8">
-                        <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
+                        <AvatarComponent.AvatarImage src={notification.issuer.avatarUrl || ""} />
                         <AvatarComponent.AvatarFallback>
-                            {user.username[0]}
+                            {notification.issuer.displayName[0] || notification.issuer.username[0]}
                         </AvatarComponent.AvatarFallback>
                     </AvatarComponent.Avatar>
                     <div>

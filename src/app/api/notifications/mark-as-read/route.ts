@@ -9,7 +9,7 @@ export async function PATCH() {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await prisma.notification.updateMany({
+    const result = await prisma.notification.updateMany({
       where: {
         recipientId: user.id,
         read: false,
@@ -19,9 +19,12 @@ export async function PATCH() {
       },
     });
 
-    return new Response();
+    return Response.json({ 
+      success: true, 
+      updatedCount: result.count 
+    });
   } catch (error) {
-    console.error(error);
+    console.error("Error marking notifications as read:", error);
     return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 }
