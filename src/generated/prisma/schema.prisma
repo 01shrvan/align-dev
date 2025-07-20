@@ -24,7 +24,10 @@ model User {
   passwordHash          String?
   googleId              String?        @unique
   avatarUrl             String?
-  bio                   String?
+  profileSummary        String?        @db.Text
+  linkedinUrl           String?
+  githubUrl             String?
+  twitterUrl            String?
   sessions              Session[]
   posts                 Post[]
   following             Follow[]       @relation("Following")
@@ -34,15 +37,15 @@ model User {
   comments              Comment[]
   receivedNotifications Notification[] @relation("Recipient")
   issuedNotifications   Notification[] @relation("Issuer")
-
-  isOnboarded Boolean  @default(false)
-  interests   String[] @default([])
-  location    String?
-  age         Int?
-  gender      String?
-  occupation  String?
-
-  createdAt DateTime @default(now())
+  isOnboarded           Boolean        @default(false)
+  interests             String[]       @default([])
+  location              String?
+  age                   Int?
+  gender                String?
+  occupation            String?
+  experience            Json[]         @default([])
+  education             Json[]         @default([])
+  createdAt             DateTime       @default(now())
 
   @@map("users")
 }

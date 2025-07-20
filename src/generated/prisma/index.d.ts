@@ -1758,7 +1758,10 @@ export namespace Prisma {
     passwordHash: string | null
     googleId: string | null
     avatarUrl: string | null
-    bio: string | null
+    profileSummary: string | null
+    linkedinUrl: string | null
+    githubUrl: string | null
+    twitterUrl: string | null
     isOnboarded: boolean | null
     location: string | null
     age: number | null
@@ -1775,7 +1778,10 @@ export namespace Prisma {
     passwordHash: string | null
     googleId: string | null
     avatarUrl: string | null
-    bio: string | null
+    profileSummary: string | null
+    linkedinUrl: string | null
+    githubUrl: string | null
+    twitterUrl: string | null
     isOnboarded: boolean | null
     location: string | null
     age: number | null
@@ -1792,13 +1798,18 @@ export namespace Prisma {
     passwordHash: number
     googleId: number
     avatarUrl: number
-    bio: number
+    profileSummary: number
+    linkedinUrl: number
+    githubUrl: number
+    twitterUrl: number
     isOnboarded: number
     interests: number
     location: number
     age: number
     gender: number
     occupation: number
+    experience: number
+    education: number
     createdAt: number
     _all: number
   }
@@ -1820,7 +1831,10 @@ export namespace Prisma {
     passwordHash?: true
     googleId?: true
     avatarUrl?: true
-    bio?: true
+    profileSummary?: true
+    linkedinUrl?: true
+    githubUrl?: true
+    twitterUrl?: true
     isOnboarded?: true
     location?: true
     age?: true
@@ -1837,7 +1851,10 @@ export namespace Prisma {
     passwordHash?: true
     googleId?: true
     avatarUrl?: true
-    bio?: true
+    profileSummary?: true
+    linkedinUrl?: true
+    githubUrl?: true
+    twitterUrl?: true
     isOnboarded?: true
     location?: true
     age?: true
@@ -1854,13 +1871,18 @@ export namespace Prisma {
     passwordHash?: true
     googleId?: true
     avatarUrl?: true
-    bio?: true
+    profileSummary?: true
+    linkedinUrl?: true
+    githubUrl?: true
+    twitterUrl?: true
     isOnboarded?: true
     interests?: true
     location?: true
     age?: true
     gender?: true
     occupation?: true
+    experience?: true
+    education?: true
     createdAt?: true
     _all?: true
   }
@@ -1959,13 +1981,18 @@ export namespace Prisma {
     passwordHash: string | null
     googleId: string | null
     avatarUrl: string | null
-    bio: string | null
+    profileSummary: string | null
+    linkedinUrl: string | null
+    githubUrl: string | null
+    twitterUrl: string | null
     isOnboarded: boolean
     interests: string[]
     location: string | null
     age: number | null
     gender: string | null
     occupation: string | null
+    experience: JsonValue[]
+    education: JsonValue[]
     createdAt: Date
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
@@ -1996,13 +2023,18 @@ export namespace Prisma {
     passwordHash?: boolean
     googleId?: boolean
     avatarUrl?: boolean
-    bio?: boolean
+    profileSummary?: boolean
+    linkedinUrl?: boolean
+    githubUrl?: boolean
+    twitterUrl?: boolean
     isOnboarded?: boolean
     interests?: boolean
     location?: boolean
     age?: boolean
     gender?: boolean
     occupation?: boolean
+    experience?: boolean
+    education?: boolean
     createdAt?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
@@ -2024,13 +2056,18 @@ export namespace Prisma {
     passwordHash?: boolean
     googleId?: boolean
     avatarUrl?: boolean
-    bio?: boolean
+    profileSummary?: boolean
+    linkedinUrl?: boolean
+    githubUrl?: boolean
+    twitterUrl?: boolean
     isOnboarded?: boolean
     interests?: boolean
     location?: boolean
     age?: boolean
     gender?: boolean
     occupation?: boolean
+    experience?: boolean
+    education?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -2042,13 +2079,18 @@ export namespace Prisma {
     passwordHash?: boolean
     googleId?: boolean
     avatarUrl?: boolean
-    bio?: boolean
+    profileSummary?: boolean
+    linkedinUrl?: boolean
+    githubUrl?: boolean
+    twitterUrl?: boolean
     isOnboarded?: boolean
     interests?: boolean
     location?: boolean
     age?: boolean
     gender?: boolean
     occupation?: boolean
+    experience?: boolean
+    education?: boolean
     createdAt?: boolean
   }
 
@@ -2087,13 +2129,18 @@ export namespace Prisma {
       passwordHash: string | null
       googleId: string | null
       avatarUrl: string | null
-      bio: string | null
+      profileSummary: string | null
+      linkedinUrl: string | null
+      githubUrl: string | null
+      twitterUrl: string | null
       isOnboarded: boolean
       interests: string[]
       location: string | null
       age: number | null
       gender: string | null
       occupation: string | null
+      experience: Prisma.JsonValue[]
+      education: Prisma.JsonValue[]
       createdAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -2504,13 +2551,18 @@ export namespace Prisma {
     readonly passwordHash: FieldRef<"User", 'String'>
     readonly googleId: FieldRef<"User", 'String'>
     readonly avatarUrl: FieldRef<"User", 'String'>
-    readonly bio: FieldRef<"User", 'String'>
+    readonly profileSummary: FieldRef<"User", 'String'>
+    readonly linkedinUrl: FieldRef<"User", 'String'>
+    readonly githubUrl: FieldRef<"User", 'String'>
+    readonly twitterUrl: FieldRef<"User", 'String'>
     readonly isOnboarded: FieldRef<"User", 'Boolean'>
     readonly interests: FieldRef<"User", 'String[]'>
     readonly location: FieldRef<"User", 'String'>
     readonly age: FieldRef<"User", 'Int'>
     readonly gender: FieldRef<"User", 'String'>
     readonly occupation: FieldRef<"User", 'String'>
+    readonly experience: FieldRef<"User", 'Json[]'>
+    readonly education: FieldRef<"User", 'Json[]'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
     
@@ -10598,13 +10650,18 @@ export namespace Prisma {
     passwordHash: 'passwordHash',
     googleId: 'googleId',
     avatarUrl: 'avatarUrl',
-    bio: 'bio',
+    profileSummary: 'profileSummary',
+    linkedinUrl: 'linkedinUrl',
+    githubUrl: 'githubUrl',
+    twitterUrl: 'twitterUrl',
     isOnboarded: 'isOnboarded',
     interests: 'interests',
     location: 'location',
     age: 'age',
     gender: 'gender',
     occupation: 'occupation',
+    experience: 'experience',
+    education: 'education',
     createdAt: 'createdAt'
   };
 
@@ -10723,7 +10780,10 @@ export namespace Prisma {
     passwordHash: 'passwordHash',
     googleId: 'googleId',
     avatarUrl: 'avatarUrl',
-    bio: 'bio',
+    profileSummary: 'profileSummary',
+    linkedinUrl: 'linkedinUrl',
+    githubUrl: 'githubUrl',
+    twitterUrl: 'twitterUrl',
     interests: 'interests',
     location: 'location',
     gender: 'gender',
@@ -10845,6 +10905,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json[]'
+   */
+  export type ListJsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -10914,13 +10988,18 @@ export namespace Prisma {
     passwordHash?: StringNullableFilter<"User"> | string | null
     googleId?: StringNullableFilter<"User"> | string | null
     avatarUrl?: StringNullableFilter<"User"> | string | null
-    bio?: StringNullableFilter<"User"> | string | null
+    profileSummary?: StringNullableFilter<"User"> | string | null
+    linkedinUrl?: StringNullableFilter<"User"> | string | null
+    githubUrl?: StringNullableFilter<"User"> | string | null
+    twitterUrl?: StringNullableFilter<"User"> | string | null
     isOnboarded?: BoolFilter<"User"> | boolean
     interests?: StringNullableListFilter<"User">
     location?: StringNullableFilter<"User"> | string | null
     age?: IntNullableFilter<"User"> | number | null
     gender?: StringNullableFilter<"User"> | string | null
     occupation?: StringNullableFilter<"User"> | string | null
+    experience?: JsonNullableListFilter<"User">
+    education?: JsonNullableListFilter<"User">
     createdAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
@@ -10941,13 +11020,18 @@ export namespace Prisma {
     passwordHash?: SortOrderInput | SortOrder
     googleId?: SortOrderInput | SortOrder
     avatarUrl?: SortOrderInput | SortOrder
-    bio?: SortOrderInput | SortOrder
+    profileSummary?: SortOrderInput | SortOrder
+    linkedinUrl?: SortOrderInput | SortOrder
+    githubUrl?: SortOrderInput | SortOrder
+    twitterUrl?: SortOrderInput | SortOrder
     isOnboarded?: SortOrder
     interests?: SortOrder
     location?: SortOrderInput | SortOrder
     age?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     occupation?: SortOrderInput | SortOrder
+    experience?: SortOrder
+    education?: SortOrder
     createdAt?: SortOrder
     sessions?: SessionOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
@@ -10972,13 +11056,18 @@ export namespace Prisma {
     displayName?: StringFilter<"User"> | string
     passwordHash?: StringNullableFilter<"User"> | string | null
     avatarUrl?: StringNullableFilter<"User"> | string | null
-    bio?: StringNullableFilter<"User"> | string | null
+    profileSummary?: StringNullableFilter<"User"> | string | null
+    linkedinUrl?: StringNullableFilter<"User"> | string | null
+    githubUrl?: StringNullableFilter<"User"> | string | null
+    twitterUrl?: StringNullableFilter<"User"> | string | null
     isOnboarded?: BoolFilter<"User"> | boolean
     interests?: StringNullableListFilter<"User">
     location?: StringNullableFilter<"User"> | string | null
     age?: IntNullableFilter<"User"> | number | null
     gender?: StringNullableFilter<"User"> | string | null
     occupation?: StringNullableFilter<"User"> | string | null
+    experience?: JsonNullableListFilter<"User">
+    education?: JsonNullableListFilter<"User">
     createdAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
@@ -10999,13 +11088,18 @@ export namespace Prisma {
     passwordHash?: SortOrderInput | SortOrder
     googleId?: SortOrderInput | SortOrder
     avatarUrl?: SortOrderInput | SortOrder
-    bio?: SortOrderInput | SortOrder
+    profileSummary?: SortOrderInput | SortOrder
+    linkedinUrl?: SortOrderInput | SortOrder
+    githubUrl?: SortOrderInput | SortOrder
+    twitterUrl?: SortOrderInput | SortOrder
     isOnboarded?: SortOrder
     interests?: SortOrder
     location?: SortOrderInput | SortOrder
     age?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     occupation?: SortOrderInput | SortOrder
+    experience?: SortOrder
+    education?: SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
@@ -11025,13 +11119,18 @@ export namespace Prisma {
     passwordHash?: StringNullableWithAggregatesFilter<"User"> | string | null
     googleId?: StringNullableWithAggregatesFilter<"User"> | string | null
     avatarUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
-    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
+    profileSummary?: StringNullableWithAggregatesFilter<"User"> | string | null
+    linkedinUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    githubUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    twitterUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     isOnboarded?: BoolWithAggregatesFilter<"User"> | boolean
     interests?: StringNullableListFilter<"User">
     location?: StringNullableWithAggregatesFilter<"User"> | string | null
     age?: IntNullableWithAggregatesFilter<"User"> | number | null
     gender?: StringNullableWithAggregatesFilter<"User"> | string | null
     occupation?: StringNullableWithAggregatesFilter<"User"> | string | null
+    experience?: JsonNullableListFilter<"User">
+    education?: JsonNullableListFilter<"User">
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
@@ -11487,13 +11586,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
@@ -11514,13 +11618,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
@@ -11541,13 +11650,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
@@ -11568,13 +11682,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
@@ -11595,13 +11714,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
   }
 
@@ -11613,13 +11737,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -11631,13 +11760,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -12096,6 +12230,20 @@ export namespace Prisma {
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
+  export type JsonNullableListFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableListFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableListFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableListFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableListFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableListFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue[] | ListJsonFieldRefInput<$PrismaModel> | null
+    has?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    hasEvery?: InputJsonValue[] | ListJsonFieldRefInput<$PrismaModel>
+    hasSome?: InputJsonValue[] | ListJsonFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
 
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -12197,13 +12345,18 @@ export namespace Prisma {
     passwordHash?: SortOrder
     googleId?: SortOrder
     avatarUrl?: SortOrder
-    bio?: SortOrder
+    profileSummary?: SortOrder
+    linkedinUrl?: SortOrder
+    githubUrl?: SortOrder
+    twitterUrl?: SortOrder
     isOnboarded?: SortOrder
     interests?: SortOrder
     location?: SortOrder
     age?: SortOrder
     gender?: SortOrder
     occupation?: SortOrder
+    experience?: SortOrder
+    education?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -12219,7 +12372,10 @@ export namespace Prisma {
     passwordHash?: SortOrder
     googleId?: SortOrder
     avatarUrl?: SortOrder
-    bio?: SortOrder
+    profileSummary?: SortOrder
+    linkedinUrl?: SortOrder
+    githubUrl?: SortOrder
+    twitterUrl?: SortOrder
     isOnboarded?: SortOrder
     location?: SortOrder
     age?: SortOrder
@@ -12236,7 +12392,10 @@ export namespace Prisma {
     passwordHash?: SortOrder
     googleId?: SortOrder
     avatarUrl?: SortOrder
-    bio?: SortOrder
+    profileSummary?: SortOrder
+    linkedinUrl?: SortOrder
+    githubUrl?: SortOrder
+    twitterUrl?: SortOrder
     isOnboarded?: SortOrder
     location?: SortOrder
     age?: SortOrder
@@ -12619,6 +12778,14 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type UserCreateexperienceInput = {
+    set: InputJsonValue[]
+  }
+
+  export type UserCreateeducationInput = {
+    set: InputJsonValue[]
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -12768,6 +12935,16 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type UserUpdateexperienceInput = {
+    set?: InputJsonValue[]
+    push?: InputJsonValue | InputJsonValue[]
+  }
+
+  export type UserUpdateeducationInput = {
+    set?: InputJsonValue[]
+    push?: InputJsonValue | InputJsonValue[]
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -14060,13 +14237,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     posts?: PostCreateNestedManyWithoutUserInput
     following?: FollowCreateNestedManyWithoutFollowerInput
@@ -14086,13 +14268,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -14128,13 +14315,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUpdateManyWithoutUserNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
@@ -14154,13 +14346,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -14180,13 +14377,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
@@ -14206,13 +14408,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
@@ -14237,13 +14444,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
@@ -14263,13 +14475,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
@@ -14305,13 +14522,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
@@ -14331,13 +14553,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
@@ -14368,13 +14595,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
@@ -14394,13 +14626,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
@@ -14420,13 +14657,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     following?: FollowCreateNestedManyWithoutFollowerInput
@@ -14446,13 +14688,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -14604,13 +14851,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
@@ -14630,13 +14882,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -14807,13 +15064,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
@@ -14833,13 +15095,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
@@ -14902,13 +15169,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
@@ -14928,13 +15200,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
@@ -14987,13 +15264,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
@@ -15013,13 +15295,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
@@ -15082,13 +15369,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
@@ -15108,13 +15400,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
@@ -15167,13 +15464,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
@@ -15193,13 +15495,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
@@ -15262,13 +15569,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
@@ -15288,13 +15600,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
@@ -15347,13 +15664,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
@@ -15373,13 +15695,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
@@ -15404,13 +15731,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
@@ -15430,13 +15762,18 @@ export namespace Prisma {
     passwordHash?: string | null
     googleId?: string | null
     avatarUrl?: string | null
-    bio?: string | null
+    profileSummary?: string | null
+    linkedinUrl?: string | null
+    githubUrl?: string | null
+    twitterUrl?: string | null
     isOnboarded?: boolean
     interests?: UserCreateinterestsInput | string[]
     location?: string | null
     age?: number | null
     gender?: string | null
     occupation?: string | null
+    experience?: UserCreateexperienceInput | InputJsonValue[]
+    education?: UserCreateeducationInput | InputJsonValue[]
     createdAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
@@ -15499,13 +15836,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
@@ -15525,13 +15867,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
@@ -15562,13 +15909,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
@@ -15588,13 +15940,18 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     googleId?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    profileSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    twitterUrl?: NullableStringFieldUpdateOperationsInput | string | null
     isOnboarded?: BoolFieldUpdateOperationsInput | boolean
     interests?: UserUpdateinterestsInput | string[]
     location?: NullableStringFieldUpdateOperationsInput | string | null
     age?: NullableIntFieldUpdateOperationsInput | number | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     occupation?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: UserUpdateexperienceInput | InputJsonValue[]
+    education?: UserUpdateeducationInput | InputJsonValue[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
