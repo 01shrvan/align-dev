@@ -21,42 +21,22 @@ const splineSansMono = Spline_Sans_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://align-network.01shrvan.tech"),
   title: {
     template: "%s | Align Network",
     default: "Align Network",
   },
-  description: "A thought-based matchmaking platform that fosters meaningful connections",
-  icons: [
-    { rel: "icon", url: "/favicon.ico" },
-    { rel: "icon", url: "/logo.svg", type: "image/svg+xml" },
-    { rel: "apple-touch-icon", url: "/logo.svg" },
-  ],
+  description:
+    "Align Network is an exclusive space for people who want meaningful connections. Share your micro-thoughts, match with like-minded souls.",
+  icons: { icon: "/assets/logo-white.svg" },
   openGraph: {
-    title: "Align Network",
-    description: "A thought-based matchmaking platform that fosters meaningful connections",
-    url: "https://align-network.01shrvan.tech",
-    siteName: "Align Network",
-    images: [
-      {
-        url: "/logo.png",
-                width: 1200,
-        height: 630,
-        alt: "Align Network Logo",
-      },
-    ],
-    locale: "en_US",
     type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@AlignNetwork",
-    title: "Align Network",
-    description: "A thought-based matchmaking platform that fosters meaningful connections",
-    images: ["/logo.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
+    url: "https://align-network.01shrvan.tech",
+    images: ["/assets/opengraph-image.png"],
+    description:
+      "Align Network is an exclusive space for people who want meaningful connections. Share your micro-thoughts, match with like-minded souls.",
+    siteName: "Align Network",
+    locale: "en_US",
   },
 }
 
