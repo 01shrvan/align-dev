@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
 import { Toaster } from "sonner"
+import { ServiceWorkerRegistration } from "@/components/service-worker-registration"
 import ReactQueryProvider from "./ReactQueryProvider"
 import { Rubik_Glitch, Spline_Sans_Mono } from "next/font/google"
 import { extractRouterConfig } from "uploadthing/server"
@@ -38,6 +39,7 @@ export const metadata: Metadata = {
     siteName: "Align Network",
     locale: "en_US",
   },
+   manifest: "/manifest.webmanifest",
 }
 
 export default function RootLayout({
@@ -47,13 +49,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
+      {/* <head>
         <link rel="icon" href="/favicon.ico" />
-      </head>
+      </head> */}
       <body className={`${rubikGlitch.variable} ${splineSansMono.variable} font-sans antialiased`}>
         <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
         <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster />
+<ServiceWorkerRegistration />
       </body>
     </html>
   )
