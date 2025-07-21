@@ -1,8 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-/.pnp
+# ---------------------------------------
+# 🔧 Dependencies
+# ---------------------------------------
+node_modules/
+.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -10,34 +12,61 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
+# ---------------------------------------
+# ✅ Prisma
+# ---------------------------------------
+prisma/generated/
+src/generated/
+src/generated/prisma/
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
+# ---------------------------------------
+# 🔍 Environment & Secrets
+# ---------------------------------------
+.env*
 *.pem
 
-# debug
+# ---------------------------------------
+# 🧪 Testing
+# ---------------------------------------
+coverage/
+
+# ---------------------------------------
+# 🚀 Next.js
+# ---------------------------------------
+.next/
+out/
+
+# ---------------------------------------
+# 🏗️ Production Builds
+# ---------------------------------------
+build/
+dist/
+
+# ---------------------------------------
+# 🛠️ TypeScript
+# ---------------------------------------
+*.tsbuildinfo
+next-env.d.ts
+
+# ---------------------------------------
+# 🧹 Misc & System Files
+# ---------------------------------------
+.DS_Store
+Thumbs.db
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
+# ---------------------------------------
+# ☁️ Vercel
+# ---------------------------------------
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# /src/generated/prisma
+# ---------------------------------------
+# 🧠 IDEs & Editors
+# ---------------------------------------
+.idea/
+.vscode/
+*.swp
