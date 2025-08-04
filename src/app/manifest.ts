@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next"
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Align Network",
-    short_name: "Align",
+    short_name: "Align Network",
     description:
       "Align Network is an exclusive space for people who want meaningful connections. Share your micro-thoughts, match with like-minded souls.",
     start_url: "/",
