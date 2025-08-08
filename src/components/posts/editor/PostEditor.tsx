@@ -41,7 +41,7 @@ export default function PostEditor() {
         italic: false,
       }),
       Placeholder.configure({
-        placeholder: "What's crack-a-lackin'?",
+        placeholder: "drop the tea..!",
       }),
     ],
     immediatelyRender: false,
@@ -85,7 +85,7 @@ export default function PostEditor() {
           <EditorContent
             editor={editor}
             className={cn(
-              "w-full overflow-hidden md:overflow-y-auto rounded-2xl bg-background px-5 py-3 min-h-[100px]",
+              "w-full rounded-2xl bg-background px-5 py-3 min-h-[2.5rem]",
               isDragActive && "outline-dashed",
             )}
             onPaste={onPaste}
