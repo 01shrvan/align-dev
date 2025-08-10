@@ -45,16 +45,16 @@ export default function UserButton({ className }: UserButtonProps) {
             Profile
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
+        {/* <DropdownMenuSeparator /> */}
+        {/* <DropdownMenuItem
           onClick={() => {
             queryClient.clear();
             logout();
           }}
-        >
+        > 
           <LogOutIcon className="mr-2 size-4" />
           Logout
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );
