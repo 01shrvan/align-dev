@@ -86,18 +86,20 @@ export default async function Page({ params }: PageProps) {
   const user = await getUser(username, loggedInUser.id);
 
   return (
-    <main className="flex w-full min-w-0">
-      <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5">
-        <UserProfile user={user} loggedInUserId={loggedInUser.id} />
-        <div className="rounded-2xl bg-card p-5 shadow-sm">
-          <h2 className="text-center text-2xl font-bold">
-            {user.displayName}&apos;s posts
-          </h2>
+    <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border">
+      <main className="flex w-full min-w-0">
+        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5">
+          <UserProfile user={user} loggedInUserId={loggedInUser.id} />
+          <div className="rounded-2xl bg-card p-5 shadow-sm">
+            <h2 className="text-center text-2xl font-bold">
+              {user.displayName}&apos;s posts
+            </h2>
+          </div>
+          <UserPosts userId={user.id} />
         </div>
-        <UserPosts userId={user.id} />
-      </div>
-      <TrendsSidebar />
-    </main>
+        <TrendsSidebar />
+      </main>
+    </div>
   );
 }
 
@@ -129,7 +131,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
   const followerInfo: FollowerInfo = {
     followers: user._count.followers,
     isFollowedByUser: user.followers.some(
-      ({ followerId }) => followerId === loggedInUserId
+      ({ followerId }) => followerId === loggedInUser.id
     ),
   };
 

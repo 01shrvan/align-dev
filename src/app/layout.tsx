@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     siteName: "Align Network",
     locale: "en_US",
   },
-   manifest: "/manifest.webmanifest",
+  manifest: "/manifest.webmanifest",
 }
 
 export default function RootLayout({
@@ -56,7 +56,7 @@ export default function RootLayout({
         <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
         <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster />
-<ServiceWorkerRegistration />
+        <ServiceWorkerRegistration />
       </body>
     </html>
   )
