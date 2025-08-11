@@ -14,7 +14,7 @@ export default function NotFound() {
           to { transform: rotate(360deg); }
         }
         .spin-logo {
-          animation: spin-slow 3s linear infinite;
+          animation: spin-slow 5s linear infinite;
         }
         .number-shadow {
           text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
