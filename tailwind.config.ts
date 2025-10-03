@@ -18,6 +18,10 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        logo: ["var(--font-playfair)"],
+        body: ["var(--font-lato)"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -4,21 +4,21 @@ import "./globals.css"
 import { Toaster } from "sonner"
 import { ServiceWorkerRegistration } from "@/components/service-worker-registration"
 import ReactQueryProvider from "./ReactQueryProvider"
-import { Rubik_Glitch, Spline_Sans_Mono } from "next/font/google"
+import { Playfair_Display, Lato } from "next/font/google"
 import { extractRouterConfig } from "uploadthing/server"
 import { fileRouter } from "./api/uploadthing/core"
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin"
 
-const rubikGlitch = Rubik_Glitch({
-  variable: "--font-logo",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "500", "600", "700"],
 })
 
-const splineSansMono = Spline_Sans_Mono({
-  variable: "--font-body",
+const lato = Lato({
+  variable: "--font-lato",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "700"],
 })
 
 export const metadata: Metadata = {
@@ -52,7 +52,7 @@ export default function RootLayout({
       {/* <head>
         <link rel="icon" href="/favicon.ico" />
       </head> */}
-      <body className={`${rubikGlitch.variable} ${splineSansMono.variable} font-sans antialiased`}>
+      <body className={`${playfair.variable} ${lato.variable} antialiased`}>
         <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
         <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster />
