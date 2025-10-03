@@ -20,7 +20,6 @@ interface MenuBarProps {
 const menuItems = [
   { href: "/", icon: Home, label: "Home", title: "Home" },
   { href: "/notifications", icon: Bell, label: "Notifications", title: "Notifications", isNotifications: true },
-  { href: "/messages", icon: Mail, label: "Messages", title: "Messages" },
   { href: "/bookmarks", icon: Bookmark, label: "Bookmarks", title: "Bookmarks" },
   { href: "/jobs", icon: Briefcase, label: "Jobs", title: "Jobs" },
   { href: "/ava", icon: MessageCircle, label: "Ava", title: "Ava" },
