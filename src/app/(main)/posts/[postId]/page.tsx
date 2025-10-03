@@ -59,16 +59,18 @@ export default async function Page({ params }: PageProps) {
     const post = await getPost(postId, user.id);
 
     return (
-        <main className="flex w-full min-w-0">
-            <div className="w-full min-h-screen space-y-5 border-r border-dashed border-border pr-5 mr-5">
-                <Post post={post} />
-            </div>
-            <div className="sticky top-[5.25rem] hidden h-fit w-80 flex-none lg:block">
-                <Suspense fallback={<Loader2 className="mx-auto animate-spin" />}>
-                    <UserInfoSidebar user={post.user} />
-                </Suspense>
-            </div>
-        </main>
+        <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border">
+            <main className="flex w-full min-w-0 min-h-full">
+                <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5 min-h-full">
+                    <Post post={post} />
+                </div>
+                <div className="sticky top-[5.25rem] hidden h-fit w-80 flex-none lg:block">
+                    <Suspense fallback={<Loader2 className="mx-auto animate-spin" />}>
+                        <UserInfoSidebar user={post.user} />
+                    </Suspense>
+                </div>
+            </main>
+        </div>
     );
 }
 
