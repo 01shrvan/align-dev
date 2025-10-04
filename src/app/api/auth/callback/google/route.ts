@@ -33,7 +33,6 @@ export async function GET(req: NextRequest) {
             storedCodeVerifier,
         );
 
-        // ✅ Call accessToken() as a method, not a property
         const googleUser = await kyInstance
             .get("https://www.googleapis.com/oauth2/v1/userinfo", {
                 headers: {
@@ -56,17 +55,31 @@ export async function GET(req: NextRequest) {
                 sessionCookie.value,
                 sessionCookie.attributes,
             );
+            
+            console.log("Existing user login:", {
+                userId: existingUser.id,
+                isOnboarded: existingUser.isOnboarded,
+                redirectTo: existingUser.isOnboarded ? "/" : "/onboarding"
+            });
+            
+            const redirectUrl = existingUser.isOnboarded ? "/" : "/onboarding";
+            
             return new Response(null, {
                 status: 302,
                 headers: {
-                    Location: "/",
+                    Location: redirectUrl,
                 },
             });
         }
 
         const userId = generateIdFromEntropySize(10);
-
         const username = slugify(googleUser.name) + "-" + userId.slice(0, 4);
+
+        console.log("Creating new user:", {
+            userId,
+            username,
+            isOnboarded: false
+        });
 
         await prisma.$transaction(async (tx) => {
             await tx.user.create({
@@ -75,6 +88,7 @@ export async function GET(req: NextRequest) {
                     username,
                     displayName: googleUser.name,
                     googleId: googleUser.id,
+                    isOnboarded: false,
                 },
             });
             await streamServerClient.upsertUser({
@@ -92,14 +106,16 @@ export async function GET(req: NextRequest) {
             sessionCookie.attributes,
         );
 
+        console.log("Redirecting new user to /onboarding");
+        
         return new Response(null, {
             status: 302,
             headers: {
-                Location: "/",
+                Location: "/onboarding",
             },
         });
     } catch (error) {
-        console.error(error);
+        console.error("OAuth error:", error);
         if (error instanceof OAuth2RequestError) {
             return new Response(null, {
                 status: 400,
