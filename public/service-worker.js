@@ -1,9 +1,7 @@
-// public/service-worker.js
-
 const CACHE_NAME = "align-network-cache-v1"
 const urlsToCache = [
   "/",
-  "/globals.css", // Your global CSS
+  "/globals.css",
   "/assets/logo-white.svg",
   "/assets/logo-black.svg",
   "/assets/opengraph-image.png",
@@ -12,9 +10,6 @@ const urlsToCache = [
   "/icon-512x512.png",
   "/icon-maskable-512x512.png",
   "/favicon.ico",
-  // Add other critical static assets here.
-  // For Next.js dynamic chunks, you might need a more advanced caching strategy
-  // or use a library like Workbox for production PWAs.
 ]
 
 self.addEventListener("install", (event) => {
@@ -31,14 +26,10 @@ self.addEventListener("install", (event) => {
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
-      // Cache hit - return response
       if (response) {
         return response
       }
-      // Fallback to network
       return fetch(event.request).catch(() => {
-        // You can return an offline page here if the network fails
-        // For example: return caches.match('/offline.html');
       })
     }),
   )
