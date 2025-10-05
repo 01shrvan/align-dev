@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { Toaster } from "sonner"
 import { ServiceWorkerRegistration } from "@/components/service-worker-registration"
+import { LoadingProvider } from "@/components/loading-provider"
 import ReactQueryProvider from "./ReactQueryProvider"
 import { Playfair_Display, Lato } from "next/font/google"
 import { extractRouterConfig } from "uploadthing/server"
@@ -49,12 +50,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* <head>
-        <link rel="icon" href="/favicon.ico" />
-      </head> */}
       <body className={`${playfair.variable} ${lato.variable} antialiased`}>
         <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ReactQueryProvider>
+          <LoadingProvider>{children}</LoadingProvider>
+        </ReactQueryProvider>
         <Toaster />
         <ServiceWorkerRegistration />
       </body>
