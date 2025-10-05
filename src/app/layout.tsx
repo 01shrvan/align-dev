@@ -21,7 +21,7 @@ const lato = Lato({
   weight: ["300", "400", "700"],
 })
 
-const siteUrl = "https://align-network.01shrvan.tech"
+const siteUrl = "https://alignxyz.vercel.app"
 const siteTitle = "Align Network"
 const siteDescription =
   "Align Network is an exclusive space for people who want meaningful connections. Share your micro-thoughts, match with like-minded souls."
@@ -34,7 +34,12 @@ export const metadata: Metadata = {
   },
   description: siteDescription,
   icons: { icon: "/assets/logo-white.svg" },
-  keywords: ["social network", "meaningful connections", "micro-thoughts", "like-minded souls"],
+  keywords: [
+    "social network",
+    "meaningful connections",
+    "micro-thoughts",
+    "like-minded souls",
+  ],
   authors: [{ name: "Align Network" }],
   creator: "Align Network",
   publisher: "Align Network",
@@ -52,10 +57,10 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [
       {
-        url: `${siteUrl}/assets/opengraph-image.png`,
+        url: "/assets/opengraph-image.png",
         width: 1200,
         height: 630,
-        alt: "Align Network - Meaningful Connections",
+        alt: "Align Network - Where Thoughts Find Their People",
         type: "image/png",
       },
     ],
@@ -64,7 +69,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: [`${siteUrl}/assets/opengraph-image.png`],
+    images: ["/assets/opengraph-image.png"],
     creator: "@alignnetwork",
   },
   robots: {
@@ -90,9 +95,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${playfair.variable} ${lato.variable} antialiased`}>
         <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
-        <ReactQueryProvider>
-          {children}
-        </ReactQueryProvider>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster />
         <ServiceWorkerRegistration />
       </body>
