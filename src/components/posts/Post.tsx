@@ -8,7 +8,7 @@ import Link from "next/link";
 import PostMoreButton from "./PostMoreButton";
 import Linkify from "../Linkify";
 import UserTooltip from "../UserTooltip";
-import * as AvatarComponent from "@/components/ui/avatar"
+import * as AvatarComponent from "@/components/ui/avatar";
 import { Media } from "@/generated/prisma";
 import LikeButton from "./LikeButton";
 import BookmarkButton from "./BookmarkButton";
@@ -31,7 +31,9 @@ export default function Post({ post }: PostProps) {
           <UserTooltip user={post.user}>
             <Link href={`/users/${post.user.username}`}>
               <AvatarComponent.Avatar>
-                <AvatarComponent.AvatarImage src={post.user.avatarUrl as string} />
+                <AvatarComponent.AvatarImage
+                  src={post.user.avatarUrl as string}
+                />
                 <AvatarComponent.AvatarFallback>
                   {post.user.username[0]}
                 </AvatarComponent.AvatarFallback>

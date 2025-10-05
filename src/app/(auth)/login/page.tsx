@@ -1,20 +1,25 @@
-import logo from "@/assets/logo.svg"
-import type { Metadata } from "next"
-import Image from "next/image"
-import Link from "next/link"
-import LoginForm from "./LoginForm"
-import GoogleSignInButton from "./GoogleSignInButton"
+import logo from "@/assets/logo.svg";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import LoginForm from "./LoginForm";
+import GoogleSignInButton from "./GoogleSignInButton";
 
 export const metadata: Metadata = {
   title: "Login to Align",
-}
+};
 
 export default function Page() {
   return (
     <div className="h-screen text-white flex overflow-hidden">
       <div className="hidden lg:flex lg:w-1/2 items-center justify-center p-12">
         <div className="w-80 h-80">
-          <Image src={logo || "/placeholder.svg"} alt="Login" className="w-full h-full object-contain" priority />
+          <Image
+            src={logo || "/placeholder.svg"}
+            alt="Login"
+            className="w-full h-full object-contain"
+            priority
+          />
         </div>
       </div>
 
@@ -46,7 +51,9 @@ export default function Page() {
             </div>
 
             <div className="space-y-3">
-              <p className="text-base font-medium">Don&apos;t have an account?</p>
+              <p className="text-base font-medium">
+                Don&apos;t have an account?
+              </p>
               <Link
                 href="/signup"
                 className="inline-block px-6 py-2 border border-gray-600 rounded-full text-blue-400 hover:bg-gray-900 transition-colors font-medium text-sm"
@@ -58,5 +65,5 @@ export default function Page() {
         </div>
       </div>
     </div>
-  )
+  );
 }

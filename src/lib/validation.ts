@@ -1,33 +1,29 @@
-  // import { z } from "zod";
+// import { z } from "zod";
 
-  // const requiredString = z.string().trim().min(1, "Required");
+// const requiredString = z.string().trim().min(1, "Required");
 
-  // export const signUpSchema = z.object({
-  //   email: requiredString.email("Invalid email address"),
-  //   username: requiredString.regex(
-  //     /^[a-zA-Z0-9_-]+$/,
-  //     "Only letters, numbers, - and _ allowed",
-  //   ),
-  //   password: requiredString.min(8, "Must be at least 8 characters"),
-  // });
+// export const signUpSchema = z.object({
+//   email: requiredString.email("Invalid email address"),
+//   username: requiredString.regex(
+//     /^[a-zA-Z0-9_-]+$/,
+//     "Only letters, numbers, - and _ allowed",
+//   ),
+//   password: requiredString.min(8, "Must be at least 8 characters"),
+// });
 
-  // export type SignUpValues = z.infer<typeof signUpSchema>;
+// export type SignUpValues = z.infer<typeof signUpSchema>;
 
-  // export const loginSchema = z.object({
-  //   username: requiredString,
-  //   password: requiredString,
-  // });
+// export const loginSchema = z.object({
+//   username: requiredString,
+//   password: requiredString,
+// });
 
-  // export type LoginValues = z.infer<typeof loginSchema>;
+// export type LoginValues = z.infer<typeof loginSchema>;
 
+// export const createPostSchema = z.object({
+//   content: requiredString,
+// });
 
-  // export const createPostSchema = z.object({
-  //   content: requiredString,
-  // });
-
-
-
-  
 import { z } from "zod";
 
 const requiredString = z.string().trim().min(1, "Required");
@@ -44,7 +40,7 @@ export const signUpSchema = z.object({
     .min(8, "Must be at least 8 characters")
     .regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      "Must contain at least one lowercase letter, one uppercase letter, and one number"
+      "Must contain at least one lowercase letter, one uppercase letter, and one number",
     ),
 });
 
@@ -87,7 +83,6 @@ export const createPostSchema = z.object({
 });
 
 export type CreatePostValues = z.infer<typeof createPostSchema>;
-
 
 export const updateUserProfileSchema = z.object({
   displayName: requiredString,

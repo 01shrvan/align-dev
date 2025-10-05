@@ -19,9 +19,9 @@ export async function PATCH() {
       },
     });
 
-    return Response.json({ 
-      success: true, 
-      updatedCount: result.count 
+    return Response.json({
+      success: true,
+      updatedCount: result.count,
     });
   } catch (error) {
     console.error("Error marking notifications as read:", error);

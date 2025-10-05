@@ -7,7 +7,10 @@ export default function GoogleSignInButton() {
       className="w-full h-12 px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-800 shadow-sm hover:bg-slate-50 hover:shadow-md transition-all duration-200 ease-in-out"
       asChild
     >
-      <a href="/login/google" className="flex items-center justify-center gap-3">
+      <a
+        href="/login/google"
+        className="flex items-center justify-center gap-3"
+      >
         <GoogleIcon />
         <span className="text-sm font-medium">Continue with Google</span>
       </a>

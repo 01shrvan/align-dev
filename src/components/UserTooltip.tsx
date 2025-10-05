@@ -13,7 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
-import * as AvatarComponent from "@/components/ui/avatar"
+import * as AvatarComponent from "@/components/ui/avatar";
 
 interface UserTooltipProps extends PropsWithChildren {
   user: UserData;

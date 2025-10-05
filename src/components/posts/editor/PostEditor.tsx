@@ -1,23 +1,23 @@
-"use client"
-import { useSession } from "@/app/(main)/SessionProvider"
-import LoadingButton from "@/components/LoadingButton"
-import * as AvatarComponent from "@/components/ui/avatar"
-import Placeholder from "@tiptap/extension-placeholder"
-import { EditorContent, useEditor } from "@tiptap/react"
-import StarterKit from "@tiptap/starter-kit"
-import { useDropzone } from "@uploadthing/react"
-import { useSubmitPostMutation } from "./mutations"
-import "./styles.css"
-import { ImageIcon, Loader2, X } from "lucide-react"
-import Image from "next/image"
-import { cn } from "@/lib/utils"
-import useMediaUpload, { type Attachment } from "./useMediaUpload"
-import { Button } from "@/components/ui/button"
-import { type ClipboardEvent, useRef } from "react"
+"use client";
+import { useSession } from "@/app/(main)/SessionProvider";
+import LoadingButton from "@/components/LoadingButton";
+import * as AvatarComponent from "@/components/ui/avatar";
+import Placeholder from "@tiptap/extension-placeholder";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { useDropzone } from "@uploadthing/react";
+import { useSubmitPostMutation } from "./mutations";
+import "./styles.css";
+import { ImageIcon, Loader2, X } from "lucide-react";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
+import useMediaUpload, { type Attachment } from "./useMediaUpload";
+import { Button } from "@/components/ui/button";
+import { type ClipboardEvent, useRef } from "react";
 
 export default function PostEditor() {
-  const { user } = useSession()
-  const mutation = useSubmitPostMutation()
+  const { user } = useSession();
+  const mutation = useSubmitPostMutation();
 
   const {
     startUpload,
@@ -26,13 +26,13 @@ export default function PostEditor() {
     uploadProgress,
     removeAttachment,
     reset: resetMediaUploads,
-  } = useMediaUpload()
+  } = useMediaUpload();
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: startUpload,
-  })
+  });
 
-  const { onClick, ...rootProps } = getRootProps()
+  const { onClick, ...rootProps } = getRootProps();
 
   const editor = useEditor({
     extensions: [
@@ -45,12 +45,12 @@ export default function PostEditor() {
       }),
     ],
     immediatelyRender: false,
-  })
+  });
 
   const input =
     editor?.getText({
       blockSeparator: "\n",
-    }) || ""
+    }) || "";
 
   function onSubmit() {
     mutation.mutate(
@@ -60,18 +60,18 @@ export default function PostEditor() {
       },
       {
         onSuccess: () => {
-          editor?.commands.clearContent()
-          resetMediaUploads()
+          editor?.commands.clearContent();
+          resetMediaUploads();
         },
       },
-    )
+    );
   }
 
   function onPaste(e: ClipboardEvent<HTMLInputElement>) {
     const files = Array.from(e.clipboardData.items)
       .filter((item) => item.kind === "file")
-      .map((item) => item.getAsFile()) as File[]
-    startUpload(files)
+      .map((item) => item.getAsFile()) as File[];
+    startUpload(files);
   }
 
   return (
@@ -79,7 +79,9 @@ export default function PostEditor() {
       <div className="flex gap-5">
         <AvatarComponent.Avatar>
           <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
-          <AvatarComponent.AvatarFallback>{user.username[0]}</AvatarComponent.AvatarFallback>
+          <AvatarComponent.AvatarFallback>
+            {user.username[0]}
+          </AvatarComponent.AvatarFallback>
         </AvatarComponent.Avatar>
         <div {...rootProps} className="w-full">
           <EditorContent
@@ -93,7 +95,12 @@ export default function PostEditor() {
           <input {...getInputProps()} />
         </div>
       </div>
-      {!!attachments.length && <AttachmentPreviews attachments={attachments} removeAttachment={removeAttachment} />}
+      {!!attachments.length && (
+        <AttachmentPreviews
+          attachments={attachments}
+          removeAttachment={removeAttachment}
+        />
+      )}
       <div className="flex items-center justify-end gap-3">
         {isUploading && (
           <>
@@ -101,7 +108,10 @@ export default function PostEditor() {
             <Loader2 className="size-5 animate-spin text-primary" />
           </>
         )}
-        <AddAttachmentsButton onFilesSelected={startUpload} disabled={isUploading || attachments.length >= 5} />
+        <AddAttachmentsButton
+          onFilesSelected={startUpload}
+          disabled={isUploading || attachments.length >= 5}
+        />
         <LoadingButton
           onClick={onSubmit}
           loading={mutation.isPending}
@@ -112,16 +122,19 @@ export default function PostEditor() {
         </LoadingButton>
       </div>
     </div>
-  )
+  );
 }
 
 interface AddAttachmentsButtonProps {
-  onFilesSelected: (files: File[]) => void
-  disabled: boolean
+  onFilesSelected: (files: File[]) => void;
+  disabled: boolean;
 }
 
-function AddAttachmentsButton({ onFilesSelected, disabled }: AddAttachmentsButtonProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null)
+function AddAttachmentsButton({
+  onFilesSelected,
+  disabled,
+}: AddAttachmentsButtonProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <>
@@ -141,25 +154,33 @@ function AddAttachmentsButton({ onFilesSelected, disabled }: AddAttachmentsButto
         ref={fileInputRef}
         className="sr-only hidden"
         onChange={(e) => {
-          const files = Array.from(e.target.files || [])
+          const files = Array.from(e.target.files || []);
           if (files.length) {
-            onFilesSelected(files)
-            e.target.value = ""
+            onFilesSelected(files);
+            e.target.value = "";
           }
         }}
       />
     </>
-  )
+  );
 }
 
 interface AttachmentPreviewsProps {
-  attachments: Attachment[]
-  removeAttachment: (fileName: string) => void
+  attachments: Attachment[];
+  removeAttachment: (fileName: string) => void;
 }
 
-function AttachmentPreviews({ attachments, removeAttachment }: AttachmentPreviewsProps) {
+function AttachmentPreviews({
+  attachments,
+  removeAttachment,
+}: AttachmentPreviewsProps) {
   return (
-    <div className={cn("flex flex-col gap-3", attachments.length > 1 && "sm:grid sm:grid-cols-2")}>
+    <div
+      className={cn(
+        "flex flex-col gap-3",
+        attachments.length > 1 && "sm:grid sm:grid-cols-2",
+      )}
+    >
       {attachments.map((attachment) => (
         <AttachmentPreview
           key={attachment.file.name}
@@ -168,19 +189,24 @@ function AttachmentPreviews({ attachments, removeAttachment }: AttachmentPreview
         />
       ))}
     </div>
-  )
+  );
 }
 
 interface AttachmentPreviewProps {
-  attachment: Attachment
-  onRemoveClick: () => void
+  attachment: Attachment;
+  onRemoveClick: () => void;
 }
 
-function AttachmentPreview({ attachment: { file, isUploading }, onRemoveClick }: AttachmentPreviewProps) {
-  const src = URL.createObjectURL(file)
+function AttachmentPreview({
+  attachment: { file, isUploading },
+  onRemoveClick,
+}: AttachmentPreviewProps) {
+  const src = URL.createObjectURL(file);
 
   return (
-    <div className={cn("relative mx-auto size-fit", isUploading && "opacity-50")}>
+    <div
+      className={cn("relative mx-auto size-fit", isUploading && "opacity-50")}
+    >
       {file.type.startsWith("image") ? (
         <Image
           src={src || "/placeholder.svg"}
@@ -203,5 +229,5 @@ function AttachmentPreview({ attachment: { file, isUploading }, onRemoveClick }:
         </button>
       )}
     </div>
-  )
+  );
 }

@@ -43,14 +43,15 @@ interface DatabaseUserAttributes {
 export const google = new Google(
   process.env.GOOGLE_CLIENT_ID!,
   process.env.GOOGLE_CLIENT_SECRET!,
-  `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/callback/google`
+  `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/callback/google`,
 );
 
 export const validateRequest = cache(
   async (): Promise<
     { user: User; session: Session } | { user: null; session: null }
   > => {
-    const sessionId = (await cookies()).get(lucia.sessionCookieName)?.value ?? null;
+    const sessionId =
+      (await cookies()).get(lucia.sessionCookieName)?.value ?? null;
 
     if (!sessionId) {
       return {
@@ -78,7 +79,7 @@ export const validateRequest = cache(
           sessionCookie.attributes,
         );
       }
-    } catch { }
+    } catch {}
 
     return result;
   },

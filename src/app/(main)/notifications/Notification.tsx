@@ -1,16 +1,19 @@
-import * as AvatarComponent from "@/components/ui/avatar"
-import type { NotificationType } from "@/generated/prisma"
-import type { NotificationData } from "@/lib/types"
-import { cn } from "@/lib/utils"
-import { Heart, MessageCircle, User2 } from "lucide-react"
-import Link from "next/link"
+import * as AvatarComponent from "@/components/ui/avatar";
+import type { NotificationType } from "@/generated/prisma";
+import type { NotificationData } from "@/lib/types";
+import { cn } from "@/lib/utils";
+import { Heart, MessageCircle, User2 } from "lucide-react";
+import Link from "next/link";
 
 interface NotificationProps {
-  notification: NotificationData
+  notification: NotificationData;
 }
 
 export default function Notification({ notification }: NotificationProps) {
-  const notificationTypeMap: Record<NotificationType, { message: string; icon: JSX.Element; href: string }> = {
+  const notificationTypeMap: Record<
+    NotificationType,
+    { message: string; icon: JSX.Element; href: string }
+  > = {
     FOLLOW: {
       message: `${notification.issuer.displayName} followed you`,
       icon: <User2 className="size-7 text-primary" />,
@@ -26,9 +29,9 @@ export default function Notification({ notification }: NotificationProps) {
       icon: <Heart className="size-7 fill-red-500 text-red-500" />,
       href: `/posts/${notification.postId}`,
     },
-  }
+  };
 
-  const { message, icon, href } = notificationTypeMap[notification.type]
+  const { message, icon, href } = notificationTypeMap[notification.type];
 
   return (
     <Link href={href} className="block">
@@ -40,20 +43,26 @@ export default function Notification({ notification }: NotificationProps) {
       >
         <div className="flex-shrink-0 pt-0.5">{icon}</div>
         <AvatarComponent.Avatar className="size-8 flex-shrink-0">
-          <AvatarComponent.AvatarImage src={notification.issuer.avatarUrl || ""} />
+          <AvatarComponent.AvatarImage
+            src={notification.issuer.avatarUrl || ""}
+          />
           <AvatarComponent.AvatarFallback>
-            {notification.issuer.displayName[0] || notification.issuer.username[0]}
+            {notification.issuer.displayName[0] ||
+              notification.issuer.username[0]}
           </AvatarComponent.AvatarFallback>
         </AvatarComponent.Avatar>
         <div className="flex-1 space-y-1">
           <div>
-            <span className="font-bold">{notification.issuer.displayName}</span> <span>{message}</span>
+            <span className="font-bold">{notification.issuer.displayName}</span>{" "}
+            <span>{message}</span>
           </div>
           {notification.post && (
-            <div className="line-clamp-3 whitespace-pre-line text-muted-foreground">{notification.post.content}</div>
+            <div className="line-clamp-3 whitespace-pre-line text-muted-foreground">
+              {notification.post.content}
+            </div>
           )}
         </div>
       </article>
     </Link>
-  )
+  );
 }

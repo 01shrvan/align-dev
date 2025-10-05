@@ -8,121 +8,124 @@ import { getPostDataInclude, UserData } from "@/lib/types";
 import { Loader2 } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import * as AvatarComponent from "@/components/ui/avatar"
+import * as AvatarComponent from "@/components/ui/avatar";
 import { notFound } from "next/navigation";
 import { cache, Suspense } from "react";
 
 interface PageProps {
-    params: Promise<{ postId: string }>;
+  params: Promise<{ postId: string }>;
 }
 
 const getPost = cache(async (postId: string, loggedInUserId: string) => {
-    const post = await prisma.post.findUnique({
-        where: {
-            id: postId,
-        },
-        include: getPostDataInclude(loggedInUserId),
-    });
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+    include: getPostDataInclude(loggedInUserId),
+  });
 
-    if (!post) notFound();
+  if (!post) notFound();
 
-    return post;
+  return post;
 });
 
 export async function generateMetadata({
-    params,
+  params,
 }: PageProps): Promise<Metadata> {
-    const { postId } = await params;
-    const { user } = await validateRequest();
+  const { postId } = await params;
+  const { user } = await validateRequest();
 
-    if (!user) return {};
+  if (!user) return {};
 
-    const post = await getPost(postId, user.id);
+  const post = await getPost(postId, user.id);
 
-    return {
-        title: `${post.user.displayName}: ${post.content.slice(0, 50)}...`,
-    };
+  return {
+    title: `${post.user.displayName}: ${post.content.slice(0, 50)}...`,
+  };
 }
 
 export default async function Page({ params }: PageProps) {
-    const { postId } = await params;
-    const { user } = await validateRequest();
+  const { postId } = await params;
+  const { user } = await validateRequest();
 
-    if (!user) {
-        return (
-            <p className="text-destructive">
-                You&apos;re not authorized to view this page.
-            </p>
-        );
-    }
-
-    const post = await getPost(postId, user.id);
-
+  if (!user) {
     return (
-        <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border">
-            <main className="flex w-full min-w-0 min-h-full">
-                <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5 min-h-full">
-                    <Post post={post} />
-                </div>
-                <div className="sticky top-[5.25rem] hidden h-fit w-80 flex-none lg:block">
-                    <Suspense fallback={<Loader2 className="mx-auto animate-spin" />}>
-                        <UserInfoSidebar user={post.user} />
-                    </Suspense>
-                </div>
-            </main>
-        </div>
+      <p className="text-destructive">
+        You&apos;re not authorized to view this page.
+      </p>
     );
+  }
+
+  const post = await getPost(postId, user.id);
+
+  return (
+    <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border">
+      <main className="flex w-full min-w-0 min-h-full">
+        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5 min-h-full">
+          <Post post={post} />
+        </div>
+        <div className="sticky top-[5.25rem] hidden h-fit w-80 flex-none lg:block">
+          <Suspense fallback={<Loader2 className="mx-auto animate-spin" />}>
+            <UserInfoSidebar user={post.user} />
+          </Suspense>
+        </div>
+      </main>
+    </div>
+  );
 }
 
 interface UserInfoSidebarProps {
-    user: UserData;
+  user: UserData;
 }
 
 async function UserInfoSidebar({ user }: UserInfoSidebarProps) {
-    const { user: loggedInUser } = await validateRequest();
+  const { user: loggedInUser } = await validateRequest();
 
-    if (!loggedInUser) return null;
+  if (!loggedInUser) return null;
 
-    return (
-        <div className="space-y-5 rounded-2xl bg-card p-5 shadow-sm">
-            <div className="text-xl font-bold">About this user</div>
-            <UserTooltip user={user}>
-                <Link
-                    href={`/users/${user.username}`}
-                    className="flex items-center gap-3"
-                >
-                    <AvatarComponent.Avatar>
-                        <AvatarComponent.AvatarImage src={user.avatarUrl as string} className='flex-none' />
-                        <AvatarComponent.AvatarFallback>
-                            {user.username[0]}
-                        </AvatarComponent.AvatarFallback>
-                    </AvatarComponent.Avatar>
-                    <div>
-                        <p className="line-clamp-1 break-all font-semibold hover:underline">
-                            {user.displayName}
-                        </p>
-                        <p className="line-clamp-1 break-all text-muted-foreground">
-                            @{user.username}
-                        </p>
-                    </div>
-                </Link>
-            </UserTooltip>
-            <Linkify>
-                <div className="line-clamp-6 whitespace-pre-line break-words text-muted-foreground">
-                    {user.bio}
-                </div>
-            </Linkify>
-            {user.id !== loggedInUser.id && (
-                <FollowButton
-                    userId={user.id}
-                    initialState={{
-                        followers: user._count.followers,
-                        isFollowedByUser: user.followers.some(
-                            ({ followerId }) => followerId === loggedInUser.id,
-                        ),
-                    }}
-                />
-            )}
+  return (
+    <div className="space-y-5 rounded-2xl bg-card p-5 shadow-sm">
+      <div className="text-xl font-bold">About this user</div>
+      <UserTooltip user={user}>
+        <Link
+          href={`/users/${user.username}`}
+          className="flex items-center gap-3"
+        >
+          <AvatarComponent.Avatar>
+            <AvatarComponent.AvatarImage
+              src={user.avatarUrl as string}
+              className="flex-none"
+            />
+            <AvatarComponent.AvatarFallback>
+              {user.username[0]}
+            </AvatarComponent.AvatarFallback>
+          </AvatarComponent.Avatar>
+          <div>
+            <p className="line-clamp-1 break-all font-semibold hover:underline">
+              {user.displayName}
+            </p>
+            <p className="line-clamp-1 break-all text-muted-foreground">
+              @{user.username}
+            </p>
+          </div>
+        </Link>
+      </UserTooltip>
+      <Linkify>
+        <div className="line-clamp-6 whitespace-pre-line break-words text-muted-foreground">
+          {user.bio}
         </div>
-    );
+      </Linkify>
+      {user.id !== loggedInUser.id && (
+        <FollowButton
+          userId={user.id}
+          initialState={{
+            followers: user._count.followers,
+            isFollowedByUser: user.followers.some(
+              ({ followerId }) => followerId === loggedInUser.id,
+            ),
+          }}
+        />
+      )}
+    </div>
+  );
 }

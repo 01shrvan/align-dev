@@ -2,7 +2,8 @@ import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 
-interface LoadingButtonProps extends React.ComponentPropsWithoutRef<typeof Button> {
+interface LoadingButtonProps
+  extends React.ComponentPropsWithoutRef<typeof Button> {
   loading: boolean;
 }
 

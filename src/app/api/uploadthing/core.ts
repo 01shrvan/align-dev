@@ -52,7 +52,6 @@
 
 // export type AppFileRouter = typeof fileRouter;
 
-
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { createUploadthing, FileRouter } from "uploadthing/next";

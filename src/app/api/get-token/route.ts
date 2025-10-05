@@ -8,7 +8,7 @@ export async function GET() {
     console.log("Callling get-token for user: ", user?.id);
 
     if (!user) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 })
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const expirationTime = Math.floor(Date.now() / 1000) + 60 * 60;
@@ -18,12 +18,12 @@ export async function GET() {
     const token = streamServerClient.createToken(
       user.id,
       expirationTime,
-      issuedAt
-    )
+      issuedAt,
+    );
 
-    return Response.json({ token })
+    return Response.json({ token });
   } catch (error) {
     console.error(error);
-    return Response.json({ error: "Internal server error" }, { status: 500 })
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 }

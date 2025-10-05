@@ -11,7 +11,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between px-4 py-3">
           <Link
             href="/"
-            className="flex items-center gap-2 text-3xl font-logo text-primary tracking-widest"
+            className="flex font-serif items-center gap-2 text-3xl font-logo text-primary tracking-widest"
           >
             <Image src={logo} alt="Align Network Logo" className="h-8 w-8" />
             Align Network

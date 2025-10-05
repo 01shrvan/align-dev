@@ -10,65 +10,121 @@ const INTEREST_CATEGORIES = [
   {
     title: "Content & Digital Arts",
     interests: [
-      "Content Creation", "Video Editing", "Photography", "Graphic Design",
-      "Animation", "Digital Art", "UI/UX Design", "Illustration",
-      "3D Modeling", "Music Production", "Film Making", "Podcasting"
-    ]
+      "Content Creation",
+      "Video Editing",
+      "Photography",
+      "Graphic Design",
+      "Animation",
+      "Digital Art",
+      "UI/UX Design",
+      "Illustration",
+      "3D Modeling",
+      "Music Production",
+      "Film Making",
+      "Podcasting",
+    ],
   },
   {
     title: "Tech & Development",
     interests: [
-      "Web Development", "App Development", "AI/ML", "Cryptocurrency",
-      "NFTs", "Coding", "Game Development", "Tech Reviews",
-      "Startups", "Cybersecurity", "Data Science", "Robotics"
-    ]
+      "Web Development",
+      "App Development",
+      "AI/ML",
+      "Cryptocurrency",
+      "NFTs",
+      "Coding",
+      "Game Development",
+      "Tech Reviews",
+      "Startups",
+      "Cybersecurity",
+      "Data Science",
+      "Robotics",
+    ],
   },
   {
     title: "Entertainment & Pop Culture",
     interests: [
-      "Anime", "K-Pop", "Gaming", "Streaming", "Memes",
-      "TikTok Trends", "Stand-up Comedy", "Reality TV", "Manga",
-      "Cosplay", "Fan Fiction", "Pop Culture Commentary"
-    ]
+      "Anime",
+      "K-Pop",
+      "Gaming",
+      "Streaming",
+      "Memes",
+      "TikTok Trends",
+      "Stand-up Comedy",
+      "Reality TV",
+      "Manga",
+      "Cosplay",
+      "Fan Fiction",
+      "Pop Culture Commentary",
+    ],
   },
   {
     title: "Lifestyle & Wellness",
     interests: [
-      "Fitness", "Mental Health", "Skincare", "Fashion", "Thrifting",
-      "Plant Care", "Cooking", "Baking", "Minimalism",
-      "Sustainability", "Self-Care", "Aesthetic Living"
-    ]
+      "Fitness",
+      "Mental Health",
+      "Skincare",
+      "Fashion",
+      "Thrifting",
+      "Plant Care",
+      "Cooking",
+      "Baking",
+      "Minimalism",
+      "Sustainability",
+      "Self-Care",
+      "Aesthetic Living",
+    ],
   },
   {
     title: "Social & Community",
     interests: [
-      "Social Justice", "Environmental Issues", "LGBTQ+", "Diversity & Inclusion",
-      "Online Communities", "Discord Servers", "Reddit Culture", "Twitter Spaces",
-      "Activism", "Volunteer Work", "Community Building", "Cultural Commentary"
-    ]
+      "Social Justice",
+      "Environmental Issues",
+      "LGBTQ+",
+      "Diversity & Inclusion",
+      "Online Communities",
+      "Discord Servers",
+      "Reddit Culture",
+      "Twitter Spaces",
+      "Activism",
+      "Volunteer Work",
+      "Community Building",
+      "Cultural Commentary",
+    ],
   },
   {
     title: "Creative & Learning",
     interests: [
-      "Creative Writing", "Poetry", "Music", "Language Learning",
-      "Philosophy", "Psychology", "Book Reviews", "Educational Content",
-      "DIY Crafts", "Jewelry Making", "Vintage Collecting", "Journaling"
-    ]
-  }
+      "Creative Writing",
+      "Poetry",
+      "Music",
+      "Language Learning",
+      "Philosophy",
+      "Psychology",
+      "Book Reviews",
+      "Educational Content",
+      "DIY Crafts",
+      "Jewelry Making",
+      "Vintage Collecting",
+      "Journaling",
+    ],
+  },
 ];
 
 export default function Step2Interests() {
   const { userData, updateUserData, nextStep, prevStep } = useOnboardingStore();
   const [selectedInterests, setSelectedInterests] = useState<string[]>(
-    userData.interests || []
+    userData.interests || [],
   );
   const [currentCategory, setCurrentCategory] = useState(0);
 
   const toggleInterest = (interest: string) => {
-    setSelectedInterests(prev =>
+    setSelectedInterests((prev) =>
       prev.includes(interest)
-        ? prev.filter(i => i !== interest)
-        : prev.length < 5 ? [...prev, interest] : prev
+        ? prev.filter((i) => i !== interest)
+        : prev.length < 5
+          ? [...prev, interest]
+          : prev,
     );
   };
 
@@ -80,11 +136,14 @@ export default function Step2Interests() {
   };
 
   const nextCategory = () => {
-    setCurrentCategory(prev => (prev + 1) % INTEREST_CATEGORIES.length);
+    setCurrentCategory((prev) => (prev + 1) % INTEREST_CATEGORIES.length);
   };
 
   const prevCategory = () => {
-    setCurrentCategory(prev => (prev - 1 + INTEREST_CATEGORIES.length) % INTEREST_CATEGORIES.length);
+    setCurrentCategory(
+      (prev) =>
+        (prev - 1 + INTEREST_CATEGORIES.length) % INTEREST_CATEGORIES.length,
+    );
   };
 
   const currentCategoryData = INTEREST_CATEGORIES[currentCategory];
@@ -109,9 +168,11 @@ export default function Step2Interests() {
             <ChevronLeft className="w-4 h-4" />
             Prev
           </Button>
-          
+
           <div className="text-center">
-            <h3 className="font-semibold text-lg">{currentCategoryData.title}</h3>
+            <h3 className="font-semibold text-lg">
+              {currentCategoryData.title}
+            </h3>
             <div className="flex gap-1 mt-2 justify-center">
               {INTEREST_CATEGORIES.map((_, index) => (
                 <button
@@ -121,13 +182,13 @@ export default function Step2Interests() {
                     "w-2 h-2 rounded-full transition-all",
                     index === currentCategory
                       ? "bg-primary w-6"
-                      : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                      : "bg-muted-foreground/30 hover:bg-muted-foreground/50",
                   )}
                 />
               ))}
             </div>
           </div>
-          
+
           <Button
             onClick={nextCategory}
             variant="ghost"
@@ -149,10 +210,11 @@ export default function Step2Interests() {
                   "p-3 rounded-lg border text-sm font-medium transition-all hover:scale-[1.02] duration-200 h-12 flex items-center justify-center",
                   selectedInterests.includes(interest)
                     ? "bg-primary text-primary-foreground border-primary shadow-md ring-2 ring-primary/20"
-                    : "bg-card hover:bg-accent/50 border-border hover:border-accent-foreground/50 hover:shadow-sm text-foreground hover:text-foreground"
+                    : "bg-card hover:bg-accent/50 border-border hover:border-accent-foreground/50 hover:shadow-sm text-foreground hover:text-foreground",
                 )}
                 disabled={
-                  !selectedInterests.includes(interest) && selectedInterests.length >= 5
+                  !selectedInterests.includes(interest) &&
+                  selectedInterests.length >= 5
                 }
               >
                 {interest}
@@ -183,14 +245,10 @@ export default function Step2Interests() {
       </div>
 
       <div className="flex gap-3">
-        <Button 
-          onClick={prevStep}
-          variant="outline"
-          className="flex-1 h-12"
-        >
+        <Button onClick={prevStep} variant="outline" className="flex-1 h-12">
           Back
         </Button>
-        <Button 
+        <Button
           onClick={handleNext}
           className="flex-1 h-12"
           disabled={selectedInterests.length < 3}

@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import { logout } from "@/app/(auth)/actions"
-import { useSession } from "@/app/(main)/SessionProvider"
-import { cn } from "@/lib/utils"
-import { 
-  UserIcon, 
-  Bell, 
-  Bookmark, 
-  Home, 
-  Mail, 
-  Briefcase, 
-  MessageCircle, 
-  LogOutIcon
-} from "lucide-react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { logout } from "@/app/(auth)/actions";
+import { useSession } from "@/app/(main)/SessionProvider";
+import { cn } from "@/lib/utils";
+import {
+  UserIcon,
+  Bell,
+  Bookmark,
+  Home,
+  Mail,
+  Briefcase,
+  MessageCircle,
+  LogOutIcon,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,61 +22,81 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu"
-import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "./ui/drawer"
-import * as AvatarComponent from "@/components/ui/avatar"
-import { useQueryClient } from "@tanstack/react-query"
-import { useState, useEffect } from "react"
+} from "./ui/dropdown-menu";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "./ui/drawer";
+import * as AvatarComponent from "@/components/ui/avatar";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 
 interface UserButtonProps {
-  className?: string
-  unreadNotificationCount?: number
+  className?: string;
+  unreadNotificationCount?: number;
 }
 
 const menuItems = [
   { href: "/", icon: Home, label: "Home", title: "Home" },
-  { href: "/notifications", icon: Bell, label: "Notifications", title: "Notifications" },
+  {
+    href: "/notifications",
+    icon: Bell,
+    label: "Notifications",
+    title: "Notifications",
+  },
   { href: "/messages", icon: Mail, label: "Messages", title: "Messages" },
-  { href: "/bookmarks", icon: Bookmark, label: "Bookmarks", title: "Bookmarks" },
+  {
+    href: "/bookmarks",
+    icon: Bookmark,
+    label: "Bookmarks",
+    title: "Bookmarks",
+  },
   { href: "/jobs", icon: Briefcase, label: "Jobs", title: "Jobs" },
   { href: "/ava", icon: MessageCircle, label: "Ava", title: "Ava" },
-]
+];
 
-export default function UserButton({ className, unreadNotificationCount = 0 }: UserButtonProps) {
-  const { user } = useSession()
-  const queryClient = useQueryClient()
-  const pathname = usePathname()
-  const [isMobile, setIsMobile] = useState(false)
+export default function UserButton({
+  className,
+  unreadNotificationCount = 0,
+}: UserButtonProps) {
+  const { user } = useSession();
+  const queryClient = useQueryClient();
+  const pathname = usePathname();
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768) // md breakpoint
-    }
-    
-    checkIsMobile()
-    window.addEventListener('resize', checkIsMobile)
-    return () => window.removeEventListener('resize', checkIsMobile)
-  }, [])
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
 
   const handleLogout = () => {
-    queryClient.clear()
-    logout()
-  }
+    queryClient.clear();
+    logout();
+  };
 
   // Desktop/Tablet Dropdown Menu (md and up)
   const DropdownVersion = () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button 
+        <button
           className={cn(
             "flex-none rounded-full transition-all duration-200 hover:ring-2 hover:ring-primary/20 hover:ring-offset-2",
-            className
+            className,
           )}
         >
           <div className="relative">
             <AvatarComponent.Avatar className="h-8 w-8 md:h-9 md:w-9">
-              <AvatarComponent.AvatarImage 
-                src={(user.avatarUrl as string) || "/placeholder.svg"} 
+              <AvatarComponent.AvatarImage
+                src={(user.avatarUrl as string) || "/placeholder.svg"}
                 alt={`${user.username}'s avatar`}
               />
               <AvatarComponent.AvatarFallback className="text-xs font-semibold">
@@ -86,7 +106,7 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
             {unreadNotificationCount > 0 && (
               <div className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 rounded-full flex items-center justify-center">
                 <span className="text-white text-xs font-bold">
-                  {unreadNotificationCount > 9 ? '9+' : unreadNotificationCount}
+                  {unreadNotificationCount > 9 ? "9+" : unreadNotificationCount}
                 </span>
               </div>
             )}
@@ -97,7 +117,7 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
         <DropdownMenuLabel className="px-3 py-2">
           <div className="flex items-center gap-3">
             <AvatarComponent.Avatar className="h-10 w-10">
-              <AvatarComponent.AvatarImage 
+              <AvatarComponent.AvatarImage
                 src={(user.avatarUrl as string) || "/placeholder.svg"}
                 alt={`${user.username}'s avatar`}
               />
@@ -111,9 +131,9 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
             </div>
           </div>
         </DropdownMenuLabel>
-        
+
         <DropdownMenuSeparator />
-        
+
         {/* Profile */}
         <Link href={`/users/${user.username}`}>
           <DropdownMenuItem className="px-3 py-2.5 cursor-pointer">
@@ -123,8 +143,8 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
         </Link>
 
         <DropdownMenuSeparator />
-        
-        <DropdownMenuItem 
+
+        <DropdownMenuItem
           className="px-3 py-2.5 cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
           onClick={handleLogout}
         >
@@ -133,7 +153,7 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 
   // Mobile Drawer (below md)
   const DrawerVersion = () => (
@@ -142,7 +162,7 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
         <button className={cn("flex-none rounded-full", className)}>
           <div className="relative">
             <AvatarComponent.Avatar className="h-8 w-8">
-              <AvatarComponent.AvatarImage 
+              <AvatarComponent.AvatarImage
                 src={(user.avatarUrl as string) || "/placeholder.svg"}
                 alt={`${user.username}'s avatar`}
               />
@@ -153,7 +173,7 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
             {unreadNotificationCount > 0 && (
               <div className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 rounded-full flex items-center justify-center">
                 <span className="text-white text-xs font-bold">
-                  {unreadNotificationCount > 9 ? '9+' : unreadNotificationCount}
+                  {unreadNotificationCount > 9 ? "9+" : unreadNotificationCount}
                 </span>
               </div>
             )}
@@ -164,7 +184,7 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
         <DrawerHeader className="text-left pb-3 px-4 sm:px-6 border-b border-border">
           <DrawerTitle className="flex items-center gap-3 sm:gap-4">
             <AvatarComponent.Avatar className="h-12 w-12 sm:h-14 sm:w-14">
-              <AvatarComponent.AvatarImage 
+              <AvatarComponent.AvatarImage
                 src={(user.avatarUrl as string) || "/placeholder.svg"}
                 alt={`${user.username}'s avatar`}
               />
@@ -173,8 +193,12 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
               </AvatarComponent.AvatarFallback>
             </AvatarComponent.Avatar>
             <div className="flex flex-col min-w-0">
-              <p className="font-semibold text-lg sm:text-xl leading-none truncate">@{user.username}</p>
-              <p className="text-sm sm:text-base text-muted-foreground mt-1">Logged in</p>
+              <p className="font-semibold text-lg sm:text-xl leading-none truncate">
+                @{user.username}
+              </p>
+              <p className="text-sm sm:text-base text-muted-foreground mt-1">
+                Logged in
+              </p>
             </div>
           </DrawerTitle>
         </DrawerHeader>
@@ -182,10 +206,15 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
         <div className="px-4 sm:px-6 pb-4 sm:pb-6 overflow-y-auto">
           {/* Main Navigation */}
           <div className="space-y-1 mb-6">
-            <h3 className="text-xs sm:text-sm font-medium text-muted-foreground px-3 py-2">Navigation</h3>
+            <h3 className="text-xs sm:text-sm font-medium text-muted-foreground px-3 py-2">
+              Navigation
+            </h3>
             {menuItems.map((item) => {
-              const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href)
-              const IconComponent = item.icon
+              const isActive =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(item.href);
+              const IconComponent = item.icon;
 
               return (
                 <DrawerClose key={item.href} asChild>
@@ -202,18 +231,21 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
                       size={20}
                       className={cn(
                         "shrink-0 sm:w-6 sm:h-6",
-                        isActive ? "text-primary" : "text-muted-foreground"
+                        isActive ? "text-primary" : "text-muted-foreground",
                       )}
                     />
                     <span className="flex-1">{item.label}</span>
-                    {item.href === "/notifications" && unreadNotificationCount > 0 && (
-                      <span className="bg-red-500 text-white text-xs px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-full min-w-[24px] sm:min-w-[28px] text-center font-bold">
-                        {unreadNotificationCount > 99 ? "99+" : unreadNotificationCount}
-                      </span>
-                    )}
+                    {item.href === "/notifications" &&
+                      unreadNotificationCount > 0 && (
+                        <span className="bg-red-500 text-white text-xs px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-full min-w-[24px] sm:min-w-[28px] text-center font-bold">
+                          {unreadNotificationCount > 99
+                            ? "99+"
+                            : unreadNotificationCount}
+                        </span>
+                      )}
                   </Link>
                 </DrawerClose>
-              )
+              );
             })}
           </div>
 
@@ -221,8 +253,10 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
 
           {/* Account Actions */}
           <div className="space-y-1">
-            <h3 className="text-xs sm:text-sm font-medium text-muted-foreground px-3 py-2">Account</h3>
-            
+            <h3 className="text-xs sm:text-sm font-medium text-muted-foreground px-3 py-2">
+              Account
+            </h3>
+
             <DrawerClose asChild>
               <Link
                 href={`/users/${user.username}`}
@@ -246,7 +280,7 @@ export default function UserButton({ className, unreadNotificationCount = 0 }: U
         </div>
       </DrawerContent>
     </Drawer>
-  )
+  );
 
-  return isMobile ? <DrawerVersion /> : <DropdownVersion />
+  return isMobile ? <DrawerVersion /> : <DropdownVersion />;
 }

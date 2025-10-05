@@ -1,30 +1,29 @@
-import type React from "react"
-import type { Metadata } from "next"
-import "./globals.css"
-import { Toaster } from "sonner"
-import { ServiceWorkerRegistration } from "@/components/service-worker-registration"
-import ReactQueryProvider from "./ReactQueryProvider"
-import { Playfair_Display, Lato } from "next/font/google"
-import { extractRouterConfig } from "uploadthing/server"
-import { fileRouter } from "./api/uploadthing/core"
-import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin"
+import type React from "react";
+import type { Metadata } from "next";
+import "./globals.css";
+import { Toaster } from "sonner";
+import { ServiceWorkerRegistration } from "@/components/service-worker-registration";
+import ReactQueryProvider from "./ReactQueryProvider";
+import { Playfair_Display, Lato } from "next/font/google";
+import { extractRouterConfig } from "uploadthing/server";
+import { fileRouter } from "./api/uploadthing/core";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-})
+});
 
 const lato = Lato({
   variable: "--font-lato",
   subsets: ["latin"],
   weight: ["300", "400", "700"],
-})
+});
 
-const siteUrl = "https://alignxyz.vercel.app"
-const siteTitle = "Align Network"
+const siteUrl = "https://alignxyz.vercel.app";
+const siteTitle = "Align Network";
 const siteDescription =
-  "Align Network is an exclusive space for people who want meaningful connections. Share your micro-thoughts, match with like-minded souls."
+  "Align Network is an exclusive space for people who want meaningful connections. Share your micro-thoughts, match with like-minded souls.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -84,12 +83,12 @@ export const metadata: Metadata = {
     },
   },
   manifest: "/manifest.webmanifest",
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -100,5 +99,5 @@ export default function RootLayout({
         <ServiceWorkerRegistration />
       </body>
     </html>
-  )
+  );
 }

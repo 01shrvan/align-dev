@@ -3,32 +3,32 @@ import { generateCodeVerifier, generateState } from "arctic";
 import { cookies } from "next/headers";
 
 export async function GET() {
-    const state = generateState();
-    const codeVerifier = generateCodeVerifier();
+  const state = generateState();
+  const codeVerifier = generateCodeVerifier();
 
-    const url = google.createAuthorizationURL(
-        state,
-        codeVerifier,
-        ["openid", "profile", "email"]
-    );
+  const url = google.createAuthorizationURL(state, codeVerifier, [
+    "openid",
+    "profile",
+    "email",
+  ]);
 
-    const cookieStore = await cookies();
+  const cookieStore = await cookies();
 
-    cookieStore.set("state", state, {
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-        httpOnly: true,
-        maxAge: 60 * 10,
-        sameSite: "lax",
-    });
+  cookieStore.set("state", state, {
+    path: "/",
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+    maxAge: 60 * 10,
+    sameSite: "lax",
+  });
 
-    cookieStore.set("code_verifier", codeVerifier, {
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-        httpOnly: true,
-        maxAge: 60 * 10,
-        sameSite: "lax",
-    });
+  cookieStore.set("code_verifier", codeVerifier, {
+    path: "/",
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+    maxAge: 60 * 10,
+    sameSite: "lax",
+  });
 
-    return Response.redirect(url);
+  return Response.redirect(url);
 }

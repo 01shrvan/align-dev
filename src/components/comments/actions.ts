@@ -18,7 +18,7 @@ export async function submitComment({
 
   const { content: contentValidated } = createCommentSchema.parse({ content });
 
-   const [newComment] = await prisma.$transaction([
+  const [newComment] = await prisma.$transaction([
     prisma.comment.create({
       data: {
         content: contentValidated,

@@ -9,7 +9,7 @@ export async function GET(
 ) {
   try {
     const { userId } = await params;
-    
+
     const cursor = req.nextUrl.searchParams.get("cursor") || undefined;
 
     const pageSize = 10;

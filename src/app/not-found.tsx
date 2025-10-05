@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import logo from "@/assets/logo.svg"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import Image from "next/image";
+import logo from "@/assets/logo.svg";
+import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
@@ -57,5 +57,5 @@ export default function NotFound() {
         </div>
       </main>
     </>
-  )
+  );
 }

@@ -3,28 +3,24 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 
 export default async function OnboardingLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    const { user } = await validateRequest();
+  const { user } = await validateRequest();
 
-    if (!user) {
-        redirect("/login");
-    }
+  if (!user) {
+    redirect("/login");
+  }
 
-    const fullUser = await prisma.user.findUnique({
-        where: { id: user.id },
-        select: { isOnboarded: true }
-    });
+  const fullUser = await prisma.user.findUnique({
+    where: { id: user.id },
+    select: { isOnboarded: true },
+  });
 
-    if (fullUser?.isOnboarded) {
-        redirect("/");
-    }
+  if (fullUser?.isOnboarded) {
+    redirect("/");
+  }
 
-    return (
-        <div className="min-h-screen bg-background">
-            {children}
-        </div>
-    );
+  return <div className="min-h-screen bg-background">{children}</div>;
 }

@@ -37,9 +37,10 @@ export default function Notifications() {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: () => kyInstance.patch("/api/notifications/mark-as-read", {
-      timeout: 10000,
-    }),
+    mutationFn: () =>
+      kyInstance.patch("/api/notifications/mark-as-read", {
+        timeout: 10000,
+      }),
     onSuccess: () => {
       queryClient.setQueryData(["unread-notification-count"], {
         unreadCount: 0,
@@ -51,7 +52,7 @@ export default function Notifications() {
   });
 
   useEffect(() => {
-    if (data?.pages.some(page => page.notifications.length > 0)) {
+    if (data?.pages.some((page) => page.notifications.length > 0)) {
       mutate();
     }
   }, [mutate, data]);

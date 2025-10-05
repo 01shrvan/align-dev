@@ -63,7 +63,11 @@ export default function SignUpForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="eg. shrvan@xyz.com" type="email" {...field} />
+                <Input
+                  placeholder="eg. shrvan@xyz.com"
+                  type="email"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
