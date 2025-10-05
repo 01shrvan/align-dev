@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { Toaster } from "sonner"
 import { ServiceWorkerRegistration } from "@/components/service-worker-registration"
-import { LoadingProvider } from "@/components/loading-provider"
 import ReactQueryProvider from "./ReactQueryProvider"
 import { Playfair_Display, Lato } from "next/font/google"
 import { extractRouterConfig } from "uploadthing/server"
@@ -92,7 +91,7 @@ export default function RootLayout({
       <body className={`${playfair.variable} ${lato.variable} antialiased`}>
         <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
         <ReactQueryProvider>
-          <LoadingProvider>{children}</LoadingProvider>
+          {children}
         </ReactQueryProvider>
         <Toaster />
         <ServiceWorkerRegistration />
