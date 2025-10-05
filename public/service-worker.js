@@ -1,4 +1,4 @@
-const CACHE_NAME = "align-network-cache-v1"
+const CACHE_NAME = "align-network-cache-v2"
 const urlsToCache = [
   "/",
   "/globals.css",
@@ -8,6 +8,7 @@ const urlsToCache = [
   "/pfp.png",
   "/icon-192x192.png",
   "/icon-512x512.png",
+  "/icon-maskable-192x192.png",
   "/icon-maskable-512x512.png",
   "/favicon.ico",
 ]
@@ -21,6 +22,7 @@ self.addEventListener("install", (event) => {
       })
     }),
   )
+  self.skipWaiting()
 })
 
 self.addEventListener("fetch", (event) => {
@@ -49,4 +51,5 @@ self.addEventListener("activate", (event) => {
       )
     }),
   )
+  return self.clients.claim()
 })
