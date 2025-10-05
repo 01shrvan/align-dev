@@ -4,12 +4,12 @@ export default function GoogleSignInButton() {
   return (
     <Button
       variant="outline"
-      className="bg-white text-black hover:bg-gray-100 hover:text-black"
+      className="w-full h-12 px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-800 shadow-sm hover:bg-slate-50 hover:shadow-md transition-all duration-200 ease-in-out"
       asChild
     >
-      <a href="/login/google" className="flex w-full items-center gap-2">
+      <a href="/login/google" className="flex items-center justify-center gap-3">
         <GoogleIcon />
-        Sign in with Google
+        <span className="text-sm font-medium">Continue with Google</span>
       </a>
     </Button>
   );
@@ -19,9 +19,10 @@ function GoogleIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="1.2em"
-      height="1.2em"
+      width="1.25em"
+      height="1.25em"
       viewBox="0 0 256 262"
+      className="shrink-0"
     >
       <path
         fill="#4285f4"
