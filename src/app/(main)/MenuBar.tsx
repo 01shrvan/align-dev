@@ -18,7 +18,7 @@ interface MenuBarProps {
 }
 
 const menuItems = [
-  { href: "/", icon: Home, label: "Home", title: "Home" },
+  { href: "/home", icon: Home, label: "Home", title: "Home" },
   {
     href: "/notifications",
     icon: Bell,
