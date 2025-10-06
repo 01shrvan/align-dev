@@ -2,7 +2,7 @@ import { validateRequest } from "@/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 
-export default async function Layout({
+export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -16,7 +16,7 @@ export default async function Layout({
     });
 
     if (fullUser?.isOnboarded) {
-      redirect("/");
+      redirect("/home");
     } else {
       redirect("/onboarding");
     }
