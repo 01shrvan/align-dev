@@ -31,6 +31,7 @@ model User {
   followers             Follow[]       @relation("Followers")
   likes                 Like[]
   bookmarks             Bookmark[]
+  jobs                  Job[]
   comments              Comment[]
   receivedNotifications Notification[] @relation("Recipient")
   issuedNotifications   Notification[] @relation("Issuer")
@@ -155,4 +156,30 @@ enum NotificationType {
   LIKE
   FOLLOW
   COMMENT
+}
+
+model Job {
+  id          String  @id @default(cuid())
+  title       String
+  company     String
+  description String
+  type        JobType
+  location    String?
+  isRemote    Boolean @default(false)
+  applyUrl    String?
+  applyEmail  String?
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("jobs")
+}
+
+enum JobType {
+  INTERNSHIP
+  FULL_TIME
+  PART_TIME
+  CONTRACT
 }

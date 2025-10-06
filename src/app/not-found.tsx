@@ -51,7 +51,7 @@ export default function NotFound() {
               size="lg"
               className="h-14 px-12 text-base font-semibold tracking-wide bg-foreground text-background hover:bg-foreground/90 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105"
             >
-              <Link href="/">Explore Feed</Link>
+              <Link href="/home">Explore Feed</Link>
             </Button>
           </div>
         </div>

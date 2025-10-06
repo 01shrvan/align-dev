@@ -94,3 +94,24 @@ export const createCommentSchema = z.object({
 });
 
 export type UpdateUserProfileValues = z.infer<typeof updateUserProfileSchema>;
+
+export const createJobSchema = z
+  .object({
+    title: z.string().min(1, "Title is required").max(100),
+    company: z.string().min(1, "Company name is required").max(100),
+    description: z
+      .string()
+      .min(10, "Description must be at least 10 characters")
+      .max(5000),
+    type: z.enum(["INTERNSHIP", "FULL_TIME", "PART_TIME", "CONTRACT"]),
+    location: z.string().max(100).optional(),
+    isRemote: z.boolean().default(false),
+    applyUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+    applyEmail: z.string().email("Must be a valid email").optional().or(z.literal("")),
+  })
+  .refine((data) => data.applyUrl || data.applyEmail, {
+    message: "Either application URL or email is required",
+    path: ["applyUrl"],
+  });
+
+export type CreateJobInput = z.infer<typeof createJobSchema>;

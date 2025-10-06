@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client";
+import { Job } from "@/generated/prisma";
 
 export function getUserDataSelect(loggedInUserId: string) {
   return {
@@ -28,6 +29,33 @@ export function getUserDataSelect(loggedInUserId: string) {
 export type UserData = Prisma.UserGetPayload<{
   select: ReturnType<typeof getUserDataSelect>;
 }>;
+
+export interface JobData extends Job {
+  user: {
+    id: string;
+    username: string;
+    displayName: string;
+    avatarUrl: string | null;
+  };
+}
+
+export interface JobsPage {
+  jobs: JobData[];
+  nextCursor: string | null;
+}
+
+export function getJobDataInclude(loggedInUserId: string) {
+  return {
+    user: {
+      select: {
+        id: true,
+        username: true,
+        displayName: true,
+        avatarUrl: true,
+      },
+    },
+  };
+}
 
 export function getPostDataInclude(loggedInUserId: string) {
   return {
