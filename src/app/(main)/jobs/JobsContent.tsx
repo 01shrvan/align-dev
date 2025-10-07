@@ -61,18 +61,18 @@ export default function JobsContent() {
   }
 
   return (
-    <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border">
+    <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border md:pl-3 md:ml-3 md:border-none">
       <main className="flex w-full min-w-0 min-h-full">
-        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5 min-h-full">
+        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5 md:border-none md:pr-3 md:mr-3">
           <div className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 p-5 shadow-sm">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-4 flex-col sm:flex-row sm:items-center">
               <div>
-                <h1 className="text-2xl font-bold">Jobs & Internships</h1>
-                <p className="text-muted-foreground mt-1">
+                <h1 className="text-2xl font-bold md:text-xl">Jobs & Internships</h1>
+                <p className="text-muted-foreground mt-1 text-sm">
                   Discover opportunities or post your own
                 </p>
               </div>
-              <Button onClick={() => setShowForm(!showForm)} size="lg">
+              <Button onClick={() => setShowForm(!showForm)} size="lg" className="w-full sm:w-auto">
                 Post Opportunity
               </Button>
             </div>
@@ -125,8 +125,8 @@ export default function JobsContent() {
           {status === "success" && !jobs.length && !hasNextPage ? (
             <div className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 p-10 shadow-sm text-center">
               <Briefcase className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-lg font-medium mb-2">No opportunities found</p>
-              <p className="text-muted-foreground mb-4">
+              <p className="text-lg font-medium mb-2 md:text-base">No opportunities found</p>
+              <p className="text-muted-foreground mb-4 text-sm">
                 {filter
                   ? "Try changing your filter or be the first to post!"
                   : "Be the first to post a job opportunity!"}
