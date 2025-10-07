@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createJobSchema, CreateJobInput } from "@/lib/validation";
@@ -18,14 +17,14 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { useCreateJobMutation } from "./mutations";
 import LoadingButton from "@/components/LoadingButton";
-import { Briefcase, X } from "lucide-react";
+import { X } from "lucide-react";
 
 interface JobFormProps {
   onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
-export default function JobForm({ onSuccess }: JobFormProps) {
-  const [showForm, setShowForm] = useState(false);
+export default function JobForm({ onSuccess, onCancel }: JobFormProps) {
   const mutation = useCreateJobMutation();
 
   const {
@@ -50,24 +49,10 @@ export default function JobForm({ onSuccess }: JobFormProps) {
     mutation.mutate(data, {
       onSuccess: () => {
         reset();
-        setShowForm(false);
         onSuccess?.();
       },
     });
   };
-
-  if (!showForm) {
-    return (
-      <Button
-        onClick={() => setShowForm(true)}
-        className="w-full"
-        variant="outline"
-      >
-        <Briefcase className="mr-2 h-4 w-4" />
-        Post a Job/Internship
-      </Button>
-    );
-  }
 
   return (
     <div className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 p-5 shadow-sm">
@@ -76,7 +61,7 @@ export default function JobForm({ onSuccess }: JobFormProps) {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => setShowForm(false)}
+          onClick={onCancel}
         >
           <X className="h-4 w-4" />
         </Button>
@@ -205,7 +190,7 @@ export default function JobForm({ onSuccess }: JobFormProps) {
           <Button
             type="button"
             variant="outline"
-            onClick={() => setShowForm(false)}
+            onClick={onCancel}
             disabled={mutation.isPending}
           >
             Cancel
