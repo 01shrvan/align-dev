@@ -41,7 +41,7 @@ interface UserButtonProps {
 }
 
 const menuItems = [
-  { href: "/", icon: Home, label: "Home", title: "Home" },
+  { href: "/home", icon: Home, label: "Home", title: "Home" },
   {
     href: "/notifications",
     icon: Bell,
@@ -70,7 +70,7 @@ export default function UserButton({
 
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768); // md breakpoint
+      setIsMobile(window.innerWidth < 768);
     };
 
     checkIsMobile();
@@ -83,7 +83,6 @@ export default function UserButton({
     logout();
   };
 
-  // Desktop/Tablet Dropdown Menu (md and up)
   const DropdownVersion = () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -134,7 +133,6 @@ export default function UserButton({
 
         <DropdownMenuSeparator />
 
-        {/* Profile */}
         <Link href={`/users/${user.username}`}>
           <DropdownMenuItem className="px-3 py-2.5 cursor-pointer">
             <UserIcon className="mr-3 h-4 w-4" />
@@ -155,7 +153,6 @@ export default function UserButton({
     </DropdownMenu>
   );
 
-  // Mobile Drawer (below md)
   const DrawerVersion = () => (
     <Drawer>
       <DrawerTrigger asChild>
@@ -204,7 +201,6 @@ export default function UserButton({
         </DrawerHeader>
 
         <div className="px-4 sm:px-6 pb-4 sm:pb-6 overflow-y-auto">
-          {/* Main Navigation */}
           <div className="space-y-1 mb-6">
             <h3 className="text-xs sm:text-sm font-medium text-muted-foreground px-3 py-2">
               Navigation
@@ -251,7 +247,6 @@ export default function UserButton({
 
           <div className="border-t border-border my-4 sm:my-6" />
 
-          {/* Account Actions */}
           <div className="space-y-1">
             <h3 className="text-xs sm:text-sm font-medium text-muted-foreground px-3 py-2">
               Account
