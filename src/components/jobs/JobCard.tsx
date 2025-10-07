@@ -38,7 +38,7 @@ export default function JobCard({ job }: JobCardProps) {
     <>
       <article className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 p-5 shadow-sm space-y-4">
         <div className="flex justify-between items-start gap-3">
-          <div className="flex gap-3 items-start flex-1">
+          <div className="flex gap-3 items-start flex-1 min-w-0">
             <Link href={`/users/${job.user.username}`}>
               <AvatarComponent.Avatar>
                 <AvatarComponent.AvatarImage src={job.user.avatarUrl as string} />
@@ -49,7 +49,7 @@ export default function JobCard({ job }: JobCardProps) {
             </Link>
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-lg truncate">{job.title}</h3>
-              <p className="text-muted-foreground">{job.company}</p>
+              <p className="text-muted-foreground truncate">{job.company}</p>
               <div className="flex flex-wrap gap-2 mt-2">
                 <Badge variant="secondary">{typeLabels[job.type]}</Badge>
                 {job.isRemote && (
@@ -61,7 +61,7 @@ export default function JobCard({ job }: JobCardProps) {
                 {job.location && (
                   <Badge variant="outline" className="gap-1">
                     <MapPin className="h-3 w-3" />
-                    {job.location}
+                    <span className="truncate max-w-[150px]">{job.location}</span>
                   </Badge>
                 )}
               </div>
@@ -70,7 +70,7 @@ export default function JobCard({ job }: JobCardProps) {
           {isOwner && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button size="icon" variant="ghost">
+                <Button size="icon" variant="ghost" className="flex-shrink-0">
                   <MoreHorizontal className="size-5 text-muted-foreground" />
                 </Button>
               </DropdownMenuTrigger>
@@ -91,11 +91,11 @@ export default function JobCard({ job }: JobCardProps) {
           {job.description}
         </p>
 
-        <div className="flex items-center justify-between pt-2 border-t border-border/50">
+        <div className="flex items-center justify-between pt-2 border-t border-border/50 gap-3 flex-wrap">
           <span className="text-sm text-muted-foreground">
             Posted {formatRelativeDate(job.createdAt)}
           </span>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-shrink-0">
             {job.applyEmail && (
               <Button size="sm" variant="outline" asChild>
                 <a href={`mailto:${job.applyEmail}`}>
