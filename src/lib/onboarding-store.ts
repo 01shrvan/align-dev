@@ -2,8 +2,11 @@ import { create } from "zustand";
 
 interface OnboardingUserData {
   displayName?: string;
-  bio?: string;
+  story?: string;
+  creating?: string;
+  why?: string;
   interests?: string[];
+  bio?: string;
   location?: string;
   age?: number;
   gender?: "male" | "female" | "other" | "prefer-not-to-say";
@@ -22,7 +25,7 @@ interface OnboardingStore {
 
 export const useOnboardingStore = create<OnboardingStore>((set) => ({
   step: 1,
-  totalSteps: 4,
+  totalSteps: 3,
   userData: {},
   updateUserData: (data) =>
     set((state) => ({

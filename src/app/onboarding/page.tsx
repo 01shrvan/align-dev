@@ -2,11 +2,10 @@
 
 import { useOnboardingStore } from "@/lib/onboarding-store";
 import Step1BasicInfo from "@/components/onboarding/Step1BasicInfo";
-import Step2Interests from "@/components/onboarding/Step2Interests";
-import Step3PersonalDetails from "@/components/onboarding/Step3PersonalDetails";
+import Step2Story from "@/components/onboarding/Step2Story";
+import Step3Interests from "@/components/onboarding/Step3Interests";
 import Image from "next/image";
 import logo from "@/assets/logo.svg";
-import Step4Complete from "@/components/onboarding/Step4Complete";
 import OnboardingProgress from "@/components/onboarding/OnboardingProgress";
 
 export default function OnboardingPage() {
@@ -17,11 +16,9 @@ export default function OnboardingPage() {
       case 1:
         return <Step1BasicInfo />;
       case 2:
-        return <Step2Interests />;
+        return <Step2Story />;
       case 3:
-        return <Step3PersonalDetails />;
-      case 4:
-        return <Step4Complete />;
+        return <Step3Interests />;
       default:
         return <Step1BasicInfo />;
     }
@@ -41,7 +38,7 @@ export default function OnboardingPage() {
       </div>
 
       <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 py-8">
-        <div className="max-w-md mx-auto w-full">
+        <div className="max-w-xl mx-auto w-full">
           <div className="lg:hidden mb-8 w-12 h-12">
             <Image
               src={logo || "/placeholder.svg"}

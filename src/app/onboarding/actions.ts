@@ -18,16 +18,20 @@ export async function completeOnboarding(
 
     const validatedData = onboardingSchema.parse(data);
 
+    const bio = [
+      validatedData.story,
+      validatedData.creating,
+      validatedData.why,
+    ]
+      .filter(Boolean)
+      .join("\n\n");
+
     await prisma.user.update({
       where: { id: user.id },
       data: {
         displayName: validatedData.displayName,
-        bio: validatedData.bio,
+        bio: bio || validatedData.bio,
         interests: validatedData.interests,
-        location: validatedData.location,
-        age: validatedData.age,
-        gender: validatedData.gender,
-        occupation: validatedData.occupation,
         isOnboarded: true,
       },
     });
