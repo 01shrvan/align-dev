@@ -45,12 +45,16 @@ export default function JobsPageComponent() {
   const jobs = data?.pages.flatMap((page) => page.jobs) || [];
 
   if (status === "pending") {
-    return <Loader2 className="mx-auto animate-spin" />;
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
   }
 
   if (status === "success" && !jobs.length && !hasNextPage) {
     return (
-      <div className="space-y-5">
+      <div className="space-y-5 px-4 sm:px-6 lg:px-8">
         <JobForm />
         <p className="text-center text-muted-foreground">
           No job postings yet. Be the first to post!
@@ -68,7 +72,7 @@ export default function JobsPageComponent() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 px-4 sm:px-6 lg:px-8">
       <JobForm />
 
       <div className="flex gap-2 flex-wrap">
