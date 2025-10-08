@@ -131,18 +131,20 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
   const followerInfo: FollowerInfo = {
     followers: user._count.followers,
     isFollowedByUser: user.followers.some(
-      ({ followerId }) => followerId === loggedInUser.id,
+      ({ followerId }) => followerId === loggedInUserId,
     ),
   };
 
   const interests = user.interests ?? [];
+
+  const bioSections = parseBioSections(user.bio);
 
   return (
     <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-5 shadow-sm">
       <AvatarComponent.Avatar className="mx-auto size-48">
         <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
         <AvatarComponent.AvatarFallback>
-          {user.username[0]}
+          {user.username[0].toUpperCase()}
         </AvatarComponent.AvatarFallback>
       </AvatarComponent.Avatar>
 
@@ -152,7 +154,9 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
             <h1 className="text-3xl font-bold">{user.displayName}</h1>
             <div className="text-muted-foreground">@{user.username}</div>
           </div>
-          <div>Member since {formatDate(user.createdAt, "MMM d, yyyy")}</div>
+          <div className="text-sm text-muted-foreground">
+            Member since {formatDate(user.createdAt, "MMM d, yyyy")}
+          </div>
           <div className="flex items-center gap-3">
             <span>
               Posts:{" "}
@@ -171,60 +175,126 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
         )}
       </div>
 
+      {(user.location || user.age || user.occupation) && (
+        <>
+          <hr />
+          <div className="flex flex-wrap gap-4 text-sm">
+            {user.location && (
+              <div className="flex items-center gap-1.5">
+                <span className="text-muted-foreground">📍</span>
+                <span>{user.location}</span>
+              </div>
+            )}
+            {user.age && (
+              <div className="flex items-center gap-1.5">
+                <span className="text-muted-foreground">🎂</span>
+                <span>{user.age} years old</span>
+              </div>
+            )}
+            {user.occupation && (
+              <div className="flex items-center gap-1.5">
+                <span className="text-muted-foreground">💼</span>
+                <span>{user.occupation}</span>
+              </div>
+            )}
+          </div>
+        </>
+      )}
+
       <hr />
 
-      <div className="space-y-3 text-sm sm:text-base">
-        <div>
-          <strong>Bio:</strong>{" "}
-          {user.bio ? (
-            <p className="whitespace-pre-line break-words">{user.bio}</p>
-          ) : (
-            <span className="text-muted-foreground italic">No bio yet</span>
-          )}
+      {bioSections.story && (
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            Their Story
+          </h3>
+          <p className="whitespace-pre-line break-words leading-relaxed">
+            {bioSections.story}
+          </p>
         </div>
+      )}
 
-        <div>
-          <strong>Occupation:</strong>{" "}
-          {user.occupation ? (
-            <span>{user.occupation}</span>
-          ) : (
-            <span className="text-muted-foreground italic">
-              No occupation specified
-            </span>
-          )}
+      {bioSections.creating && (
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            Creating
+          </h3>
+          <p className="whitespace-pre-line break-words leading-relaxed">
+            {bioSections.creating}
+          </p>
         </div>
+      )}
 
-        <div>
-          <strong>Location:</strong>{" "}
-          {user.location ? (
-            <span>{user.location}</span>
-          ) : (
-            <span className="text-muted-foreground italic">
-              No location specified
-            </span>
-          )}
+      {bioSections.why && (
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            Why It Matters
+          </h3>
+          <p className="whitespace-pre-line break-words leading-relaxed">
+            {bioSections.why}
+          </p>
         </div>
+      )}
 
-        <div>
-          <strong>Interests:</strong>{" "}
-          {interests.length > 0 ? (
-            <div className="mt-1 flex flex-wrap gap-2">
+      {!bioSections.story && !bioSections.creating && !bioSections.why && user.bio && (
+        <div className="space-y-2">
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            About
+          </h3>
+          <p className="whitespace-pre-line break-words leading-relaxed">
+            {user.bio}
+          </p>
+        </div>
+      )}
+
+      {!user.bio && (
+        <div className="text-center py-4">
+          <p className="text-muted-foreground italic text-sm">
+            No story shared yet
+          </p>
+        </div>
+      )}
+
+      {interests.length > 0 && (
+        <>
+          <hr />
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+              Interests
+            </h3>
+            <div className="flex flex-wrap gap-2">
               {interests.map((interest, i) => (
                 <span
                   key={i}
-                  className="rounded-full bg-muted px-3 py-1 text-sm"
+                  className="rounded-full bg-primary/10 text-primary border border-primary/20 px-3 py-1.5 text-sm font-medium"
                 >
                   {interest}
                 </span>
               ))}
             </div>
-          ) : (
-            <span className="text-muted-foreground italic">
-              No interests added
-            </span>
-          )}
-        </div>
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
+}
+
+function parseBioSections(bio: string | null): {
+  story?: string;
+  creating?: string;
+  why?: string;
+} {
+  if (!bio) return {};
+
+  const sections = bio.split("\n\n").filter(s => s.trim());
+
+  if (sections.length === 3) {
+    return {
+      story: sections[0].trim(),
+      creating: sections[1].trim(),
+      why: sections[2].trim(),
+    };
+  }
+
+  return {};
 }

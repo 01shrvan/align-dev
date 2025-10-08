@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useOnboardingStore } from "@/lib/onboarding-store";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useTypingEffect } from "@/hooks/useTypingEffect";
 
 const PROMPTS = [
@@ -39,32 +39,34 @@ export default function Step2Story() {
     why: userData.why || "",
   });
   const [showInput, setShowInput] = useState(false);
-  const hasTyped = useRef<{ [key: number]: boolean }>({});
+  const [shouldAnimate, setShouldAnimate] = useState(true);
 
   const currentPrompt = PROMPTS[currentPromptIndex];
   const { displayedText, isComplete } = useTypingEffect(
     currentPrompt.question,
-    hasTyped.current[currentPromptIndex] ? 0 : 60
+    shouldAnimate ? 30 : 0
   );
 
   useEffect(() => {
-    if (isComplete && !hasTyped.current[currentPromptIndex]) {
-      hasTyped.current[currentPromptIndex] = true;
+    setShowInput(false);
+    setShouldAnimate(true);
+  }, [currentPromptIndex]);
+
+  useEffect(() => {
+    if (isComplete) {
+      setShouldAnimate(false);
       setTimeout(() => setShowInput(true), 300);
-    } else if (hasTyped.current[currentPromptIndex]) {
-      setShowInput(true);
     }
-  }, [isComplete, currentPromptIndex]);
+  }, [isComplete]);
 
   const handleNext = () => {
     const currentAnswer = answers[currentPrompt.id as keyof typeof answers];
-    
+
     if (!currentAnswer.trim()) {
       return;
     }
 
     if (currentPromptIndex < PROMPTS.length - 1) {
-      setShowInput(false);
       setCurrentPromptIndex(currentPromptIndex + 1);
     } else {
       updateUserData({
@@ -78,7 +80,6 @@ export default function Step2Story() {
 
   const handleBack = () => {
     if (currentPromptIndex > 0) {
-      setShowInput(false);
       setCurrentPromptIndex(currentPromptIndex - 1);
     } else {
       prevStep();
@@ -93,17 +94,16 @@ export default function Step2Story() {
       <div className="space-y-6">
         <h2 className="text-2xl md:text-3xl font-medium text-foreground/90 leading-relaxed min-h-[80px]">
           {displayedText}
-          {!isComplete && !hasTyped.current[currentPromptIndex] && (
+          {!isComplete && shouldAnimate && (
             <span className="inline-block w-0.5 h-6 bg-primary ml-1 animate-pulse" />
           )}
         </h2>
 
         <div
-          className={`transition-all duration-500 ${
-            showInput
+          className={`transition-all duration-500 ${showInput
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-4"
-          }`}
+            }`}
         >
           {showInput && (
             <div className="space-y-4">
