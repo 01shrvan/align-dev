@@ -64,10 +64,8 @@ export function useUpdateProfileMutation() {
         },
       );
 
-      // Revalidate the user profile page cache
       await revalidateUserProfile(updatedUser.username);
 
-      // Refresh the router to get the latest data
       router.refresh();
 
       toast.success("Profile updated");
