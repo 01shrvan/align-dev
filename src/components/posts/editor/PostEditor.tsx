@@ -1,4 +1,5 @@
 "use client";
+
 import { useSession } from "@/app/(main)/SessionProvider";
 import LoadingButton from "@/components/LoadingButton";
 import * as AvatarComponent from "@/components/ui/avatar";
@@ -45,6 +46,16 @@ export default function PostEditor() {
       }),
     ],
     immediatelyRender: false,
+    editorProps: {
+      handleKeyDown(view, event) {
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          onSubmit();
+          return true;
+        }
+        return false;
+      },
+    },
   });
 
   const input =
@@ -53,6 +64,7 @@ export default function PostEditor() {
     }) || "";
 
   function onSubmit() {
+    if (!input.trim()) return;
     mutation.mutate(
       {
         content: input,
@@ -83,6 +95,7 @@ export default function PostEditor() {
             {user.username[0]}
           </AvatarComponent.AvatarFallback>
         </AvatarComponent.Avatar>
+
         <div {...rootProps} className="w-full">
           <EditorContent
             editor={editor}
@@ -95,12 +108,14 @@ export default function PostEditor() {
           <input {...getInputProps()} />
         </div>
       </div>
+
       {!!attachments.length && (
         <AttachmentPreviews
           attachments={attachments}
           removeAttachment={removeAttachment}
         />
       )}
+
       <div className="flex items-center justify-end gap-3">
         {isUploading && (
           <>
@@ -108,10 +123,12 @@ export default function PostEditor() {
             <Loader2 className="size-5 animate-spin text-primary" />
           </>
         )}
+
         <AddAttachmentsButton
           onFilesSelected={startUpload}
           disabled={isUploading || attachments.length >= 5}
         />
+
         <LoadingButton
           onClick={onSubmit}
           loading={mutation.isPending}
@@ -220,6 +237,7 @@ function AttachmentPreview({
           <source src={src} type={file.type} />
         </video>
       )}
+
       {!isUploading && (
         <button
           onClick={onRemoveClick}
