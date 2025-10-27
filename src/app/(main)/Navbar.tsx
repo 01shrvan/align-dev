@@ -11,7 +11,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between px-4 py-3">
           <Link
             href="/home"
-            className="flex font-serif items-center gap-2 text-3xl font-logo text-primary tracking-widest"
+            className="flex font-thunder items-center gap-2 text-3xl font-logo text-primary tracking-widest"
           >
             <Image src={logo} alt="Align Network Logo" className="h-8 w-8" />
             Align Network
@@ -27,7 +27,7 @@ export default function Navbar() {
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-5 px-5 py-3">
           <Link
             href="/home"
-            className="flex items-center gap-2 text-3xl font-logo text-primary tracking-widest"
+            className="flex items-center gap-2 text-3xl font-logo font-thunder text-primary tracking-widest"
           >
             <Image src={logo} alt="Align Network Logo" className="h-8 w-8" />
             Align Network

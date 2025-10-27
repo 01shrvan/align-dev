@@ -4,18 +4,24 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { ServiceWorkerRegistration } from "@/components/service-worker-registration";
 import ReactQueryProvider from "./ReactQueryProvider";
-import { Playfair_Display, Lato } from "next/font/google";
+import { Playfair_Display, Lato, Plus_Jakarta_Sans } from "next/font/google";
 import { extractRouterConfig } from "uploadthing/server";
 import { fileRouter } from "./api/uploadthing/core";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import localFont from "next/font/local";
+
+const thunder = localFont({
+  src: "../../public/fonts/Thunder-VF.ttf",
+  variable: "--font-thunder",
+});
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
 });
 
-const lato = Lato({
-  variable: "--font-lato",
+const jakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
   weight: ["300", "400", "700"],
 });
@@ -92,7 +98,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${lato.variable} antialiased`}>
+      <body
+        className={`${playfair.variable} ${jakartaSans.variable} ${thunder.variable} antialiased`}
+      >
         <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
         <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster />
