@@ -12,6 +12,7 @@ import {
   Briefcase,
   MessageCircle,
   LogOutIcon,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -48,12 +49,17 @@ const menuItems = [
     label: "Notifications",
     title: "Notifications",
   },
-  { href: "/messages", icon: Mail, label: "Messages", title: "Messages" },
   {
     href: "/bookmarks",
     icon: Bookmark,
     label: "Bookmarks",
     title: "Bookmarks",
+  },
+  {
+    href: "/communities",
+    icon: Users,
+    label: "Communities",
+    title: "Communities",
   },
   { href: "/jobs", icon: Briefcase, label: "Jobs", title: "Jobs" },
   { href: "/ava", icon: MessageCircle, label: "Ava", title: "Ava" },

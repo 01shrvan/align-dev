@@ -58,21 +58,25 @@ export default function CommunitiesPage() {
     const communities = data?.pages.flatMap((page) => page.communities) || [];
 
     return (
-        <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border">
-            <main className="flex w-full min-w-0 min-h-full">
-                <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5 min-h-full">
-                    <div className="rounded-2xl bg-card p-6 shadow-sm">
-                        <div className="flex items-start justify-between mb-4">
+        <div className="flex-1 px-4 sm:px-6 lg:pl-5 lg:ml-5 border-l border-dashed border-border">
+            <main className="flex flex-col lg:flex-row w-full min-w-0 min-h-full gap-6">
+                <div className="w-full min-w-0 space-y-5 border-b lg:border-b-0 lg:border-r border-dashed border-border pb-5 lg:pb-0 lg:pr-5 min-h-full">
+                    <div className="rounded-2xl bg-card p-5 sm:p-6 shadow-sm">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-4">
                             <div>
-                                <h1 className="text-3xl font-bold flex items-center gap-2">
-                                    <Users className="h-8 w-8" />
+                                <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
+                                    <Users className="h-7 w-7 sm:h-8 sm:w-8" />
                                     Communities
                                 </h1>
-                                <p className="text-muted-foreground mt-1">
+                                <p className="text-muted-foreground mt-1 text-sm sm:text-base">
                                     Discover and join communities that match your interests
                                 </p>
                             </div>
-                            <Button onClick={() => setCreateDialogOpen(true)} size="lg">
+                            <Button
+                                onClick={() => setCreateDialogOpen(true)}
+                                size="lg"
+                                className="w-full sm:w-auto"
+                            >
                                 <Plus className="mr-2 h-4 w-4" />
                                 Create Community
                             </Button>
@@ -88,7 +92,10 @@ export default function CommunitiesPage() {
                                     className="pl-10"
                                 />
                             </div>
-                            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                            <Select
+                                value={selectedCategory}
+                                onValueChange={setSelectedCategory}
+                            >
                                 <SelectTrigger className="w-full sm:w-[200px]">
                                     <Filter className="mr-2 h-4 w-4" />
                                     <SelectValue placeholder="All Categories" />
@@ -124,11 +131,16 @@ export default function CommunitiesPage() {
                         </div>
                     ) : (
                         <InfiniteScrollContainer
-                            onBottomReached={() => hasNextPage && !isFetching && fetchNextPage()}
+                            onBottomReached={() =>
+                                hasNextPage && !isFetching && fetchNextPage()
+                            }
                         >
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                                 {communities.map((community) => (
-                                    <CommunityCard key={community.id} community={community} />
+                                    <CommunityCard
+                                        key={community.id}
+                                        community={community}
+                                    />
                                 ))}
                             </div>
                             {isFetchingNextPage && (
@@ -140,12 +152,12 @@ export default function CommunitiesPage() {
                     )}
                 </div>
 
-                <div className="sticky top-[5.25rem] hidden lg:block w-80 h-fit space-y-5">
+                <aside className="lg:sticky lg:top-[5.25rem] w-full lg:w-80 h-fit space-y-5">
                     <div className="rounded-2xl bg-card p-5 shadow-sm space-y-4">
                         <h3 className="font-bold text-lg">About Communities</h3>
-                        <p className="text-sm text-muted-foreground">
-                            Communities are spaces where people with shared interests can connect,
-                            share content, and have meaningful discussions.
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                            Communities are spaces where people with shared interests can
+                            connect, share content, and have meaningful discussions.
                         </p>
                         <Button
                             className="w-full"
@@ -165,7 +177,7 @@ export default function CommunitiesPage() {
                             <li>• Report inappropriate behavior</li>
                         </ul>
                     </div>
-                </div>
+                </aside>
 
                 <CreateCommunityDialog
                     open={createDialogOpen}
