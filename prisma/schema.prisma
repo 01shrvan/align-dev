@@ -17,24 +17,26 @@ datasource db {
 }
 
 model User {
-  id                    String         @id
-  username              String         @unique
+  id                    String            @id
+  username              String            @unique
   displayName           String
-  email                 String?        @unique
+  email                 String?           @unique
   passwordHash          String?
-  googleId              String?        @unique
+  googleId              String?           @unique
   avatarUrl             String?
   bio                   String?
   sessions              Session[]
   posts                 Post[]
-  following             Follow[]       @relation("Following")
-  followers             Follow[]       @relation("Followers")
+  following             Follow[]          @relation("Following")
+  followers             Follow[]          @relation("Followers")
   likes                 Like[]
   bookmarks             Bookmark[]
   jobs                  Job[]
   comments              Comment[]
-  receivedNotifications Notification[] @relation("Recipient")
-  issuedNotifications   Notification[] @relation("Issuer")
+  receivedNotifications Notification[]    @relation("Recipient")
+  issuedNotifications   Notification[]    @relation("Issuer")
+  createdCommunities    Community[]       @relation("CommunityCreator")
+  communityMemberships  CommunityMember[]
 
   isOnboarded Boolean  @default(false)
   interests   String[] @default([])
@@ -78,7 +80,8 @@ model Post {
   comments            Comment[]
   linkedNotifications Notification[]
 
-  createdAt DateTime @default(now())
+  createdAt      DateTime        @default(now())
+  communityPosts CommunityPost[]
 
   @@map("posts")
 }
@@ -182,4 +185,85 @@ enum JobType {
   FULL_TIME
   PART_TIME
   CONTRACT
+}
+
+model Community {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String?
+  avatarUrl   String?
+  bannerUrl   String?
+  category    String
+  isOfficial  Boolean @default(false)
+
+  creatorId String
+  creator   User   @relation("CommunityCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+
+  members CommunityMember[]
+  posts   CommunityPost[]
+  rules   CommunityRule[]
+
+  privacy CommunityPrivacy @default(PUBLIC)
+
+  memberCount Int @default(0)
+  postCount   Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("communities")
+}
+
+enum CommunityPrivacy {
+  PUBLIC
+  PRIVATE
+  RESTRICTED
+}
+
+model CommunityMember {
+  id          String        @id @default(cuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  communityId String
+  community   Community     @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  role        CommunityRole @default(MEMBER)
+
+  joinedAt DateTime @default(now())
+
+  @@unique([userId, communityId])
+  @@map("community_members")
+}
+
+enum CommunityRole {
+  ADMIN
+  MODERATOR
+  MEMBER
+}
+
+model CommunityPost {
+  id          String    @id @default(cuid())
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  postId      String
+  post        Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  isPinned    Boolean   @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@unique([communityId, postId])
+  @@map("community_posts")
+}
+
+model CommunityRule {
+  id          String    @id @default(cuid())
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  order       Int       @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@map("community_rules")
 }
