@@ -59,11 +59,11 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { name, slug, description, category, avatarUrl, bannerUrl, privacy } = body;
+    const { name, slug, description, category, type, avatarUrl, bannerUrl, privacy } = body;
 
-    if (!name || !slug || !category) {
+    if (!name || !slug || !category || !type) {
       return Response.json(
-        { error: "Name, slug, and category are required" },
+        { error: "Name, slug, category, and type are required" },
         { status: 400 }
       );
     }
@@ -85,6 +85,7 @@ export async function POST(req: NextRequest) {
         slug,
         description,
         category,
+        type,
         avatarUrl,
         bannerUrl,
         privacy: privacy || 'PUBLIC',

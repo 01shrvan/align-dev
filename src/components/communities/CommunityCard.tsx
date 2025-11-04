@@ -48,7 +48,7 @@ export default function CommunityCard({ community }: CommunityCardProps) {
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20" />
         )}
-        
+
         {community.isOfficial && (
           <Badge className="absolute top-2 right-2 bg-blue-600">
             <Shield className="mr-1 h-3 w-3" />

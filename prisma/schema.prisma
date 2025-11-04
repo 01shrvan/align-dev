@@ -17,26 +17,28 @@ datasource db {
 }
 
 model User {
-  id                    String            @id
-  username              String            @unique
+  id                    String             @id
+  username              String             @unique
   displayName           String
-  email                 String?           @unique
+  email                 String?            @unique
   passwordHash          String?
-  googleId              String?           @unique
+  googleId              String?            @unique
   avatarUrl             String?
   bio                   String?
   sessions              Session[]
   posts                 Post[]
-  following             Follow[]          @relation("Following")
-  followers             Follow[]          @relation("Followers")
+  following             Follow[]           @relation("Following")
+  followers             Follow[]           @relation("Followers")
   likes                 Like[]
   bookmarks             Bookmark[]
   jobs                  Job[]
   comments              Comment[]
-  receivedNotifications Notification[]    @relation("Recipient")
-  issuedNotifications   Notification[]    @relation("Issuer")
-  createdCommunities    Community[]       @relation("CommunityCreator")
+  receivedNotifications Notification[]     @relation("Recipient")
+  issuedNotifications   Notification[]     @relation("Issuer")
+  createdCommunities    Community[]        @relation("CommunityCreator")
   communityMemberships  CommunityMember[]
+  communityPosts        CommunityPost[]    @relation("CommunityPosts")
+  communityMessages     CommunityMessage[] @relation("CommunityMessages")
 
   isOnboarded Boolean  @default(false)
   interests   String[] @default([])
@@ -80,18 +82,19 @@ model Post {
   comments            Comment[]
   linkedNotifications Notification[]
 
-  createdAt      DateTime        @default(now())
-  communityPosts CommunityPost[]
+  createdAt DateTime @default(now())
 
   @@map("posts")
 }
 
 model Media {
-  id     String    @id @default(cuid())
-  postId String?
-  post   Post?     @relation(fields: [postId], references: [id], onDelete: SetNull)
-  type   MediaType
-  url    String
+  id              String         @id @default(cuid())
+  postId          String?
+  post            Post?          @relation(fields: [postId], references: [id], onDelete: SetNull)
+  type            MediaType
+  url             String
+  communityPostId String?
+  communityPost   CommunityPost? @relation("CommunityPostMedia", fields: [communityPostId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
 
@@ -197,12 +200,15 @@ model Community {
   category    String
   isOfficial  Boolean @default(false)
 
+  type CommunityType @default(FEED)
+
   creatorId String
   creator   User   @relation("CommunityCreator", fields: [creatorId], references: [id], onDelete: Cascade)
 
-  members CommunityMember[]
-  posts   CommunityPost[]
-  rules   CommunityRule[]
+  members  CommunityMember[]
+  posts    CommunityPost[]
+  messages CommunityMessage[]
+  rules    CommunityRule[]
 
   privacy CommunityPrivacy @default(PUBLIC)
 
@@ -213,6 +219,11 @@ model Community {
   updatedAt DateTime @updatedAt
 
   @@map("communities")
+}
+
+enum CommunityType {
+  CHAT
+  FEED
 }
 
 enum CommunityPrivacy {
@@ -245,14 +256,28 @@ model CommunityPost {
   id          String    @id @default(cuid())
   communityId String
   community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  postId      String
-  post        Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User      @relation("CommunityPosts", fields: [userId], references: [id], onDelete: Cascade)
+  content     String
+  attachments Media[]   @relation("CommunityPostMedia")
   isPinned    Boolean   @default(false)
 
   createdAt DateTime @default(now())
 
-  @@unique([communityId, postId])
   @@map("community_posts")
+}
+
+model CommunityMessage {
+  id          String    @id @default(cuid())
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User      @relation("CommunityMessages", fields: [userId], references: [id], onDelete: Cascade)
+  content     String
+
+  createdAt DateTime @default(now())
+
+  @@map("community_messages")
 }
 
 model CommunityRule {

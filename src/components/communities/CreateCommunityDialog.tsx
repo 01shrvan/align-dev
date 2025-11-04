@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select";
 import { COMMUNITY_CATEGORIES } from "@/lib/types/community";
 import kyInstance from "@/lib/ky";
-import { Loader2 } from "lucide-react";
+import { Loader2, MessageSquare, Newspaper } from "lucide-react";
 import { toast } from "sonner";
 
 interface CreateCommunityDialogProps {
@@ -38,6 +38,7 @@ interface CreateCommunityData {
   slug: string;
   description: string;
   category: string;
+  type: "CHAT" | "FEED";
   privacy: "PUBLIC" | "PRIVATE" | "RESTRICTED";
 }
 
@@ -59,11 +60,13 @@ export default function CreateCommunityDialog({
   } = useForm<CreateCommunityData>({
     defaultValues: {
       privacy: "PUBLIC",
+      type: "FEED",
     },
   });
 
   const communityName = watch("name");
   const category = watch("category");
+  const communityType = watch("type");
 
   const generateSlug = (name: string) => {
     return name
@@ -101,7 +104,7 @@ export default function CreateCommunityDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[550px]">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Create a Community</DialogTitle>
           <DialogDescription>
@@ -110,7 +113,6 @@ export default function CreateCommunityDialog({
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Community Name */}
           <div className="space-y-2">
             <Label htmlFor="name">
               Community Name <span className="text-destructive">*</span>
@@ -180,6 +182,46 @@ export default function CreateCommunityDialog({
                 {errors.description.message}
               </p>
             )}
+          </div>
+
+          <div className="space-y-2">
+            <Label>
+              Community Type <span className="text-destructive">*</span>
+            </Label>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => setValue("type", "FEED")}
+                className={`flex flex-col items-center gap-2 p-4 border-2 rounded-lg transition-colors ${communityType === "FEED"
+                    ? "border-primary bg-primary/5"
+                    : "border-border hover:border-primary/50"
+                  }`}
+              >
+                <Newspaper className="h-8 w-8" />
+                <div className="text-center">
+                  <div className="font-semibold">Feed</div>
+                  <div className="text-xs text-muted-foreground">
+                    Members post updates (no comments)
+                  </div>
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setValue("type", "CHAT")}
+                className={`flex flex-col items-center gap-2 p-4 border-2 rounded-lg transition-colors ${communityType === "CHAT"
+                    ? "border-primary bg-primary/5"
+                    : "border-border hover:border-primary/50"
+                  }`}
+              >
+                <MessageSquare className="h-8 w-8" />
+                <div className="text-center">
+                  <div className="font-semibold">Chat</div>
+                  <div className="text-xs text-muted-foreground">
+                    Real-time conversations
+                  </div>
+                </div>
+              </button>
+            </div>
           </div>
 
           <div className="space-y-2">

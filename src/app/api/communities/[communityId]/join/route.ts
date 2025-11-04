@@ -32,10 +32,7 @@ export async function POST(
     });
 
     if (existingMember) {
-      return Response.json(
-        { error: "Already a member" },
-        { status: 400 }
-      );
+      return Response.json({ error: "Already a member" }, { status: 400 });
     }
 
     await prisma.$transaction([
@@ -48,11 +45,7 @@ export async function POST(
       }),
       prisma.community.update({
         where: { id: communityId },
-        data: {
-          memberCount: {
-            increment: 1
-          }
-        }
+        data: { memberCount: { increment: 1 } }
       })
     ]);
 
@@ -73,13 +66,11 @@ export async function DELETE(
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { communityId } = params;
-
     const member = await prisma.communityMember.findUnique({
       where: {
         userId_communityId: {
           userId: user.id,
-          communityId
+          communityId: params.communityId
         }
       }
     });
@@ -93,17 +84,13 @@ export async function DELETE(
         where: {
           userId_communityId: {
             userId: user.id,
-            communityId
+            communityId: params.communityId
           }
         }
       }),
       prisma.community.update({
-        where: { id: communityId },
-        data: {
-          memberCount: {
-            decrement: 1
-          }
-        }
+        where: { id: params.communityId },
+        data: { memberCount: { decrement: 1 } }
       })
     ]);
 
