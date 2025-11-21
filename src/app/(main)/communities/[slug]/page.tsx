@@ -8,7 +8,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
     Users,
-    Settings,
     Trash2,
     Send,
     Loader2,
@@ -33,6 +32,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import Loading from "@/app/loading";
 export default function CommunityPage({
     params,
 }: {
@@ -133,9 +133,7 @@ export default function CommunityPage({
     });
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <Loader2 className="h-8 w-8 animate-spin" />
-            </div>
+            <Loading />
         );
     }
     if (!community) {

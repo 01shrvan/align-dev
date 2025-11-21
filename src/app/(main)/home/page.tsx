@@ -17,10 +17,10 @@ export default function Home() {
               <TabsTrigger value="following">Following</TabsTrigger>
             </TabsList>
             <TabsContent value="for-you" className="space-y-4">
-              <ForYouFeed />
+              <ForYouFeed key="for-you" />
             </TabsContent>
             <TabsContent value="following" className="space-y-4">
-              <FollowingFeed />
+              <FollowingFeed key="following" />
             </TabsContent>
           </Tabs>
         </div>

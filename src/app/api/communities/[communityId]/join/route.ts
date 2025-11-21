@@ -4,7 +4,7 @@ import { NextRequest } from "next/server";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { communityId: string } }
+  { params }: { params: Promise<{ communityId: string }> }
 ) {
   try {
     const { user } = await validateRequest();
@@ -12,7 +12,7 @@ export async function POST(
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { communityId } = params;
+    const { communityId } = await params;
 
     const community = await prisma.community.findUnique({
       where: { id: communityId }
@@ -58,7 +58,7 @@ export async function POST(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { communityId: string } }
+  { params }: { params: Promise<{ communityId: string }> }
 ) {
   try {
     const { user } = await validateRequest();
@@ -66,11 +66,13 @@ export async function DELETE(
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { communityId } = await params;
+
     const member = await prisma.communityMember.findUnique({
       where: {
         userId_communityId: {
           userId: user.id,
-          communityId: params.communityId
+          communityId
         }
       }
     });
@@ -84,12 +86,12 @@ export async function DELETE(
         where: {
           userId_communityId: {
             userId: user.id,
-            communityId: params.communityId
+            communityId
           }
         }
       }),
       prisma.community.update({
-        where: { id: params.communityId },
+        where: { id: communityId },
         data: { memberCount: { decrement: 1 } }
       })
     ]);
