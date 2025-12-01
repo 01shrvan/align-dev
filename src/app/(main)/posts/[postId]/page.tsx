@@ -43,6 +43,7 @@ export async function generateMetadata({
           username: true,
           displayName: true,
           avatarUrl: true,
+          bio: true,
         },
       },
       attachments: true,
@@ -59,9 +60,17 @@ export async function generateMetadata({
     return { title: "Post not found" };
   }
 
+  const sections = (post.user.bio || "")
+    .split("\n\n")
+    .map((s) => s.trim())
+    .filter((s) => s);
+  const story = sections.length === 3 ? sections[0] : undefined;
+
   const snippet = post.content.trim().slice(0, 160);
   const counts = `❤ ${post._count.likes} · 💬 ${post._count.comments}`;
-  const description = `${snippet}${post.content.length > 160 ? "…" : ""} · ${counts}`;
+  const description = story
+    ? (story.length > 240 ? `${story.slice(0, 237)}…` : story)
+    : `${snippet}${post.content.length > 160 ? "…" : ""} · ${counts}`;
 
   const imageAttachment = post.attachments.find((m) => m.type === "IMAGE");
   const image = imageAttachment?.url || post.user.avatarUrl || "/assets/opengraph-image.png";

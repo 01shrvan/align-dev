@@ -1,4 +1,3 @@
-"use client";
 import type { Metadata } from "next";
 import { use, useState } from "react";
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
