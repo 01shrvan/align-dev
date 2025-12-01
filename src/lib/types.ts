@@ -97,6 +97,11 @@ export interface PostsPage {
   nextCursor: string | null;
 }
 
+export interface UsersPage {
+  users: UserData[];
+  nextCursor: string | null;
+}
+
 export function getCommentDataInclude(loggedInUserId: string) {
   return {
     user: {
