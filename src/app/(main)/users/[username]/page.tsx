@@ -63,12 +63,66 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { username } = await params;
-  const { user: loggedInUser } = await validateRequest();
-  if (!loggedInUser) return {};
+  const user = await prisma.user.findFirst({
+    where: {
+      username: {
+        equals: username,
+        mode: "insensitive",
+      },
+    },
+    select: {
+      id: true,
+      username: true,
+      displayName: true,
+      avatarUrl: true,
+      bio: true,
+      interests: true,
+      occupation: true,
+      location: true,
+      createdAt: true,
+      _count: { select: { posts: true, followers: true } },
+    },
+  });
 
-  const user = await getUser(username, loggedInUser.id);
+  if (!user) {
+    return { title: "User not found" };
+  }
+
+  const interestSummary = (user.interests ?? []).slice(0, 3).join(", ");
+  const details: string[] = [];
+  if (user.occupation) details.push(user.occupation);
+  if (user.location) details.push(user.location);
+  const counts = `Posts: ${formatNumber(user._count.posts)} · Followers: ${formatNumber(user._count.followers)}`;
+
+  const baseDescription = user.bio?.trim()
+    ? (user.bio.length > 200 ? `${user.bio.slice(0, 197)}...` : user.bio)
+    : [details.join(" • "), interestSummary ? `Interests: ${interestSummary}` : null, counts]
+        .filter(Boolean)
+        .join(" • ");
+
+  const image = user.avatarUrl || "/assets/opengraph-image.png";
+  const description = user.avatarUrl
+    ? baseDescription
+    : `Discover ${user.displayName} on Align — where thoughts find their people. ${counts}${interestSummary ? ` • Interests: ${interestSummary}` : ""}`.slice(0, 240);
+  const url = `/users/${user.username}`;
+
   return {
     title: `${user.displayName} (@${user.username})`,
+    description,
+    openGraph: {
+      type: "profile",
+      url,
+      title: `${user.displayName} (@${user.username})`,
+      description,
+      images: [{ url: image }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${user.displayName} (@${user.username})`,
+      description,
+      images: [image],
+    },
+    alternates: { canonical: url },
   };
 }
 
