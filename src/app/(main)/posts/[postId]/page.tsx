@@ -33,14 +33,59 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { postId } = await params;
-  const { user } = await validateRequest();
 
-  if (!user) return {};
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
+    include: {
+      user: {
+        select: {
+          id: true,
+          username: true,
+          displayName: true,
+          avatarUrl: true,
+        },
+      },
+      attachments: true,
+      _count: {
+        select: {
+          likes: true,
+          comments: true,
+        },
+      },
+    },
+  });
 
-  const post = await getPost(postId, user.id);
+  if (!post) {
+    return { title: "Post not found" };
+  }
+
+  const snippet = post.content.trim().slice(0, 160);
+  const counts = `❤ ${post._count.likes} · 💬 ${post._count.comments}`;
+  const description = `${snippet}${post.content.length > 160 ? "…" : ""} · ${counts}`;
+
+  const imageAttachment = post.attachments.find((m) => m.type === "IMAGE");
+  const image = imageAttachment?.url || post.user.avatarUrl || "/assets/opengraph-image.png";
+  const url = `/posts/${post.id}`;
+
+  const title = `${post.user.displayName} (@${post.user.username})`;
 
   return {
-    title: `${post.user.displayName}: ${post.content.slice(0, 50)}...`,
+    title,
+    description,
+    openGraph: {
+      type: "article",
+      url,
+      title,
+      description,
+      images: [{ url: image }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+    alternates: { canonical: url },
   };
 }
 
