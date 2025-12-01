@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+"use client";
+ 
 import { use, useState } from "react";
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
 import kyInstance from "@/lib/ky";
