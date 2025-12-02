@@ -63,7 +63,7 @@ const menuItems = [
     title: "Communities",
   },
   { href: "/jobs", icon: Briefcase, label: "Jobs", title: "Jobs" },
-  { href: "/ava", icon: MessageCircle, label: "Ava", title: "Ava" },
+  // { href: "/ava", icon: MessageCircle, label: "Ava", title: "Ava" },
 ];
 
 export default function UserButton({
