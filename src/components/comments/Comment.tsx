@@ -5,6 +5,7 @@ import Link from "next/link";
 import * as AvatarComponent from "@/components/ui/avatar";
 import UserTooltip from "../UserTooltip";
 import CommentMoreButton from "./CommentMoreButton";
+import VerifiedBadge from "@/components/VerifiedBadge";
 
 interface CommentProps {
   comment: CommentData;
@@ -30,12 +31,15 @@ export default function Comment({ comment }: CommentProps) {
       <div>
         <div className="flex items-center gap-1 text-sm">
           <UserTooltip user={comment.user}>
-            <Link
-              href={`/users/${comment.user.username}`}
-              className="font-medium hover:underline"
-            >
-              {comment.user.displayName}
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link 
+                href={`/users/${comment.user.username}`}
+                className="font-semibold hover:underline"
+              >
+                {comment.user.displayName}
+              </Link>
+              {comment.user.isVerified && <VerifiedBadge size={14} />}
+            </div>
           </UserTooltip>
           <span className="text-muted-foreground">
             {formatRelativeDate(comment.createdAt)}

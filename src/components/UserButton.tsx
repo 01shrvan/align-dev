@@ -35,6 +35,7 @@ import {
 import * as AvatarComponent from "@/components/ui/avatar";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
+import VerifiedBadge from "@/components/VerifiedBadge";
 
 interface UserButtonProps {
   className?: string;
@@ -131,7 +132,10 @@ export default function UserButton({
               </AvatarComponent.AvatarFallback>
             </AvatarComponent.Avatar>
             <div className="flex flex-col min-w-0">
-              <p className="font-semibold text-sm truncate">@{user.username}</p>
+              <div className="flex items-center gap-2">
+                <span className="font-medium">{user.displayName}</span>
+                {user.isVerified && <VerifiedBadge size={16} />}
+              </div>
               <p className="text-xs text-muted-foreground">View your profile</p>
             </div>
           </div>

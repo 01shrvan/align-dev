@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "seed:communities": "tsx prisma/seed-communities.ts"
+    "seed:communities": "tsx prisma/seed-communities.ts",
+    "verify:user": "tsx scripts/verify-user.ts verify",
+    "unverify:user": "tsx scripts/verify-user.ts unverify",
+    "verify:list": "tsx scripts/verify-user.ts list"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",

@@ -7,6 +7,7 @@ import prisma from "@/lib/prisma";
 import { getPostDataInclude, UserData } from "@/lib/types";
 import { Loader2 } from "lucide-react";
 import { Metadata } from "next";
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import * as AvatarComponent from "@/components/ui/avatar";
 import { notFound } from "next/navigation";

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import FollowButton from "./FollowButton";
 import * as AvatarComponent from "@/components/ui/avatar";
+import VerifiedBadge from "@/components/VerifiedBadge";
 import UserTooltip from "./UserTooltip";
 
 export default function TrendsSidebar() {
@@ -58,8 +59,9 @@ async function WhoToFollow() {
                 </AvatarComponent.AvatarFallback>
               </AvatarComponent.Avatar>
               <div>
-                <p className="line-clamp-1 break-all font-semibold hover:underline">
+                <p className="line-clamp-1 break-all font-semibold hover:underline flex items-center gap-1">
                   {user.displayName}
+                  {user.isVerified && <VerifiedBadge size={14} />}
                 </p>
                 <p className="line-clamp-1 break-all text-muted-foreground">
                   @{user.username}

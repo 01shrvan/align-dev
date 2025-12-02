@@ -15,6 +15,7 @@ import BookmarkButton from "./BookmarkButton";
 import Comments from "../comments/Comments";
 import { MessageSquare } from "lucide-react";
 import { useState } from "react";
+import VerifiedBadge from "@/components/VerifiedBadge";
 
 interface PostProps {
   post: PostData;
@@ -44,10 +45,11 @@ export default function Post({ post }: PostProps) {
             <UserTooltip user={post.user}>
               <Link
                 href={`/users/${post.user.username}`}
-                className="block font-medium hover:underline"
+                className="flex items-center gap-1.5 font-medium hover:underline"
                 suppressHydrationWarning
               >
                 {post.user.displayName}
+                {post.user.isVerified && <VerifiedBadge size={16} />}
               </Link>
             </UserTooltip>
             <Link

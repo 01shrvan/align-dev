@@ -7,11 +7,13 @@ import { type FollowerInfo } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import type { Metadata } from "next";
+export const dynamic = "force-dynamic";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import UserPosts from "./UserPosts";
 import EditProfileButton from "./EditProfileButton";
 import * as AvatarComponent from "@/components/ui/avatar";
+import VerifiedBadge from "@/components/VerifiedBadge";
 
 interface PageProps {
   params: Promise<{ username: string }>;
@@ -31,6 +33,7 @@ const getUser = cache(async (username: string, loggedInUserId: string) => {
       displayName: true,
       avatarUrl: true,
       bio: true,
+      isVerified: true,
       createdAt: true,
       interests: true,
       occupation: true,
@@ -205,7 +208,10 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
       <div className="flex flex-wrap gap-3 sm:flex-nowrap">
         <div className="me-auto space-y-3">
           <div>
-            <h1 className="text-3xl font-bold">{user.displayName}</h1>
+            <h1 className="text-3xl font-bold flex items-center gap-2">
+              {user.displayName}
+              {user.isVerified && <VerifiedBadge size={18} />}
+            </h1>
             <div className="text-muted-foreground">@{user.username}</div>
           </div>
           <div className="text-sm text-muted-foreground">
