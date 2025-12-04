@@ -40,7 +40,6 @@ model User {
   communityPosts        CommunityPost[]    @relation("CommunityPosts")
   communityMessages     CommunityMessage[] @relation("CommunityMessages")
   isVerified            Boolean            @default(false)
-
   isOnboarded Boolean  @default(false)
   interests   String[] @default([])
   location    String?

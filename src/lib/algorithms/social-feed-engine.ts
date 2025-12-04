@@ -45,6 +45,20 @@ export class SocialFeedAlgorithm {
     const reasons: FeedScore['reasons'] = [];
     let totalScore = 0;
 
+    if (post.user.isVerified) {
+      return {
+        postId: post.id,
+        score: 10,
+        reasons: [
+          {
+            type: 'follower',
+            description: 'Verified creator',
+            weight: 1
+          }
+        ]
+      };
+    }
+
     const isFollowing = currentUser.following.some(f => f.followingId === post.userId);
     if (isFollowing) {
       totalScore += 0.4;
