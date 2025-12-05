@@ -36,17 +36,12 @@ export default function Page() {
 
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className="text-5xl lg:text-6xl font-bold">Welcome back</h1>
-              <h2 className="text-2xl font-normal">Login today.</h2>
+              <h1 className="text-5xl lg:text-6xl font-bold">
+                Welcome back<br />Aligner!
+              </h1>
             </div>
 
             <div className="space-y-4">
-              <GoogleSignInButton />
-              <div className="flex items-center gap-3">
-                <div className="h-px flex-1 bg-muted" />
-                <span>OR</span>
-                <div className="h-px flex-1 bg-muted" />
-              </div>
               <LoginForm />
             </div>
 
