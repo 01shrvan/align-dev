@@ -62,6 +62,7 @@ export async function signUp(
         email,
         passwordHash,
         isOnboarded: false,
+        tags: ["aligners"]
       },
     });
 

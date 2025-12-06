@@ -45,6 +45,15 @@ export class SocialFeedAlgorithm {
     const reasons: FeedScore['reasons'] = [];
     let totalScore = 0;
 
+    if (!post.user) {
+      console.error("Post missing user in scorePostForUser:", post.id);
+      return {
+        postId: post.id,
+        score: 0,
+        reasons: []
+      };
+    }
+
     const isFollowing = currentUser.following.some(f => f.followingId === post.userId);
     if (isFollowing) {
       totalScore += 0.4;
@@ -153,10 +162,18 @@ export class SocialFeedAlgorithm {
     feedType: 'forYou' | 'following'
   ): Array<PostData & { feedScore: FeedScore }> {
     
+    const validPosts = allPosts.filter(post => {
+      if (!post.user) {
+        console.error("Filtering out post without user data:", post.id);
+        return false;
+      }
+      return true;
+    });
+
     const verifiedPosts: PostData[] = [];
     const nonVerifiedPosts: PostData[] = [];
 
-    for (const post of allPosts) {
+    for (const post of validPosts) {
       if (feedType === 'forYou' && post.userId === currentUser.id) {
         continue;
       }
@@ -164,7 +181,7 @@ export class SocialFeedAlgorithm {
       const author = allUsers.find(u => u.id === post.userId);
       if (!author) continue;
 
-      if (author.isVerified) {
+      if (post.user.isVerified) {
         verifiedPosts.push(post);
       } else {
         nonVerifiedPosts.push(post);
@@ -172,15 +189,15 @@ export class SocialFeedAlgorithm {
     }
 
     const scoredVerifiedPosts = verifiedPosts.map(post => {
-      const author = allUsers.find(u => u.id === post.userId)!;
       return {
         ...post,
+        user: post.user,
         feedScore: {
           postId: post.id,
           score: 999,
           reasons: [{
             type: 'follower' as const,
-            description: `Verified creator: @${author.username}`,
+            description: `Verified creator: @${post.user.username}`,
             weight: 999
           }]
         }
@@ -205,6 +222,7 @@ export class SocialFeedAlgorithm {
         
         return {
           ...post,
+          user: post.user,
           feedScore
         };
       })
@@ -232,6 +250,7 @@ export class SocialFeedAlgorithm {
 
           return {
             ...post,
+            user: post.user,
             feedScore: {
               postId: post.id,
               score: fallbackScore,
@@ -371,7 +390,7 @@ export class SocialFeedAlgorithm {
       .slice(0, limit);
   }
 
-  private diversifyByAuthorPreservingVerified<T extends { userId: string; feedScore: { score: number } }>(
+  private diversifyByAuthorPreservingVerified<T extends { userId: string; user: any; feedScore: { score: number } }>(
     items: T[],
     maxPerAuthor: number
   ): T[] {

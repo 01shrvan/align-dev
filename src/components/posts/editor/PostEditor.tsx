@@ -9,12 +9,12 @@ import StarterKit from "@tiptap/starter-kit";
 import { useDropzone } from "@uploadthing/react";
 import { useSubmitPostMutation } from "./mutations";
 import "./styles.css";
-import { ImageIcon, Loader2, X } from "lucide-react";
+import { ImageIcon, Loader2, X, Users } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import useMediaUpload, { type Attachment } from "./useMediaUpload";
 import { Button } from "@/components/ui/button";
-import { type ClipboardEvent, useRef } from "react";
+import { type ClipboardEvent, useRef, useState } from "react";
 
 export default function PostEditor() {
   const { user } = useSession();
@@ -34,6 +34,8 @@ export default function PostEditor() {
   });
 
   const { onClick, ...rootProps } = getRootProps();
+
+  const [showMentionSuggestions, setShowMentionSuggestions] = useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -55,6 +57,15 @@ export default function PostEditor() {
         }
         return false;
       },
+    },
+    onUpdate({ editor }) {
+      const text = editor.getText({ blockSeparator: "\n" });
+      const lastWord = text.split(/\s/).pop() || "";
+      if (lastWord.startsWith("@")) {
+        setShowMentionSuggestions(true);
+      } else {
+        setShowMentionSuggestions(false);
+      }
     },
   });
 
@@ -96,7 +107,7 @@ export default function PostEditor() {
           </AvatarComponent.AvatarFallback>
         </AvatarComponent.Avatar>
 
-        <div {...rootProps} className="w-full">
+        <div {...rootProps} className="w-full relative">
           <EditorContent
             editor={editor}
             className={cn(
@@ -106,6 +117,23 @@ export default function PostEditor() {
             onPaste={onPaste}
           />
           <input {...getInputProps()} />
+          {showMentionSuggestions && (
+            <div className="absolute top-full mt-2 left-0 bg-card border rounded-lg shadow-lg p-2 z-50 min-w-[250px]">
+              <button
+                onClick={() => {
+                  editor?.commands.insertContent("@aligners ");
+                  setShowMentionSuggestions(false);
+                }}
+                className="flex items-center gap-2 px-3 py-2 hover:bg-accent rounded w-full text-left"
+              >
+                <Users className="h-4 w-4" />
+                <span className="font-semibold">@aligners</span>
+                <span className="text-xs text-muted-foreground ml-auto">
+                  Mention all users
+                </span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

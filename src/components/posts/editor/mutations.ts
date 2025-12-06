@@ -35,11 +35,29 @@ export function useSubmitPostMutation() {
           const firstPage = oldData?.pages[0];
 
           if (firstPage) {
+            const postWithUser = {
+              ...newPost,
+              user: {
+                id: user.id,
+                username: user.username,
+                displayName: user.displayName,
+                avatarUrl: user.avatarUrl,
+                bio: user.bio,
+                isVerified: user.isVerified,
+                createdAt: user.createdAt,
+                followers: [],
+                _count: {
+                  posts: 0,
+                  followers: 0,
+                },
+              },
+            };
+
             return {
               pageParams: oldData.pageParams,
               pages: [
                 {
-                  posts: [newPost, ...firstPage.posts],
+                  posts: [postWithUser, ...firstPage.posts],
                   nextCursor: firstPage.nextCursor,
                 },
                 ...oldData.pages.slice(1),

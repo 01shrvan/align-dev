@@ -92,8 +92,31 @@ export async function GET(req: NextRequest) {
 
     const finalPosts = paginatedPosts.slice(0, pageSize);
 
+    const serializedPosts = finalPosts.map(post => ({
+      id: post.id,
+      content: post.content,
+      userId: post.userId,
+      createdAt: post.createdAt,
+      user: {
+        id: post.user.id,
+        username: post.user.username,
+        displayName: post.user.displayName,
+        avatarUrl: post.user.avatarUrl,
+        bio: post.user.bio,
+        isVerified: post.user.isVerified,
+        createdAt: post.user.createdAt,
+        followers: post.user.followers,
+        _count: post.user._count,
+      },
+      attachments: post.attachments,
+      likes: post.likes,
+      bookmarks: post.bookmarks,
+      _count: post._count,
+      feedScore: post.feedScore,
+    }));
+
     const data: PostsPage = {
-      posts: finalPosts,
+      posts: serializedPosts as any,
       nextCursor: finalPosts.length === pageSize 
         ? finalPosts[finalPosts.length - 1].id 
         : null,

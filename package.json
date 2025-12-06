@@ -11,7 +11,8 @@
     "seed:communities": "tsx prisma/seed-communities.ts",
     "verify:user": "tsx scripts/verify-user.ts verify",
     "unverify:user": "tsx scripts/verify-user.ts unverify",
-    "verify:list": "tsx scripts/verify-user.ts list"
+    "verify:list": "tsx scripts/verify-user.ts list",
+    "add-aligners-tag": "tsx scripts/add-aligners-tag.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -78,6 +79,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.12",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "tw-animate-css": "^1.3.4",
     "typescript": "^5"
   }

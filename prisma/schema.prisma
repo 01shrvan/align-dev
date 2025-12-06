@@ -40,12 +40,13 @@ model User {
   communityPosts        CommunityPost[]    @relation("CommunityPosts")
   communityMessages     CommunityMessage[] @relation("CommunityMessages")
   isVerified            Boolean            @default(false)
-  isOnboarded Boolean  @default(false)
-  interests   String[] @default([])
-  location    String?
-  age         Int?
-  gender      String?
-  occupation  String?
+  isOnboarded           Boolean            @default(false)
+  interests             String[]           @default([])
+  location              String?
+  age                   Int?
+  gender                String?
+  occupation            String?
+  tags                  String[]           @default(["aligners"])
 
   createdAt DateTime @default(now())
 
@@ -162,6 +163,8 @@ enum NotificationType {
   LIKE
   FOLLOW
   COMMENT
+  MENTION
+  ALIGNERS
 }
 
 model Job {

@@ -2,36 +2,79 @@ import * as AvatarComponent from "@/components/ui/avatar";
 import type { NotificationType } from "@/generated/prisma";
 import type { NotificationData } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Heart, MessageCircle, User2 } from "lucide-react";
+import { Heart, MessageCircle, User2, AtSign, Users, Bell } from "lucide-react";
 import Link from "next/link";
 
 interface NotificationProps {
   notification: NotificationData;
 }
 
-export default function Notification({ notification }: NotificationProps) {
-  const notificationTypeMap: Record<
-    NotificationType,
-    { message: string; icon: JSX.Element; href: string }
-  > = {
-    FOLLOW: {
-      message: `${notification.issuer.displayName} followed you`,
-      icon: <User2 className="size-7 text-primary" />,
-      href: `/users/${notification.issuer.username}`,
-    },
-    COMMENT: {
-      message: `${notification.issuer.displayName} commented on your post`,
-      icon: <MessageCircle className="size-7 fill-primary text-primary" />,
-      href: `/posts/${notification.postId}`,
-    },
-    LIKE: {
-      message: `${notification.issuer.displayName} liked your post`,
-      icon: <Heart className="size-7 fill-red-500 text-red-500" />,
-      href: `/posts/${notification.postId}`,
-    },
-  };
+function getNotificationText(notification: NotificationData): string {
+  const issuerName = notification.issuer.displayName;
 
-  const { message, icon, href } = notificationTypeMap[notification.type];
+  switch (notification.type) {
+    case "FOLLOW":
+      return `${issuerName} followed you`;
+
+    case "LIKE":
+      return `${issuerName} liked your post`;
+
+    case "COMMENT":
+      return `${issuerName} commented on your post`;
+
+    case "MENTION":
+      return `mentioned you in a post`;
+
+    case "ALIGNERS":
+      return `mentioned @aligners`;
+
+    default:
+      return "New notification";
+  }
+}
+
+function getNotificationIcon(type: NotificationType) {
+  switch (type) {
+    case "FOLLOW":
+      return <User2 className="size-7 text-primary" />;
+
+    case "LIKE":
+      return <Heart className="size-7 fill-red-500 text-red-500" />;
+
+    case "COMMENT":
+      return <MessageCircle className="size-7 fill-primary text-primary" />;
+
+    case "MENTION":
+      return <AtSign className="size-7 text-primary" />;
+
+    case "ALIGNERS":
+      return <Users className="size-7 text-primary" />;
+
+    default:
+      return <Bell className="size-7" />;
+  }
+}
+
+function getNotificationHref(notification: NotificationData): string {
+  switch (notification.type) {
+    case "FOLLOW":
+      return `/users/${notification.issuer.username}`;
+
+    case "LIKE":
+    case "COMMENT":
+    case "MENTION":
+    case "ALIGNERS":
+      return `/posts/${notification.postId}`;
+
+    default:
+      return "/";
+  }
+}
+
+export default function Notification({ notification }: NotificationProps) {
+  const message = getNotificationText(notification);
+  const icon = getNotificationIcon(notification.type);
+  const href = getNotificationHref(notification);
 
   return (
     <Link href={href} className="block">
