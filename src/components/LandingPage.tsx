@@ -18,18 +18,37 @@ import logo from "@/assets/logo.svg";
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-in");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll("[data-animate]").forEach((el) => {
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       <main className="bg-background text-foreground">
-        <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/30">
+        <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/30 transition-all duration-300">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
-                <Link href="/" className="flex items-center gap-2">
-                  <div className="w-8 h-8">
+                <Link href="/" className="flex items-center gap-2 group">
+                  <div className="w-8 h-8 transition-transform duration-300 group-hover:scale-110">
                     <Image src={logo} alt="Align Network Logo" />
                   </div>
-                  <span className="font-thunder text-3xl font-semibold">
+                  <span className="font-thunder text-3xl font-semibold transition-colors duration-300 group-hover:text-accent">
                     Align Network
                   </span>
                 </Link>
@@ -37,9 +56,9 @@ export default function Home() {
 
               <div className="hidden md:flex items-center">
                 <Link href="/login">
-                  <Button className="bg-accent text-background hover:bg-accent/90 rounded-sm font-sans">
+                  <Button className="bg-accent text-background hover:bg-accent/90 rounded-sm font-sans transition-all duration-300 hover:scale-105">
                     Get Started
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </Link>
               </div>
@@ -50,11 +69,12 @@ export default function Home() {
                   size="icon"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                  className="transition-transform duration-300 hover:rotate-12"
                 >
                   {mobileMenuOpen ? (
-                    <X className="h-5 w-5" />
+                    <X className="h-5 w-5 transition-transform duration-300" />
                   ) : (
-                    <Menu className="h-5 w-5" />
+                    <Menu className="h-5 w-5 transition-transform duration-300" />
                   )}
                 </Button>
               </div>
@@ -62,11 +82,11 @@ export default function Home() {
           </div>
 
           {mobileMenuOpen && (
-            <div className="md:hidden bg-background border-b border-border/30">
+            <div className="md:hidden bg-background border-b border-border/30 animate-slide-down">
               <div className="container mx-auto px-4 py-4">
                 <div className="flex flex-col space-y-4">
                   <Link href="/login" className="w-full">
-                    <Button className="w-full bg-accent text-background hover:bg-accent/90 rounded-sm font-sans">
+                    <Button className="w-full bg-accent text-background hover:bg-accent/90 rounded-sm font-sans transition-all duration-300 hover:scale-105">
                       Get Started
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
@@ -79,40 +99,40 @@ export default function Home() {
 
         <main className="container mx-auto px-4 sm:px-6 lg:px-8 pt-28 md:pt-36 pb-28 md:pb-36">
           <div className="grid lg:grid-cols-12 gap-6 space-y-12 sm:gap-8 items-center">
-            <div className="lg:col-span-7">
-              <span className="inline-flex items-center rounded-full border border-border/40 px-3 py-1 text-[10px] uppercase tracking-wider text-muted-foreground font-sans">
+            <div className="lg:col-span-7" data-animate>
+              <span className="inline-flex items-center rounded-full border border-border/40 px-3 py-1 text-[10px] uppercase tracking-wider text-muted-foreground font-sans opacity-0 animate-fade-in-up delay-100">
                 No followers. No gatekeeping.
               </span>
 
-              <h1 className="mt-4 sm:mt-6 font-thunder font-bold text-7xl">
+              <h1 className="mt-4 sm:mt-6 font-thunder font-bold text-7xl opacity-0 animate-fade-in-up delay-200">
                 Your ideas <span className="text-accent">matter</span>, not your clout.
               </h1>
 
-              <p className="mt-4 max-w-xl text-sm sm:text-base text-muted-foreground font-sans">
+              <p className="mt-4 max-w-xl text-sm sm:text-base text-muted-foreground font-sans opacity-0 animate-fade-in-up delay-300">
                 Post once. Get discovered by people who vibe with you. On Align, your first reflection has the same reach as your 1000th—because it's about what you said, not who you are.
               </p>
 
-              <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
+              <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 opacity-0 animate-fade-in-up delay-400">
                 <Link href="/login">
                   <Button
                     size="lg"
-                    className="bg-accent text-background hover:bg-accent/90 rounded-sm font-sans"
+                    className="bg-accent text-background hover:bg-accent/90 rounded-sm font-sans transition-all duration-300 hover:scale-105 hover:shadow-lg"
                   >
                     Start reflecting
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </Link>
               </div>
             </div>
 
-            <div className="lg:col-span-5">
-              <div className="relative mx-auto w-full max-w-sm">
-                <div className="relative">
-                  <div className="absolute top-4 left-4 right-4 h-64 bg-accent/5 rounded-lg border border-accent/10 transform rotate-6 animate-pulse"></div>
+            <div className="lg:col-span-5" data-animate>
+              <div className="relative mx-auto w-full max-w-sm opacity-0 animate-fade-in-up delay-500">
+                <div className="relative group">
+                  <div className="absolute top-4 left-4 right-4 h-64 bg-accent/5 rounded-lg border border-accent/10 transform rotate-6 animate-pulse transition-all duration-500 group-hover:rotate-3 group-hover:scale-105"></div>
 
-                  <div className="absolute top-2 left-2 right-2 h-64 bg-accent/10 rounded-lg border border-accent/20 transform rotate-3 animate-pulse delay-150"></div>
+                  <div className="absolute top-2 left-2 right-2 h-64 bg-accent/10 rounded-lg border border-accent/20 transform rotate-3 animate-pulse delay-150 transition-all duration-500 group-hover:rotate-1 group-hover:scale-105"></div>
 
-                  <div className="relative h-64 bg-background rounded-lg border border-border/40 p-6 overflow-hidden animate-fade-in">
+                  <div className="relative h-64 bg-background rounded-lg border border-border/40 p-6 overflow-hidden animate-fade-in transition-all duration-500 group-hover:scale-105 group-hover:shadow-xl">
                     <div className="absolute top-0 right-0 w-20 h-20 bg-accent/5 rounded-full transform translate-x-10 -translate-y-10 animate-pulse"></div>
                     <div className="absolute bottom-0 left-0 w-16 h-16 bg-accent/5 rounded-full transform -translate-x-8 translate-y-8 animate-pulse delay-300"></div>
 
@@ -121,8 +141,8 @@ export default function Home() {
                         <div className="text-xs uppercase tracking-wider text-muted-foreground/70 font-sans">
                           Your next reflection
                         </div>
-                        <div className="mt-2 text-lg font-thunder">
-                          “What if your next post could land you a co-founder, a mentor, or your dream gig—without a single follower?”
+                        <div className="mt-2 text-lg font-stretch-normal">
+                          "What if your next post could land you a co-founder, a mentor or your dream gig—without a single follower?"
                         </div>
                       </div>
 
@@ -131,9 +151,6 @@ export default function Home() {
                           <div className="w-2 h-2 rounded-full bg-accent/40 animate-ping"></div>
                           <div className="w-2 h-2 rounded-full bg-accent/60 animate-ping delay-100"></div>
                           <div className="w-2 h-2 rounded-full bg-accent/80 animate-ping delay-200"></div>
-                        </div>
-                        <div className="text-xs text-muted-foreground/70">
-                          3 aligned replies
                         </div>
                       </div>
                     </div>
@@ -145,9 +162,9 @@ export default function Home() {
         </main>
 
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
-          <div className="grid gap-6 sm:gap-8 lg:grid-cols-12">
-            <div className="lg:col-span-5">
-              <h2 className="font-thunder  text-4xl">
+          <div className="grid gap-6 sm:gap-8 lg:grid-cols-12" data-animate>
+            <div className="lg:col-span-5 opacity-0 animate-fade-in-up">
+              <h2 className="font-thunder text-4xl">
                 The broken system—fixed
               </h2>
               <p className="mt-3 text-sm text-muted-foreground font-sans">
@@ -156,9 +173,9 @@ export default function Home() {
             </div>
 
             <ul className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-colors hover:scale-105">
+              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-100">
                 <div className="flex items-center gap-3">
-                  <Brain className="h-4 w-4 text-accent" />
+                  <Brain className="h-4 w-4 text-accent transition-transform duration-300 group-hover:scale-125" />
                   <h3 className="font-medium font-thunder text-2xl">
                     Zero gatekeeping
                   </h3>
@@ -167,9 +184,9 @@ export default function Home() {
                   Fresh grad? Career changer? Introvert? Your first post reaches the same feed as everyone else.
                 </p>
               </li>
-              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-colors hover:scale-105">
+              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-200">
                 <div className="flex items-center gap-3">
-                  <Sparkles className="h-4 w-4 text-accent" />
+                  <Sparkles className="h-4 w-4 text-accent transition-transform duration-300 group-hover:scale-125" />
                   <h3 className="font-thunder font-medium text-2xl">
                     Reflections {">"} résumés
                   </h3>
@@ -178,9 +195,9 @@ export default function Home() {
                   Share a thought, not a personal brand. We match on tone, tags, and vibes—no follower count required.
                 </p>
               </li>
-              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-colors hover:scale-105">
+              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-300">
                 <div className="flex items-center gap-3">
-                  <MessageSquare className="h-4 w-4 text-accent" />
+                  <MessageSquare className="h-4 w-4 text-accent transition-transform duration-300 group-hover:scale-125" />
                   <h3 className="font-medium font-thunder text-2xl">
                     Instant alignment
                   </h3>
@@ -189,9 +206,9 @@ export default function Home() {
                   Post at 2 a.m. about your weird side project. Wake up to replies from people who actually get it.
                 </p>
               </li>
-              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-colors hover:scale-105">
+              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-400">
                 <div className="flex items-center gap-3">
-                  <ShieldCheck className="h-4 w-4 text-accent" />
+                  <ShieldCheck className="h-4 w-4 text-accent transition-transform duration-300 group-hover:scale-125" />
                   <h3 className="font-medium font-thunder text-2xl">
                     No algorithm games
                   </h3>
@@ -205,12 +222,12 @@ export default function Home() {
         </section>
 
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
-          <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
-            <div className="rounded-lg space-y-4 border border-border/40 p-4 sm:p-6 hover:shadow-accent/10 hover:shadow-lg transition-shadow">
+          <div className="grid gap-4 sm:gap-6 md:grid-cols-2" data-animate>
+            <div className="rounded-lg space-y-4 border border-border/40 p-4 sm:p-6 hover:shadow-accent/10 hover:shadow-lg transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up delay-100">
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-sans">
                 For Gen Z & Early-Career
               </span>
-              <h3 className="mt-2 font-thunder text-4xl ">
+              <h3 className="mt-2 font-thunder text-4xl">
                 Skip the follower grind
               </h3>
               <ul className="mt-3 sm:mt-4 space-y-1 sm:space-y-1 list-disc list-inside text-xs sm:text-base text-muted-foreground font-sans">
@@ -219,7 +236,7 @@ export default function Home() {
                 <li>No need to “build a brand” before you’re heard</li>
               </ul>
             </div>
-            <div className="rounded-lg border border-border/40 p-4 sm:p-6 hover:shadow-accent/10 hover:shadow-lg transition-shadow">
+            <div className="rounded-lg border border-border/40 p-4 sm:p-6 hover:shadow-accent/10 hover:shadow-lg transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up delay-200">
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-sans">
                 For Niche Creators
               </span>
@@ -235,8 +252,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
-          <div className="rounded-lg border border-border/40 px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 text-center hover:shadow-accent/20 hover:shadow-2xl transition-shadow">
+        <section className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16" data-animate>
+          <div className="rounded-lg border border-border/40 px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 text-center hover:shadow-accent/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up">
             <p className="text-xs uppercase tracking-wider text-muted-foreground/80 font-sans mb-2">
               Tired of shouting into the void?
             </p>
@@ -250,10 +267,10 @@ export default function Home() {
               <Link href="/login">
                 <Button
                   size="lg"
-                  className="bg-accent text-background hover:bg-accent/90 rounded-sm font-sans animate-bounce"
+                  className="bg-accent text-background hover:bg-accent/90 rounded-sm font-sans transition-all duration-300 hover:scale-110 hover:shadow-xl animate-bounce"
                 >
                   Start reflecting
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
             </div>
@@ -266,8 +283,8 @@ export default function Home() {
         <footer className="border-t border-border/30 bg-background/80 backdrop-blur-sm py-4">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <div className="relative w-5 h-5">
+              <div className="flex items-center gap-2 group">
+                <div className="relative w-5 h-5 transition-transform duration-300 group-hover:scale-110">
                   <Image
                     src={logo}
                     alt="Align Network Logo"
@@ -275,13 +292,15 @@ export default function Home() {
                     className="object-contain"
                   />
                 </div>
-                <span className="text-sm font-thunder">Align Network</span>
+                <span className="text-sm font-thunder transition-colors duration-300 group-hover:text-accent">
+                  Align Network
+                </span>
               </div>
 
               <div className="flex items-center gap-6 text-xs text-muted-foreground">
                 <Link
                   href="https://x.com/NetworkAli56631"
-                  className="hover:text-accent transition-colors"
+                  className="hover:text-accent transition-all duration-300 hover:scale-125"
                   aria-label="Twitter"
                 >
                   <svg
@@ -295,7 +314,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="https://www.linkedin.com/company/celestia-labs/"
-                  className="hover:text-accent transition-colors"
+                  className="hover:text-accent transition-all duration-300 hover:scale-125"
                   aria-label="LinkedIn"
                 >
                   <svg
@@ -309,7 +328,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="https://discord.gg/4dpETE5G"
-                  className="hover:text-accent transition-colors"
+                  className="hover:text-accent transition-all duration-300 hover:scale-125"
                   aria-label="Discord"
                 >
                   <svg
@@ -329,7 +348,48 @@ export default function Home() {
           </div>
         </footer>
       </main>
+
+      <style jsx>{`
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slide-down {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-in {
+          opacity: 1 !important;
+        }
+
+        .animate-fade-in-up {
+          animation: fade-in-up 0.6s ease-out forwards;
+        }
+
+        .animate-slide-down {
+          animation: slide-down 0.3s ease-out;
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+      `}</style>
     </>
   );
 }
-  
