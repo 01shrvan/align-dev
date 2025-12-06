@@ -16,55 +16,11 @@ import Image from "next/image";
 import logo from "@/assets/logo.svg";
 
 export default function Home() {
-  const [isLoaded, setIsLoaded] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showGreet, setShowGreet] = useState(true);
-  const [greetIndex, setGreetIndex] = useState(0);
-
-  const greetings = [
-    { lang: "English", text: "Welcome" },
-    { lang: "Spanish", text: "Bienvenido" },
-    { lang: "French", text: "Bienvenue" },
-    { lang: "German", text: "Willkommen" },
-    { lang: "Italian", text: "Benvenuto" },
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setGreetIndex((prev) => (prev + 1) % greetings.length);
-    }, 800);
-
-    const timer = setTimeout(() => {
-      clearInterval(interval);
-      setShowGreet(false);
-      setIsLoaded(true);
-    }, 4500);
-
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timer);
-    };
-  }, []);
 
   return (
     <>
-      {showGreet && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 backdrop-blur-lg">
-          <div className="text-center text-white">
-            <div
-              key={greetIndex}
-              className="mb-6 text-8xl xl:text-9xl font-thunder font-extrabold animate-pulse"
-            >
-              {greetings[greetIndex].text}
-            </div>
-            <div className="text-base text-muted-foreground animate-bounce">
-              Think. Match. Align.
-            </div>
-          </div>
-        </div>
-      )}
-
-      <main className={`bg-background text-foreground transition-opacity duration-1000 ${showGreet ? "opacity-0" : "opacity-100"}`}>
+      <main className="bg-background text-foreground">
         <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/30">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
@@ -125,16 +81,15 @@ export default function Home() {
           <div className="grid lg:grid-cols-12 gap-6 space-y-12 sm:gap-8 items-center">
             <div className="lg:col-span-7">
               <span className="inline-flex items-center rounded-full border border-border/40 px-3 py-1 text-[10px] uppercase tracking-wider text-muted-foreground font-sans">
-                New way to connect
+                No followers. No gatekeeping.
               </span>
 
               <h1 className="mt-4 sm:mt-6 font-thunder font-bold text-7xl">
-                Think. Match. <span className="text-accent">Align.</span>
+                Your ideas <span className="text-accent">matter</span>, not your clout.
               </h1>
 
               <p className="mt-4 max-w-xl text-sm sm:text-base text-muted-foreground font-sans">
-                Align helps you find meaningful connections by matching on the way
-                you think and create—not just looks.
+                Post once. Get discovered by people who vibe with you. On Align, your first reflection has the same reach as your 1000th—because it's about what you said, not who you are.
               </p>
 
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
@@ -143,7 +98,7 @@ export default function Home() {
                     size="lg"
                     className="bg-accent text-background hover:bg-accent/90 rounded-sm font-sans"
                   >
-                    Explore feed
+                    Start reflecting
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
@@ -153,34 +108,32 @@ export default function Home() {
             <div className="lg:col-span-5">
               <div className="relative mx-auto w-full max-w-sm">
                 <div className="relative">
-                  <div className="absolute top-4 left-4 right-4 h-64 bg-accent/5 rounded-lg border border-accent/10 transform rotate-6"></div>
+                  <div className="absolute top-4 left-4 right-4 h-64 bg-accent/5 rounded-lg border border-accent/10 transform rotate-6 animate-pulse"></div>
 
-                  <div className="absolute top-2 left-2 right-2 h-64 bg-accent/10 rounded-lg border border-accent/20 transform rotate-3"></div>
+                  <div className="absolute top-2 left-2 right-2 h-64 bg-accent/10 rounded-lg border border-accent/20 transform rotate-3 animate-pulse delay-150"></div>
 
-                  <div className="relative h-64 bg-background rounded-lg border border-border/40 p-6 overflow-hidden">
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-accent/5 rounded-full transform translate-x-10 -translate-y-10"></div>
-                    <div className="absolute bottom-0 left-0 w-16 h-16 bg-accent/5 rounded-full transform -translate-x-8 translate-y-8"></div>
+                  <div className="relative h-64 bg-background rounded-lg border border-border/40 p-6 overflow-hidden animate-fade-in">
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-accent/5 rounded-full transform translate-x-10 -translate-y-10 animate-pulse"></div>
+                    <div className="absolute bottom-0 left-0 w-16 h-16 bg-accent/5 rounded-full transform -translate-x-8 translate-y-8 animate-pulse delay-300"></div>
 
-                    <div
-                      className={`h-full flex flex-col justify-between transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
-                    >
+                    <div className="h-full flex flex-col justify-between opacity-100">
                       <div>
                         <div className="text-xs uppercase tracking-wider text-muted-foreground/70 font-sans">
-                          Thought Profile
+                          Your next reflection
                         </div>
                         <div className="mt-2 text-lg font-thunder">
-                          Creative. Thoughtful. Curious.
+                          “What if your next post could land you a co-founder, a mentor, or your dream gig—without a single follower?”
                         </div>
                       </div>
 
                       <div className="flex items-end justify-between">
                         <div className="flex space-x-2">
-                          <div className="w-2 h-2 rounded-full bg-accent/40"></div>
-                          <div className="w-2 h-2 rounded-full bg-accent/60"></div>
-                          <div className="w-2 h-2 rounded-full bg-accent/80"></div>
+                          <div className="w-2 h-2 rounded-full bg-accent/40 animate-ping"></div>
+                          <div className="w-2 h-2 rounded-full bg-accent/60 animate-ping delay-100"></div>
+                          <div className="w-2 h-2 rounded-full bg-accent/80 animate-ping delay-200"></div>
                         </div>
                         <div className="text-xs text-muted-foreground/70">
-                          align-network
+                          3 aligned replies
                         </div>
                       </div>
                     </div>
@@ -195,57 +148,56 @@ export default function Home() {
           <div className="grid gap-6 sm:gap-8 lg:grid-cols-12">
             <div className="lg:col-span-5">
               <h2 className="font-thunder  text-4xl">
-                Built for depth, creativity, and real connection
+                The broken system—fixed
               </h2>
               <p className="mt-3 text-sm text-muted-foreground font-sans">
-                A lightweight, modern experience that highlights what matters
-                most: your ideas and your craft.
+                LinkedIn buries you without followers. Reddit hides you without karma. Align puts your words on equal ground.
               </p>
             </div>
 
             <ul className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-colors">
+              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-colors hover:scale-105">
                 <div className="flex items-center gap-3">
                   <Brain className="h-4 w-4 text-accent" />
                   <h3 className="font-medium font-thunder text-2xl">
-                    Thought Profiles
+                    Zero gatekeeping
                   </h3>
                 </div>
                 <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans">
-                  Share how you think with short prompts and themes.
+                  Fresh grad? Career changer? Introvert? Your first post reaches the same feed as everyone else.
                 </p>
               </li>
-              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-colors">
+              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-colors hover:scale-105">
                 <div className="flex items-center gap-3">
                   <Sparkles className="h-4 w-4 text-accent" />
                   <h3 className="font-thunder font-medium text-2xl">
-                    Creative Showcase
+                    Reflections {">"} résumés
                   </h3>
                 </div>
                 <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans">
-                  Highlight your art, music, and side projects.
+                  Share a thought, not a personal brand. We match on tone, tags, and vibes—no follower count required.
                 </p>
               </li>
-              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-colors">
+              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-colors hover:scale-105">
                 <div className="flex items-center gap-3">
                   <MessageSquare className="h-4 w-4 text-accent" />
                   <h3 className="font-medium font-thunder text-2xl">
-                    Deeper Matches
+                    Instant alignment
                   </h3>
                 </div>
                 <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans">
-                  Skip small talk. Match on ideas and values.
+                  Post at 2 a.m. about your weird side project. Wake up to replies from people who actually get it.
                 </p>
               </li>
-              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-colors">
+              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-colors hover:scale-105">
                 <div className="flex items-center gap-3">
                   <ShieldCheck className="h-4 w-4 text-accent" />
                   <h3 className="font-medium font-thunder text-2xl">
-                    Privacy First
+                    No algorithm games
                   </h3>
                 </div>
                 <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans">
-                  You control what you share and with whom.
+                  We don’t boost “influencers.” We surface resonance. Every reflection has a fair shot at discovery.
                 </p>
               </li>
             </ul>
@@ -254,58 +206,60 @@ export default function Home() {
 
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
           <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
-            <div className="rounded-lg space-y-4 border border-border/40 p-4 sm:p-6">
+            <div className="rounded-lg space-y-4 border border-border/40 p-4 sm:p-6 hover:shadow-accent/10 hover:shadow-lg transition-shadow">
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-sans">
-                For Gen Z
+                For Gen Z & Early-Career
               </span>
               <h3 className="mt-2 font-thunder text-4xl ">
-                Authenticity over everything
+                Skip the follower grind
               </h3>
               <ul className="mt-3 sm:mt-4 space-y-1 sm:space-y-1 list-disc list-inside text-xs sm:text-base text-muted-foreground font-sans">
-                <li>Show who you are beyond photos</li>
-                <li>Connect through shared ideas</li>
-                <li>Find your creative circle</li>
+                <li>Post once, find your circle overnight</li>
+                <li>Land internships via shared vibes, not cold DMs</li>
+                <li>No need to “build a brand” before you’re heard</li>
               </ul>
             </div>
-            <div className="rounded-lg border border-border/40 p-4 sm:p-6">
+            <div className="rounded-lg border border-border/40 p-4 sm:p-6 hover:shadow-accent/10 hover:shadow-lg transition-shadow">
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-sans">
-                For Creators
+                For Niche Creators
               </span>
               <h3 className="mt-2 font-thunder text-4xl">
-                Find your creative match
+                Discover collaborators instantly
               </h3>
               <ul className="mt-3 sm:mt-4 space-y-1 sm:space-y-1 list-disc list-inside text-xs sm:text-base text-muted-foreground font-sans">
-                <li>Share work in progress safely</li>
-                <li>Be discovered for your craft</li>
-                <li>Collaborate with aligned minds</li>
+                <li>Share WIPs—get aligned feedback, not vanity likes</li>
+                <li>Find co-founders who vibe with your mission</li>
+                <li>Turn reflections into paid gigs</li>
               </ul>
             </div>
           </div>
         </section>
 
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
-          <div className="rounded-lg border border-border/40 px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 text-center">
+          <div className="rounded-lg border border-border/40 px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 text-center hover:shadow-accent/20 hover:shadow-2xl transition-shadow">
             <p className="text-xs uppercase tracking-wider text-muted-foreground/80 font-sans mb-2">
-              Ready to find your match?
+              Tired of shouting into the void?
             </p>
             <h2 className="font-thunder text-9xl font-extrabold uppercase">
               Get <span className="text-accent">aligned</span> today
             </h2>
             <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-muted-foreground font-sans">
-              Experience a new way to connect. Matches based on what really
-              matters.
+              Post your first reflection. Find three people who vibe with it. No followers required.
             </p>
             <div className="mt-4 sm:mt-6">
               <Link href="/login">
                 <Button
                   size="lg"
-                  className="bg-accent text-background hover:bg-accent/90 rounded-sm font-sans"
+                  className="bg-accent text-background hover:bg-accent/90 rounded-sm font-sans animate-bounce"
                 >
-                  Get started
+                  Start reflecting
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </div>
+            <p className="mt-4 text-xs text-muted-foreground/60">
+              Crafted by Shrvan
+            </p>
           </div>
         </section>
 
@@ -378,3 +332,4 @@ export default function Home() {
     </>
   );
 }
+  
