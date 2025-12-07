@@ -265,7 +265,27 @@
   opacity: 0.7;
   transition: opacity 0.2s;
 }
-  
+
 [data-sonner-toast] [data-close-button]:hover {
   opacity: 1;
+}
+
+.break-words {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.overflow-wrap-anywhere {
+  overflow-wrap: anywhere;
+}
+
+.ProseMirror {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.ProseMirror p {
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }

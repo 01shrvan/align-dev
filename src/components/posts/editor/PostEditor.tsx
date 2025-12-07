@@ -112,6 +112,7 @@ export default function PostEditor() {
             editor={editor}
             className={cn(
               "w-full rounded-2xl bg-background px-5 py-3 min-h-[2.5rem]",
+              "break-words overflow-wrap-anywhere",
               isDragActive && "outline-dashed",
             )}
             onPaste={onPaste}

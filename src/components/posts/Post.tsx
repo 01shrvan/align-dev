@@ -78,7 +78,7 @@ export default function Post({ post }: PostProps) {
       </div>
       <Linkify>
         <div
-          className="whitespace-pre-line break-words"
+          className="whitespace-pre-line break-words overflow-wrap-anywhere"
           dangerouslySetInnerHTML={{ __html: linkifyMentions(post.content) }}
         />
       </Linkify>
