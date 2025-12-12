@@ -108,12 +108,42 @@ export function getCommentDataInclude(loggedInUserId: string) {
     user: {
       select: getUserDataSelect(loggedInUserId),
     },
+    likes: {
+      where: {
+        userId: loggedInUserId,
+      },
+      select: {
+        userId: true,
+      },
+    },
+    _count: {
+      select: {
+        likes: true,
+        replies: true,
+      },
+    },
+    parent: {
+      select: {
+        id: true,
+        user: {
+          select: {
+            username: true,
+            displayName: true,
+          },
+        },
+      },
+    },
   } satisfies Prisma.CommentInclude;
 }
 
 export type CommentData = Prisma.CommentGetPayload<{
   include: ReturnType<typeof getCommentDataInclude>;
 }>;
+
+export interface CommentLikeInfo {
+  likes: number;
+  isLikedByUser: boolean;
+}
 
 export interface CommentsPage {
   comments: CommentData[];

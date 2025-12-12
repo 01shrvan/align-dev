@@ -47,6 +47,7 @@ model User {
   gender                String?
   occupation            String?
   tags                  String[]           @default(["aligners"])
+  commentLikes          CommentLike[]
 
   createdAt DateTime @default(now())
 
@@ -108,16 +109,34 @@ enum MediaType {
 }
 
 model Comment {
-  id      String @id @default(cuid())
-  content String
-  userId  String
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  postId  String
-  post    Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  id       String        @id @default(cuid())
+  content  String
+  userId   String
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId   String
+  post     Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  parentId String?
+  parent   Comment?      @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies  Comment[]     @relation("CommentReplies")
+  likes    CommentLike[]
 
   createdAt DateTime @default(now())
 
   @@map("comments")
+}
+
+model CommentLike {
+  id        String   @id @default(cuid())
+  userId    String
+  commentId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, commentId])
+  @@index([commentId])
+  @@index([userId])
 }
 
 model Like {
@@ -165,6 +184,8 @@ enum NotificationType {
   COMMENT
   MENTION
   ALIGNERS
+  COMMENT_LIKE
+  COMMENT_REPLY
 }
 
 model Job {
