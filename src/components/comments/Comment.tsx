@@ -20,9 +20,9 @@ export default function Comment({ comment }: CommentProps) {
         <UserTooltip user={comment.user}>
           <Link href={`/users/${comment.user.username}`}>
             <AvatarComponent.Avatar className="mx-auto size-8">
-              <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
+              <AvatarComponent.AvatarImage src={comment.user.avatarUrl as string} />
               <AvatarComponent.AvatarFallback>
-                {user.username[0]}
+                {comment.user.username[0]}
               </AvatarComponent.AvatarFallback>
             </AvatarComponent.Avatar>
           </Link>
@@ -32,7 +32,7 @@ export default function Comment({ comment }: CommentProps) {
         <div className="flex items-center gap-1 text-sm">
           <UserTooltip user={comment.user}>
             <div className="flex items-center gap-2">
-              <Link 
+              <Link
                 href={`/users/${comment.user.username}`}
                 className="font-semibold hover:underline"
               >
