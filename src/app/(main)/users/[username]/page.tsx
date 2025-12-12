@@ -14,6 +14,8 @@ import UserPosts from "./UserPosts";
 import EditProfileButton from "./EditProfileButton";
 import * as AvatarComponent from "@/components/ui/avatar";
 import VerifiedBadge from "@/components/VerifiedBadge";
+import InterestDiscovery from "@/components/ai/InterestDiscovery";
+import PersonaAnalysis from "@/components/ai/PersonaAnalysis";
 
 interface PageProps {
   params: Promise<{ username: string }>;
@@ -98,15 +100,24 @@ export async function generateMetadata({
   const counts = `Posts: ${formatNumber(user._count.posts)} · Followers: ${formatNumber(user._count.followers)}`;
 
   const baseDescription = user.bio?.trim()
-    ? (user.bio.length > 200 ? `${user.bio.slice(0, 197)}...` : user.bio)
-    : [details.join(" • "), interestSummary ? `Interests: ${interestSummary}` : null, counts]
+    ? user.bio.length > 200
+      ? `${user.bio.slice(0, 197)}...`
+      : user.bio
+    : [
+        details.join(" • "),
+        interestSummary ? `Interests: ${interestSummary}` : null,
+        counts,
+      ]
         .filter(Boolean)
         .join(" • ");
 
   const image = user.avatarUrl || "/assets/opengraph-image.png";
   const description = user.avatarUrl
     ? baseDescription
-    : `Discover ${user.displayName} on Align — where thoughts find their people. ${counts}${interestSummary ? ` • Interests: ${interestSummary}` : ""}`.slice(0, 240);
+    : `Discover ${user.displayName} on Align — where thoughts find their people. ${counts}${interestSummary ? ` • Interests: ${interestSummary}` : ""}`.slice(
+        0,
+        240,
+      );
   const url = `/users/${user.username}`;
 
   return {
@@ -147,6 +158,12 @@ export default async function Page({ params }: PageProps) {
       <main className="flex w-full min-w-0">
         <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5">
           <UserProfile user={user} loggedInUserId={loggedInUser.id} />
+          {user.id === loggedInUser.id && (
+            <>
+              <InterestDiscovery />
+              <PersonaAnalysis />
+            </>
+          )}
           <div className="rounded-2xl bg-card p-5 shadow-sm">
             <h2 className="text-center text-2xl font-bold">
               {user.displayName}&apos;s posts
@@ -296,16 +313,19 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
         </div>
       )}
 
-      {!bioSections.story && !bioSections.creating && !bioSections.why && user.bio && (
-        <div className="space-y-2">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-            About
-          </h3>
-          <p className="whitespace-pre-line break-words leading-relaxed">
-            {user.bio}
-          </p>
-        </div>
-      )}
+      {!bioSections.story &&
+        !bioSections.creating &&
+        !bioSections.why &&
+        user.bio && (
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+              About
+            </h3>
+            <p className="whitespace-pre-line break-words leading-relaxed">
+              {user.bio}
+            </p>
+          </div>
+        )}
 
       {!user.bio && (
         <div className="text-center py-4">
@@ -346,7 +366,7 @@ function parseBioSections(bio: string | null): {
 } {
   if (!bio) return {};
 
-  const sections = bio.split("\n\n").filter(s => s.trim());
+  const sections = bio.split("\n\n").filter((s) => s.trim());
 
   if (sections.length === 3) {
     return {

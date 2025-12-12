@@ -48,6 +48,10 @@ model User {
   occupation            String?
   tags                  String[]           @default(["aligners"])
   commentLikes          CommentLike[]
+  aiSuggestedInterests  String[]           @default([])
+  persona               String?
+  personaTraits         String[]           @default([])
+  lastAIAnalysis        DateTime?
 
   createdAt DateTime @default(now())
 

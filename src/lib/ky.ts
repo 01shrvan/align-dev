@@ -8,4 +8,13 @@ const kyInstance = ky.create({
     }),
 });
 
+export const kyAI = ky.create({
+  timeout: 60000,
+  parseJson: (text) =>
+    JSON.parse(text, (key, value) => {
+      if (key.endsWith("At")) return new Date(value);
+      return value;
+    }),
+});
+
 export default kyInstance;
