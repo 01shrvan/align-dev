@@ -32,30 +32,36 @@ export default function Comments({ post }: CommentsProps) {
   const comments = data?.pages.flatMap((page) => page.comments) || [];
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2 sm:space-y-3 w-full max-w-full overflow-hidden">
       <CommentInput post={post} />
       {hasNextPage && (
         <Button
           variant="link"
-          className="mx-auto block"
+          className="mx-auto block text-xs sm:text-sm"
           disabled={isFetching}
           onClick={() => fetchNextPage()}
         >
           Load previous comments
         </Button>
       )}
-      {status === "pending" && <Loader2 className="mx-auto animate-spin" />}
+      {status === "pending" && (
+        <Loader2 className="mx-auto animate-spin size-4 sm:size-5" />
+      )}
       {status === "success" && !comments.length && (
-        <p className="text-center text-muted-foreground">No comments yet.</p>
+        <p className="text-center text-muted-foreground text-sm">
+          No comments yet.
+        </p>
       )}
       {status === "error" && (
-        <p className="text-center text-destructive">
+        <p className="text-center text-destructive text-sm">
           An error occurred while loading comments.
         </p>
       )}
-      <div className="divide-y">
+      <div className="divide-y divide-border/50 w-full overflow-hidden">
         {comments.map((comment) => (
-          <Comment key={comment.id} comment={comment} postId={post.id} />
+          <div key={comment.id} className="w-full overflow-hidden">
+            <Comment comment={comment} postId={post.id} />
+          </div>
         ))}
       </div>
     </div>

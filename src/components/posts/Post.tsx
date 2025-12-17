@@ -38,7 +38,7 @@ export default function Post({ post }: PostProps) {
   }
 
   return (
-    <article className="group/post space-y-3 rounded-2xl bg-card/80 backdrop-blur-sm border-b border-border/50 p-5 shadow-sm">
+    <article className="group/post space-y-3 rounded-2xl bg-card/80 backdrop-blur-sm border-b border-border/50 p-3 sm:p-5 shadow-sm w-full max-w-full overflow-hidden">
       <div className="flex justify-between gap-3">
         <div className="flex flex-wrap gap-3">
           <UserTooltip user={post.user}>
@@ -92,7 +92,8 @@ export default function Post({ post }: PostProps) {
             postId={post.id}
             initialState={{
               likes: post._count?.likes || 0,
-              isLikedByUser: post.likes?.some((like) => like.userId === user.id) || false,
+              isLikedByUser:
+                post.likes?.some((like) => like.userId === user.id) || false,
             }}
           />
           <CommentButton
@@ -103,13 +104,17 @@ export default function Post({ post }: PostProps) {
         <BookmarkButton
           postId={post.id}
           initialState={{
-            isBookmarkedByUser: post.bookmarks?.some(
-              (bookmark) => bookmark.userId === user.id,
-            ) || false,
+            isBookmarkedByUser:
+              post.bookmarks?.some((bookmark) => bookmark.userId === user.id) ||
+              false,
           }}
         />
       </div>
-      {showComments && <Comments post={post} />}
+      {showComments && (
+        <div className="w-full max-w-full overflow-hidden">
+          <Comments post={post} />
+        </div>
+      )}
     </article>
   );
 }
@@ -172,9 +177,12 @@ interface CommentButtonProps {
 
 function CommentButton({ post, onClick }: CommentButtonProps) {
   return (
-    <button onClick={onClick} className="flex items-center gap-2">
-      <MessageSquare className="size-5" />
-      <span className="text-sm font-medium tabular-nums">
+    <button
+      onClick={onClick}
+      className="flex items-center gap-1 sm:gap-2 hover:text-foreground transition-colors"
+    >
+      <MessageSquare className="size-4 sm:size-5" />
+      <span className="text-xs sm:text-sm font-medium tabular-nums">
         {post._count?.comments || 0}{" "}
         <span className="hidden sm:inline">comments</span>
       </span>

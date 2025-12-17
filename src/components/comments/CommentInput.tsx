@@ -31,23 +31,28 @@ export default function CommentInput({ post }: CommentInputProps) {
   }
 
   return (
-    <form className="flex w-full items-center gap-2" onSubmit={onSubmit}>
+    <form
+      className="flex w-full items-center gap-1 sm:gap-2 max-w-full"
+      onSubmit={onSubmit}
+    >
       <Input
         placeholder="Write a comment..."
         value={input}
         onChange={(e) => setInput(e.target.value)}
         autoFocus
+        className="flex-1 min-w-0 text-sm"
       />
       <Button
         type="submit"
         variant="ghost"
         size="icon"
         disabled={!input.trim() || mutation.isPending}
+        className="shrink-0 size-8 sm:size-10"
       >
         {!mutation.isPending ? (
-          <SendHorizonal />
+          <SendHorizonal className="size-4 sm:size-5" />
         ) : (
-          <Loader2 className="animate-spin" />
+          <Loader2 className="animate-spin size-4 sm:size-5" />
         )}
       </Button>
     </form>

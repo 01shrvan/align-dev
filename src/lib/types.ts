@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma";
 import { Job } from "@/generated/prisma";
 
 export function getUserDataSelect(loggedInUserId: string) {
@@ -45,7 +45,7 @@ export interface JobsPage {
   nextCursor: string | null;
 }
 
-export function getJobDataInclude(loggedInUserId: string) {
+export function getJobDataInclude() {
   return {
     user: {
       select: {
