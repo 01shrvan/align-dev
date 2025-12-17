@@ -122,14 +122,14 @@ export default function PersonaAnalysis() {
   }
 
   return (
-    <Card className="p-6 space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-lg font-bold flex items-center gap-2">
-            <Brain className="h-5 w-5 text-accent" />
+    <Card className="p-4 sm:p-6 space-y-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="w-full sm:w-auto">
+          <h3 className="text-base sm:text-lg font-bold flex items-center gap-2">
+            <Brain className="h-4 w-4 sm:h-5 sm:w-5 text-accent flex-shrink-0" />
             Your Persona
           </h3>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             Discover your unique thinking archetype
           </p>
         </div>
@@ -137,29 +137,34 @@ export default function PersonaAnalysis() {
         <Button
           onClick={analyzePersona}
           disabled={loading}
-          className="bg-accent text-background"
+          className="bg-accent text-background w-full sm:w-auto flex-shrink-0"
+          size="sm"
         >
           {loading ? (
             <>
-              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              Analyzing...
+              <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 animate-spin" />
+              <span className="text-xs sm:text-sm">Analyzing...</span>
             </>
           ) : (
             <>
-              <Brain className="h-4 w-4 mr-2" />
-              Discover
+              <Brain className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+              <span className="text-xs sm:text-sm">Discover</span>
             </>
           )}
         </Button>
       </div>
 
       {loading && progress && (
-        <div className="p-4 bg-muted/50 rounded-lg border border-muted animate-pulse">
+        <div className="p-3 sm:p-4 bg-muted/50 rounded-lg border border-muted animate-pulse">
           <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-4 w-4 text-accent animate-spin" />
-            <span className="text-sm font-medium">Processing...</span>
+            <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-accent animate-spin flex-shrink-0" />
+            <span className="text-xs sm:text-sm font-medium">
+              Processing...
+            </span>
           </div>
-          <p className="text-sm text-muted-foreground">{progress}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground break-words">
+            {progress}
+          </p>
           <div className="mt-2 text-xs text-muted-foreground">
             This may take up to 60 seconds
           </div>
@@ -168,15 +173,19 @@ export default function PersonaAnalysis() {
 
       {analysis && (
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="p-4 bg-gradient-to-r from-accent/20 to-accent/10 rounded-lg border border-accent/30">
-            <h4 className="text-xl font-bold mb-2">{analysis.persona}</h4>
-            <p className="text-sm mb-3">{analysis.description}</p>
+          <div className="p-3 sm:p-4 bg-gradient-to-r from-accent/20 to-accent/10 rounded-lg border border-accent/30">
+            <h4 className="text-lg sm:text-xl font-bold mb-2 break-words">
+              {analysis.persona}
+            </h4>
+            <p className="text-xs sm:text-sm mb-3 leading-relaxed break-words">
+              {analysis.description}
+            </p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap justify-center sm:justify-start gap-2">
               {analysis.traits.map((trait) => (
                 <span
                   key={trait}
-                  className="px-2 py-1 text-xs rounded-full bg-background/50 border border-accent/30"
+                  className="px-2 py-1 text-xs rounded-full bg-background/50 border border-accent/30 break-words"
                 >
                   {trait}
                 </span>
@@ -189,23 +198,26 @@ export default function PersonaAnalysis() {
             disabled={loadingMatches}
             variant="outline"
             className="w-full"
+            size="sm"
           >
             {loadingMatches ? (
               <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Finding your tribe...
+                <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 animate-spin" />
+                <span className="text-xs sm:text-sm">
+                  Finding your tribe...
+                </span>
               </>
             ) : (
               <>
-                <Users className="h-4 w-4 mr-2" />
-                Find People Like You
+                <Users className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+                <span className="text-xs sm:text-sm">Find People Like You</span>
               </>
             )}
           </Button>
 
           {matches.length > 0 && (
             <div className="space-y-2">
-              <h5 className="font-semibold text-sm">
+              <h5 className="font-semibold text-xs sm:text-sm">
                 Your Vibe Tribe ({matches.length})
               </h5>
               {matches.map((match) => (
@@ -214,21 +226,23 @@ export default function PersonaAnalysis() {
                   href={`/users/${match.username}`}
                   className="block p-3 rounded-lg border border-border hover:bg-accent/5 transition-colors"
                 >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-semibold">{match.displayName}</p>
-                      <p className="text-sm text-muted-foreground">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                    <div className="w-full sm:w-auto">
+                      <p className="font-semibold text-sm break-words">
+                        {match.displayName}
+                      </p>
+                      <p className="text-xs sm:text-sm text-muted-foreground break-words">
                         {match.persona}
                       </p>
                       {match.sharedTraits.length > 0 && (
-                        <p className="text-xs text-accent mt-1">
+                        <p className="text-xs text-accent mt-1 break-words">
                           Shared traits:{" "}
                           {match.sharedTraits.slice(0, 3).join(", ")}
                         </p>
                       )}
                     </div>
-                    <div className="text-right">
-                      <div className="text-lg font-bold text-accent">
+                    <div className="text-left sm:text-right flex-shrink-0">
+                      <div className="text-base sm:text-lg font-bold text-accent">
                         {match.matchScore}%
                       </div>
                       <div className="text-xs text-muted-foreground">match</div>

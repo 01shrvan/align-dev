@@ -99,14 +99,14 @@ export default function InterestDiscovery() {
   }
 
   return (
-    <Card className="p-6 space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-lg font-bold flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-accent" />
+    <Card className="p-4 sm:p-6 space-y-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="w-full sm:w-auto">
+          <h3 className="text-base sm:text-lg font-bold flex items-center gap-2">
+            <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-accent flex-shrink-0" />
             AI Interest Discovery
           </h3>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             Discover niche interests you didn&apos;t know you had
           </p>
         </div>
@@ -114,29 +114,34 @@ export default function InterestDiscovery() {
         <Button
           onClick={analyzeInterests}
           disabled={loading}
-          className="bg-accent text-background"
+          className="bg-accent text-background w-full sm:w-auto flex-shrink-0"
+          size="sm"
         >
           {loading ? (
             <>
-              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              Analyzing...
+              <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 animate-spin" />
+              <span className="text-xs sm:text-sm">Analyzing...</span>
             </>
           ) : (
             <>
-              <Sparkles className="h-4 w-4 mr-2" />
-              Analyze Me
+              <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+              <span className="text-xs sm:text-sm">Analyze Me</span>
             </>
           )}
         </Button>
       </div>
 
       {loading && progress && (
-        <div className="p-4 bg-muted/50 rounded-lg border border-muted animate-pulse">
+        <div className="p-3 sm:p-4 bg-muted/50 rounded-lg border border-muted animate-pulse">
           <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-4 w-4 text-accent animate-spin" />
-            <span className="text-sm font-medium">Processing...</span>
+            <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-accent animate-spin flex-shrink-0" />
+            <span className="text-xs sm:text-sm font-medium">
+              Processing...
+            </span>
           </div>
-          <p className="text-sm text-muted-foreground">{progress}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground break-words">
+            {progress}
+          </p>
           <div className="mt-2 text-xs text-muted-foreground">
             This may take up to 60 seconds
           </div>
@@ -147,28 +152,28 @@ export default function InterestDiscovery() {
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div>
             <h4 className="font-semibold mb-2">You might also vibe with:</h4>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap justify-center sm:justify-start gap-2">
               {analysis.suggestedInterests.map((interest) => (
                 <button
                   key={interest}
                   onClick={() => addInterest(interest)}
                   disabled={addedInterests.has(interest)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/30 hover:bg-accent/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full bg-accent/10 border border-accent/30 hover:bg-accent/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm"
                 >
-                  <span className="text-sm">{interest}</span>
+                  <span className="break-words">{interest}</span>
                   {addedInterests.has(interest) ? (
-                    <Check className="h-3 w-3" />
+                    <Check className="h-3 w-3 flex-shrink-0" />
                   ) : (
-                    <Plus className="h-3 w-3" />
+                    <Plus className="h-3 w-3 flex-shrink-0" />
                   )}
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="text-sm text-muted-foreground p-3 bg-muted/50 rounded-lg">
+          <div className="text-xs sm:text-sm text-muted-foreground p-3 bg-muted/50 rounded-lg">
             <p className="font-medium mb-1">Why these suggestions?</p>
-            <p>{analysis.reasoning}</p>
+            <p className="break-words leading-relaxed">{analysis.reasoning}</p>
           </div>
         </div>
       )}

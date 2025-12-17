@@ -154,9 +154,9 @@ export default async function Page({ params }: PageProps) {
   const user = await getUser(username, loggedInUser.id);
 
   return (
-    <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border">
+    <div className="flex-1 pl-2 sm:pl-5 ml-2 sm:ml-5 border-l border-dashed border-border">
       <main className="flex w-full min-w-0">
-        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5">
+        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-2 sm:pr-5 mr-2 sm:mr-5">
           <UserProfile user={user} loggedInUserId={loggedInUser.id} />
           {user.id === loggedInUser.id && (
             <>
@@ -164,8 +164,8 @@ export default async function Page({ params }: PageProps) {
               <PersonaAnalysis />
             </>
           )}
-          <div className="rounded-2xl bg-card p-5 shadow-sm">
-            <h2 className="text-center text-2xl font-bold">
+          <div className="rounded-2xl bg-card p-3 sm:p-5 shadow-sm">
+            <h2 className="text-center text-lg sm:text-xl lg:text-2xl font-bold">
               {user.displayName}&apos;s posts
             </h2>
           </div>
@@ -190,6 +190,7 @@ interface UserProfileProps {
     location: string | null;
     age: number | null;
     gender: string | null;
+    isVerified: boolean;
     _count: {
       posts: number;
       followers: number;
@@ -214,27 +215,29 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
   const bioSections = parseBioSections(user.bio);
 
   return (
-    <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-5 shadow-sm">
-      <AvatarComponent.Avatar className="mx-auto size-48">
+    <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-3 sm:p-5 shadow-sm">
+      <AvatarComponent.Avatar className="mx-auto size-32 sm:size-48">
         <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
         <AvatarComponent.AvatarFallback>
           {user.username[0].toUpperCase()}
         </AvatarComponent.AvatarFallback>
       </AvatarComponent.Avatar>
 
-      <div className="flex flex-wrap gap-3 sm:flex-nowrap">
-        <div className="me-auto space-y-3">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
+        <div className="flex-1 space-y-3 text-center sm:text-left">
           <div>
-            <h1 className="text-3xl font-bold flex items-center gap-2">
-              {user.displayName}
-              {user.isVerified && <VerifiedBadge size={18} />}
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold flex items-center justify-center sm:justify-start gap-2">
+              <span className="break-words">{user.displayName}</span>
+              {user.isVerified && <VerifiedBadge size={16} />}
             </h1>
-            <div className="text-muted-foreground">@{user.username}</div>
+            <div className="text-sm text-muted-foreground break-words">
+              @{user.username}
+            </div>
           </div>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-xs sm:text-sm text-muted-foreground">
             Member since {formatDate(user.createdAt, "MMM d, yyyy")}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2 sm:gap-3 text-sm">
             <span>
               Posts:{" "}
               <span className="font-semibold">
@@ -245,31 +248,33 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
           </div>
         </div>
 
-        {user.id === loggedInUserId ? (
-          <EditProfileButton user={user} />
-        ) : (
-          <FollowButton userId={user.id} initialState={followerInfo} />
-        )}
+        <div className="flex justify-center sm:justify-end sm:self-start">
+          {user.id === loggedInUserId ? (
+            <EditProfileButton user={user} />
+          ) : (
+            <FollowButton userId={user.id} initialState={followerInfo} />
+          )}
+        </div>
       </div>
 
       {(user.location || user.age || user.occupation) && (
         <>
           <hr />
-          <div className="flex flex-wrap gap-4 text-sm">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center sm:justify-start gap-2 sm:gap-4 text-xs sm:text-sm">
             {user.location && (
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center justify-center sm:justify-start gap-1.5">
                 <span className="text-muted-foreground">📍</span>
                 <span>{user.location}</span>
               </div>
             )}
             {user.age && (
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center justify-center sm:justify-start gap-1.5">
                 <span className="text-muted-foreground">🎂</span>
                 <span>{user.age} years old</span>
               </div>
             )}
             {user.occupation && (
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center justify-center sm:justify-start gap-1.5">
                 <span className="text-muted-foreground">💼</span>
                 <span>{user.occupation}</span>
               </div>
@@ -282,10 +287,10 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
 
       {bioSections.story && (
         <div className="space-y-2">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+          <h3 className="text-xs sm:text-sm font-semibold text-muted-foreground uppercase tracking-wide">
             Their Story
           </h3>
-          <p className="whitespace-pre-line break-words leading-relaxed">
+          <p className="whitespace-pre-line break-words leading-relaxed text-sm sm:text-base">
             {bioSections.story}
           </p>
         </div>
@@ -293,10 +298,10 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
 
       {bioSections.creating && (
         <div className="space-y-2">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+          <h3 className="text-xs sm:text-sm font-semibold text-muted-foreground uppercase tracking-wide">
             Creating
           </h3>
-          <p className="whitespace-pre-line break-words leading-relaxed">
+          <p className="whitespace-pre-line break-words leading-relaxed text-sm sm:text-base">
             {bioSections.creating}
           </p>
         </div>
@@ -304,10 +309,10 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
 
       {bioSections.why && (
         <div className="space-y-2">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+          <h3 className="text-xs sm:text-sm font-semibold text-muted-foreground uppercase tracking-wide">
             Why It Matters
           </h3>
-          <p className="whitespace-pre-line break-words leading-relaxed">
+          <p className="whitespace-pre-line break-words leading-relaxed text-sm sm:text-base">
             {bioSections.why}
           </p>
         </div>
@@ -318,18 +323,18 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
         !bioSections.why &&
         user.bio && (
           <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            <h3 className="text-xs sm:text-sm font-semibold text-muted-foreground uppercase tracking-wide">
               About
             </h3>
-            <p className="whitespace-pre-line break-words leading-relaxed">
+            <p className="whitespace-pre-line break-words leading-relaxed text-sm sm:text-base">
               {user.bio}
             </p>
           </div>
         )}
 
       {!user.bio && (
-        <div className="text-center py-4">
-          <p className="text-muted-foreground italic text-sm">
+        <div className="text-center py-3 sm:py-4">
+          <p className="text-muted-foreground italic text-xs sm:text-sm">
             No story shared yet
           </p>
         </div>
@@ -339,14 +344,14 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
         <>
           <hr />
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            <h3 className="text-xs sm:text-sm font-semibold text-muted-foreground uppercase tracking-wide text-center sm:text-left">
               Interests
             </h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap justify-center sm:justify-start gap-2">
               {interests.map((interest, i) => (
                 <span
                   key={i}
-                  className="rounded-full bg-primary/10 text-primary border border-primary/20 px-3 py-1.5 text-sm font-medium"
+                  className="rounded-full bg-primary/10 text-primary border border-primary/20 px-3 py-1.5 text-xs sm:text-sm font-medium break-words"
                 >
                   {interest}
                 </span>
