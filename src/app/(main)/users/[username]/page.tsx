@@ -154,7 +154,7 @@ export default async function Page({ params }: PageProps) {
   const user = await getUser(username, loggedInUser.id);
 
   return (
-    <div className="flex-1 pl-2 sm:pl-5 ml-2 sm:ml-5 border-l border-dashed border-border">
+    <div className="flex-1 pl-2 sm:pl-5 ml-2 sm:ml-5 border-l border-dashed border-border overflow-hidden">
       <main className="flex w-full min-w-0">
         <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-2 sm:pr-5 mr-2 sm:mr-5">
           <UserProfile user={user} loggedInUserId={loggedInUser.id} />
@@ -215,7 +215,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
   const bioSections = parseBioSections(user.bio);
 
   return (
-    <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-3 sm:p-5 shadow-sm">
+    <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-3 sm:p-5 shadow-sm overflow-hidden">
       <AvatarComponent.Avatar className="mx-auto size-32 sm:size-48">
         <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
         <AvatarComponent.AvatarFallback>
