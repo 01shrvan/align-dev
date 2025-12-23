@@ -1,0 +1,24 @@
+{
+  "name": "Align Network",
+  "short_name": "Align",
+  "description": "Align Network is an exclusive space for people who want meaningful connections. Share your micro-thoughts, match with like-minded souls.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

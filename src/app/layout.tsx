@@ -9,6 +9,7 @@ import { extractRouterConfig } from "uploadthing/server";
 import { fileRouter } from "./api/uploadthing/core";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import localFont from "next/font/local";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 
 const thunder = localFont({
   src: "../../public/fonts/Thunder-VF.ttf",
@@ -88,7 +89,13 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  manifest: "/manifest.webmanifest",
+  manifest: "/manifest.json",
+  other: {
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": "Align Network",
+    "theme-color": "#000000",
+  },
 };
 
 export default function RootLayout({
@@ -98,11 +105,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
+      </head>
       <body
         className={`${playfair.variable} ${jakartaSans.variable} ${thunder.variable} antialiased`}
       >
         <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ReactQueryProvider>{children}
+          <PWAInstallPrompt />
+        </ReactQueryProvider>
         <Toaster />
         <ServiceWorkerRegistration />
       </body>
