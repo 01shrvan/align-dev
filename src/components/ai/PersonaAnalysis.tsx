@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Brain, Loader2, Users, Clock } from "lucide-react";
+import { Brain, Loader2, Users, Clock, AlertCircle } from "lucide-react";
 import { kyAI } from "@/lib/ky";
 import { toast } from "sonner";
 import Link from "next/link";
@@ -26,14 +26,55 @@ interface PersonaMatch {
   sharedInterests: string[];
 }
 
+interface CooldownStatus {
+  canAnalyze: boolean;
+  timeRemaining: number;
+  lastAnalysis: string | null;
+}
+
 export default function PersonaAnalysis() {
   const [loading, setLoading] = useState(false);
   const [loadingMatches, setLoadingMatches] = useState(false);
+  const [loadingCooldown, setLoadingCooldown] = useState(true);
   const [analysis, setAnalysis] = useState<PersonaAnalysisResult | null>(null);
   const [matches, setMatches] = useState<PersonaMatch[]>([]);
   const [progress, setProgress] = useState("");
+  const [cooldownStatus, setCooldownStatus] = useState<CooldownStatus | null>(
+    null,
+  );
+
+  useEffect(() => {
+    checkCooldownStatus();
+  }, []);
+
+  async function checkCooldownStatus() {
+    setLoadingCooldown(true);
+    try {
+      const status = await kyAI
+        .get("/api/ai/analyze-persona/cooldown")
+        .json<CooldownStatus>();
+
+      setCooldownStatus(status);
+    } catch (error) {
+      console.error("Failed to check cooldown status:", error);
+      setCooldownStatus({
+        canAnalyze: true,
+        timeRemaining: 0,
+        lastAnalysis: null,
+      });
+    } finally {
+      setLoadingCooldown(false);
+    }
+  }
 
   async function analyzePersona() {
+    if (cooldownStatus && !cooldownStatus.canAnalyze) {
+      toast.error(
+        `Please wait ${cooldownStatus.timeRemaining} more hour${cooldownStatus.timeRemaining !== 1 ? "s" : ""} before your next analysis`,
+      );
+      return;
+    }
+
     setLoading(true);
     setProgress("Gathering your posts and comments...");
 
@@ -60,13 +101,27 @@ export default function PersonaAnalysis() {
       clearInterval(progressInterval);
       setProgress("");
       setAnalysis(result);
+      await checkCooldownStatus();
       toast.success("Your persona has been revealed!");
     } catch (error: unknown) {
       console.error("Persona analysis error:", error);
 
-      const errorResponse = error as { response?: { status?: number } };
+      const errorResponse = error as {
+        response?: {
+          status?: number;
+          json?: () => Promise<{ error?: string }>;
+        };
+      };
       if (errorResponse.response?.status === 429) {
-        toast.error("Please wait 24 hours between analyses");
+        try {
+          const errorData = await errorResponse.response.json?.();
+          const message =
+            errorData?.error || "Please wait 24 hours between analyses";
+          toast.error(message);
+          await checkCooldownStatus();
+        } catch {
+          toast.error("Please wait 24 hours between analyses");
+        }
       } else if (errorResponse.response?.status === 408) {
         toast.error(
           "Analysis is taking longer than expected. Please try again.",
@@ -134,9 +189,35 @@ export default function PersonaAnalysis() {
           </p>
         </div>
 
+        {cooldownStatus && !cooldownStatus.canAnalyze && (
+          <div className="p-3 sm:p-4 bg-orange-500/10 rounded-lg border border-orange-500/30 flex items-start gap-2">
+            <AlertCircle className="h-4 w-4 text-orange-500 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-orange-700 dark:text-orange-400">
+                Analysis on Cooldown
+              </p>
+              <p className="text-xs text-orange-600 dark:text-orange-300 mt-1">
+                You can run another analysis in {cooldownStatus.timeRemaining}{" "}
+                hour{cooldownStatus.timeRemaining !== 1 ? "s" : ""}. This helps
+                us manage server resources and ensures quality results.
+              </p>
+              {cooldownStatus.lastAnalysis && (
+                <p className="text-xs text-orange-600 dark:text-orange-300 mt-1">
+                  Last analysis:{" "}
+                  {new Date(cooldownStatus.lastAnalysis).toLocaleDateString()}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
         <Button
           onClick={analyzePersona}
-          disabled={loading}
+          disabled={
+            loading ||
+            loadingCooldown ||
+            (cooldownStatus ? !cooldownStatus.canAnalyze : false)
+          }
           className="bg-accent text-background w-full sm:w-auto flex-shrink-0"
           size="sm"
         >
@@ -144,6 +225,18 @@ export default function PersonaAnalysis() {
             <>
               <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 animate-spin" />
               <span className="text-xs sm:text-sm">Analyzing...</span>
+            </>
+          ) : loadingCooldown ? (
+            <>
+              <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 animate-spin" />
+              <span className="text-xs sm:text-sm">Checking...</span>
+            </>
+          ) : cooldownStatus && !cooldownStatus.canAnalyze ? (
+            <>
+              <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+              <span className="text-xs sm:text-sm">
+                Wait {cooldownStatus.timeRemaining}h
+              </span>
             </>
           ) : (
             <>

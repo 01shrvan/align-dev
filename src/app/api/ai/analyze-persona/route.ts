@@ -23,15 +23,30 @@ export async function POST(req: NextRequest) {
       const hoursSinceLastAnalysis =
         (Date.now() - lastAnalysis.getTime()) / (1000 * 60 * 60);
 
+      console.log(
+        `User ${user.id} - Hours since last analysis: ${hoursSinceLastAnalysis}`,
+      );
+
       if (hoursSinceLastAnalysis < 24) {
+        const hoursRemaining = Math.ceil(24 - hoursSinceLastAnalysis);
+        console.log(
+          `User ${user.id} - Analysis blocked, ${hoursRemaining} hours remaining`,
+        );
+
         return Response.json(
-          { error: "Please wait 24 hours between analyses" },
+          {
+            error: `Please wait ${hoursRemaining} more hour${hoursRemaining !== 1 ? "s" : ""} before your next analysis`,
+            hoursRemaining,
+            lastAnalysis: lastAnalysis.toISOString(),
+          },
           { status: 429 },
         );
       }
     }
 
-    console.log(`Starting persona analysis for user ${user.id}`);
+    console.log(
+      `Starting persona analysis for user ${user.id}, last analysis: ${lastAnalysis?.toISOString() || "never"}`,
+    );
     const startTime = Date.now();
 
     const analysis = await analyzeUserPersona(user.id);
@@ -69,14 +84,16 @@ export async function POST(req: NextRequest) {
 
       if (
         error.message.includes("rate limit") ||
-        error.message.includes("quota")
+        error.message.includes("quota") ||
+        error.message.includes("429")
       ) {
+        console.log(`AI service rate limit hit for user ${user.id}`);
         return Response.json(
           {
             error:
-              "AI service temporarily unavailable. Please try again later.",
+              "AI service temporarily unavailable due to high demand. Please try again in a few minutes.",
           },
-          { status: 429 },
+          { status: 503 },
         );
       }
     }
