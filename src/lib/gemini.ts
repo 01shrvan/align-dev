@@ -10,6 +10,15 @@ export const geminiModel = genAI.getGenerativeModel({
   model: "gemini-2.5-pro",
 });
 
+export const embeddingModel = genAI.getGenerativeModel({
+  model: "text-embedding-004",
+});
+
+export async function getEmbedding(text: string) {
+  const result = await embeddingModel.embedContent(text);
+  return result.embedding.values;
+}
+
 function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
   return Promise.race([
     promise,

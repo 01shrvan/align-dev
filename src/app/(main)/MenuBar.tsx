@@ -52,6 +52,7 @@ export default function MenuBar({
       className={clsx(
         "flex w-full sm:flex-col sm:w-auto justify-between",
         className,
+        pathname === "/chat" && "sm:hidden",
       )}
     >
       {menuItems.map((item) => {
