@@ -38,7 +38,7 @@ const menuItems = [
     label: "Communities",
   },
   { href: "/jobs", icon: Briefcase, label: "Jobs", title: "Jobs" },
-  // { href: "/ava", icon: MessageCircle, label: "Ava", title: "Ava" },
+  { href: "/chat", icon: MessageCircle, label: "Ava", title: "Ava" },
 ];
 
 export default function MenuBar({
