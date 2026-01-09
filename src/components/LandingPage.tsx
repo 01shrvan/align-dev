@@ -27,7 +27,7 @@ export default function Home() {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     document.querySelectorAll("[data-animate]").forEach((el) => {
@@ -105,11 +105,14 @@ export default function Home() {
               </span>
 
               <h1 className="mt-4 sm:mt-6 font-thunder font-bold text-7xl opacity-0 animate-fade-in-up delay-200">
-                Your ideas <span className="text-accent">matter</span>, not your clout.
+                Your ideas <span className="text-accent">matter</span>, not your
+                clout.
               </h1>
 
               <p className="mt-4 max-w-xl text-sm sm:text-base text-muted-foreground font-sans opacity-0 animate-fade-in-up delay-300">
-                Post once. Get discovered by people who vibe with you. On Align, your first reflection has the same reach as your 1000th—because it's about what you said, not who you are.
+                Post once. Get discovered by people who vibe with you. On Align,
+                your first reflection has the same reach as your 1000th—because
+                it&apos;s about what you said, not who you are.
               </p>
 
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 opacity-0 animate-fade-in-up delay-400">
@@ -142,7 +145,9 @@ export default function Home() {
                           Your next reflection
                         </div>
                         <div className="mt-2 text-lg font-stretch-normal">
-                          "What if your next post could land you a co-founder, a mentor or your dream gig—without a single follower?"
+                          &quot;What if your next post could land you a
+                          co-founder, a mentor or your dream gig—without a
+                          single follower?&quot;
                         </div>
                       </div>
 
@@ -164,11 +169,10 @@ export default function Home() {
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
           <div className="grid gap-6 sm:gap-8 lg:grid-cols-12" data-animate>
             <div className="lg:col-span-5 opacity-0 animate-fade-in-up">
-              <h2 className="font-thunder text-4xl">
-                The broken system—fixed
-              </h2>
+              <h2 className="font-thunder text-4xl">The broken system—fixed</h2>
               <p className="mt-3 text-sm text-muted-foreground font-sans">
-                LinkedIn buries you without followers. Reddit hides you without karma. Align puts your words on equal ground.
+                LinkedIn buries you without followers. Reddit hides you without
+                karma. Align puts your words on equal ground.
               </p>
             </div>
 
@@ -181,7 +185,8 @@ export default function Home() {
                   </h3>
                 </div>
                 <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans">
-                  Fresh grad? Career changer? Introvert? Your first post reaches the same feed as everyone else.
+                  Fresh grad? Career changer? Introvert? Your first post reaches
+                  the same feed as everyone else.
                 </p>
               </li>
               <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-200">
@@ -192,7 +197,8 @@ export default function Home() {
                   </h3>
                 </div>
                 <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans">
-                  Share a thought, not a personal brand. We match on tone, tags, and vibes—no follower count required.
+                  Share a thought, not a personal brand. We match on tone, tags,
+                  and vibes—no follower count required.
                 </p>
               </li>
               <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-300">
@@ -203,7 +209,8 @@ export default function Home() {
                   </h3>
                 </div>
                 <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans">
-                  Post at 2 a.m. about your weird side project. Wake up to replies from people who actually get it.
+                  Post at 2 a.m. about your weird side project. Wake up to
+                  replies from people who actually get it.
                 </p>
               </li>
               <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-400">
@@ -214,7 +221,8 @@ export default function Home() {
                   </h3>
                 </div>
                 <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans">
-                  We don’t boost “influencers.” We surface resonance. Every reflection has a fair shot at discovery.
+                  We don’t boost “influencers.” We surface resonance. Every
+                  reflection has a fair shot at discovery.
                 </p>
               </li>
             </ul>
@@ -252,7 +260,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16" data-animate>
+        <section
+          className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16"
+          data-animate
+        >
           <div className="rounded-lg border border-border/40 px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 text-center hover:shadow-accent/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up">
             <p className="text-xs uppercase tracking-wider text-muted-foreground/80 font-sans mb-2">
               Tired of shouting into the void?
@@ -261,7 +272,8 @@ export default function Home() {
               Get <span className="text-accent">aligned</span> today
             </h2>
             <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-muted-foreground font-sans">
-              Post your first reflection. Find three people who vibe with it. No followers required.
+              Post your first reflection. Find three people who vibe with it. No
+              followers required.
             </p>
             <div className="mt-4 sm:mt-6">
               <Link href="/login">
@@ -384,11 +396,21 @@ export default function Home() {
           animation: slide-down 0.3s ease-out;
         }
 
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; }
-        .delay-400 { animation-delay: 0.4s; }
-        .delay-500 { animation-delay: 0.5s; }
+        .delay-100 {
+          animation-delay: 0.1s;
+        }
+        .delay-200 {
+          animation-delay: 0.2s;
+        }
+        .delay-300 {
+          animation-delay: 0.3s;
+        }
+        .delay-400 {
+          animation-delay: 0.4s;
+        }
+        .delay-500 {
+          animation-delay: 0.5s;
+        }
       `}</style>
     </>
   );

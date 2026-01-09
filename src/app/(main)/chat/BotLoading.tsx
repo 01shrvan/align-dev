@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Bot } from "lucide-react";
+import { Ghost } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const LOADING_MESSAGES = [
@@ -27,7 +27,7 @@ export default function BotLoading() {
     <div className="flex gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
       <Avatar className="w-8 h-8 mt-1 border border-border shrink-0 shadow-sm bg-background">
         <AvatarFallback className="bg-primary/5 text-primary">
-          <Bot size={16} />
+          <Ghost size={16} />
         </AvatarFallback>
       </Avatar>
 

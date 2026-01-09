@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { CornerDownLeft } from "lucide-react";
+import { CornerDownLeft, Ghost } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSession } from "../SessionProvider";
@@ -116,8 +116,9 @@ export default function ChatPage() {
 
       <div className="flex-none flex items-center justify-between p-4 border-b border-dashed border-border/60 bg-background/60 backdrop-blur-sm z-10">
         <div className="flex items-center gap-3">
-          {/*<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 border border-primary/20">
-          </div>*/}
+          {/*<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 border border-primary/20">*/}
+            {/*<Ghost className="w-4 h-4 text-primary" />*/}
+          {/*</div>*/}
           <div className="flex flex-col">
             <h1 className="text-xl font-bold leading-none">Ava</h1>
             <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium">
