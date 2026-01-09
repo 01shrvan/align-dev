@@ -8,11 +8,10 @@ import {
   Bell,
   Bookmark,
   Home,
-  Mail,
   Briefcase,
-  MessageCircle,
   LogOutIcon,
   Users,
+  MessageCircle,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -63,7 +62,7 @@ const menuItems = [
     title: "Communities",
   },
   { href: "/jobs", icon: Briefcase, label: "Jobs", title: "Jobs" },
-  // { href: "/ava", icon: MessageCircle, label: "Ava", title: "Ava" },
+  { href: "/chat", icon: MessageCircle, label: "Ava", title: "Ava" },
 ];
 
 export default function UserButton({

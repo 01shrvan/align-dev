@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-10 bg-card/80 backdrop-blur-sm border-b border-border/50 shadow-sm">
+    <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-sm border-b border-border/50 shadow-sm">
       <div className="block sm:hidden">
         <div className="flex items-center justify-between px-4 py-3">
           <Link

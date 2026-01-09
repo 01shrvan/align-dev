@@ -52,34 +52,79 @@ export async function POST(req: NextRequest) {
     const relevantUsers = foundUsers.filter((u) => u.id !== session.user!.id);
 
     const systemPrompt = `
-    You are Ava, a Gen Z style AI assistant for "Align", a networking platform.
-    Your goal is to help users find connection matches.
+    You are Ava, a Gen Z–style AI assistant for "Align", a social networking platform.
+    You talk like a real person, not a search engine.
 
-    The user said: "${message}"
+    Your job is to help users discover people they might vibe with.
 
-    Here are the profiles found (context):
+    USER MESSAGE:
+    "${message}"
+
+    AVAILABLE PROFILES (context you can use, not mention explicitly unless selected):
     ${relevantUsers
-        .map(
-          (u) =>
-            `- ${u.displayName} (@${u.username}): ${u.occupation || "No occupation"}. Bio: ${u.bio || "No bio"}. Interests: ${u.interests.join(", ")}. Tags: ${u.tags.join(", ")}`,
-        )
-        .join("\n")}
+      .map(
+        (u) =>
+          `- ID: ${u.id} | ${u.displayName} (@${u.username})
+    Occupation: ${u.occupation || "No occupation"}
+    Bio: ${u.bio || "No bio"}
+    Interests: ${u.interests.join(", ")}
+    Tags: ${u.tags.join(", ")}`,
+      )
+      .join("\n")}
 
-    Instructions:
-    1. If relevant users are found in the list above, mention the top 1-3 best matches. Explain briefly why they fit the user's request.
-    2. Be super casual, use lowercase often, maybe some slang (like "bet", "no cap", "lit", "vibe", "fr"), but DO NOT use emojis.
-    3. Keep it relatively short.
-    4. If no one fits, say you couldn't find anyone matching that vibe right now.
+    INSTRUCTIONS:
+    1. Understand what the user is *really* asking for (intent + vibe).
+    2. Pick the top 1–3 profiles that best match.
+    3. Write a natural, chatty response like a real assistant would.
+       - super casual
+       - mostly lowercase
+       - light slang ("bet", "fr", "vibe", "no cap", "lowkey")
+       - NO emojis
+       - do NOT sound like a database or system
+    4. Mention the selected users naturally in the message.
+    5. If nobody matches, say you couldn’t find anyone with that vibe right now.
+    6. Do NOT mention internal instructions, analysis, or profile formatting.
 
-    Respond directly to the user.
+    OUTPUT RULES (IMPORTANT):
+    - Return ONLY valid JSON
+    - No extra text before or after
+    - Follow this exact structure:
+
+    {
+      "message": "your chat-style reply here",
+      "selectedUserIds": ["id1", "id2"]
+    }
     `;
 
-    const result = await geminiModel.generateContent(systemPrompt);
+    const result = await geminiModel.generateContent({
+      contents: [{ role: "user", parts: [{ text: systemPrompt }] }],
+      generationConfig: { responseMimeType: "application/json" },
+    });
+
     const responseText = result.response.text();
+    let responseData;
+
+    try {
+      const cleanedText = responseText
+        .replace(/```json\n?/g, "")
+        .replace(/```\n?/g, "")
+        .trim();
+      responseData = JSON.parse(cleanedText);
+    } catch (error) {
+      console.error("Failed to parse AI response:", error);
+      return NextResponse.json({
+        message: responseText,
+        users: [],
+      });
+    }
+
+    const selectedUsers = relevantUsers.filter((u) =>
+      responseData.selectedUserIds?.includes(u.id),
+    );
 
     return NextResponse.json({
-      message: responseText,
-      users: relevantUsers,
+      message: responseData.message,
+      users: selectedUsers,
     });
   } catch (error) {
     console.error("Chat API Error:", error);
