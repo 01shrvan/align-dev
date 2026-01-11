@@ -31,3 +31,13 @@ export function slugify(input: string): string {
     .replace(/ /g, "-")
     .replace(/[^a-z0-9-]/g, "");
 }
+
+export function extractUrls(text: string): string[] {
+  const matches = text.match(/https?:\/\/[^\s]+/g);
+
+  if (!matches) {
+    return [];
+  }
+
+  return matches.map((url) => url.replace(/[.,!?;:)]+$/, ""));
+}

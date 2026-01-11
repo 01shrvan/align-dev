@@ -2,12 +2,13 @@
 
 import { useSession } from "@/app/(main)/SessionProvider";
 import { PostData } from "@/lib/types";
-import { cn, formatRelativeDate } from "@/lib/utils";
+import { cn, formatRelativeDate, extractUrls } from "@/lib/utils";
 
 import Image from "next/image";
 import Link from "next/link";
 import PostMoreButton from "./PostMoreButton";
 import Linkify from "../Linkify";
+import LinkPreview from "../LinkPreview";
 import UserTooltip from "../UserTooltip";
 import * as AvatarComponent from "@/components/ui/avatar";
 import { Media } from "@/generated/prisma";
@@ -47,6 +48,8 @@ export default function Post({ post }: PostProps) {
   const userLikes = post.likes ?? [];
   const userBookmarks = post.bookmarks ?? [];
   const attachments = post.attachments ?? [];
+
+  const urls = extractUrls(post.content);
 
   return (
     <article className="group/post space-y-3 rounded-2xl bg-card/80 backdrop-blur-sm border-b border-border/50 p-5 shadow-sm">
@@ -93,6 +96,9 @@ export default function Post({ post }: PostProps) {
         </div>
       </Linkify>
       {attachments.length > 0 && <MediaPreviews attachments={attachments} />}
+      {attachments.length === 0 && urls.length > 0 && (
+        <LinkPreview url={urls[0]} />
+      )}
       <hr className="text-muted-foreground" />
       <div className="flex justify-between gap-5">
         <div className="flex items-center gap-5">

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LinkIt, LinkItUrl } from "react-linkify-it";
+import { LinkIt } from "react-linkify-it";
 import UserLinkWithTooltip from "./UserLinkWithTooltip";
 
 interface LinkifyProps {
@@ -18,7 +18,22 @@ export default function Linkify({ children }: LinkifyProps) {
 
 function LinkifyUrl({ children }: LinkifyProps) {
   return (
-    <LinkItUrl className="text-primary hover:underline">{children}</LinkItUrl>
+    <LinkIt
+      regex={/(https?:\/\/[^\s]+)/}
+      component={(match, key) => (
+        <a
+          key={key}
+          href={match}
+          target="_blank"
+          rel="nofollow noreferrer noopener"
+          className="text-primary hover:underline"
+        >
+          {match}
+        </a>
+      )}
+    >
+      {children}
+    </LinkIt>
   );
 }
 
