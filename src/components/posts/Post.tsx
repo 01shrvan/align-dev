@@ -6,6 +6,7 @@ import { cn, formatRelativeDate, extractUrls } from "@/lib/utils";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import PostMoreButton from "./PostMoreButton";
 import Linkify from "../Linkify";
 import LinkPreview from "../LinkPreview";
@@ -25,6 +26,7 @@ interface PostProps {
 
 export default function Post({ post }: PostProps) {
   const { user } = useSession();
+  const router = useRouter();
   const [showComments, setShowComments] = useState(false);
 
   if (!post) {
@@ -51,8 +53,32 @@ export default function Post({ post }: PostProps) {
 
   const urls = extractUrls(post.content);
 
+  const handlePostClick = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    if (
+      target.closest("a") ||
+      target.closest("button") ||
+      target.closest("[role='button']") ||
+      target.closest("textarea") ||
+      target.closest("input") ||
+      target.closest("video")
+    ) {
+      return;
+    }
+
+    const selection = window.getSelection();
+    if (selection && selection.toString().length > 0) {
+      return;
+    }
+
+    router.push(`/posts/${post.id}`);
+  };
+
   return (
-    <article className="group/post space-y-3 rounded-2xl bg-card/80 backdrop-blur-sm border-b border-border/50 p-5 shadow-sm">
+    <article
+      onClick={handlePostClick}
+      className="group/post space-y-3 rounded-2xl bg-card/80 backdrop-blur-sm border-b border-border/50 p-5 shadow-sm cursor-pointer"
+    >
       <div className="flex justify-between gap-3">
         <div className="flex flex-wrap gap-3">
           <UserTooltip user={post.user}>
