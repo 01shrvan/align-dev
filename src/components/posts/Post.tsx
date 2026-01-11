@@ -3,7 +3,7 @@
 import { useSession } from "@/app/(main)/SessionProvider";
 import { PostData } from "@/lib/types";
 import { cn, formatRelativeDate } from "@/lib/utils";
-import { linkifyMentions } from "@/lib/utils/mentions";
+
 import Image from "next/image";
 import Link from "next/link";
 import PostMoreButton from "./PostMoreButton";
@@ -88,10 +88,9 @@ export default function Post({ post }: PostProps) {
         )}
       </div>
       <Linkify>
-        <div
-          className="whitespace-pre-line break-words overflow-wrap-anywhere"
-          dangerouslySetInnerHTML={{ __html: linkifyMentions(post.content) }}
-        />
+        <div className="whitespace-pre-line break-words overflow-wrap-anywhere">
+          {post.content}
+        </div>
       </Linkify>
       {attachments.length > 0 && <MediaPreviews attachments={attachments} />}
       <hr className="text-muted-foreground" />

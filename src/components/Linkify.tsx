@@ -26,11 +26,27 @@ function LinkifyUsername({ children }: LinkifyProps) {
   return (
     <LinkIt
       regex={/(@[a-zA-Z0-9_-]+)/}
-      component={(match, key) => (
-        <UserLinkWithTooltip key={key} username={match.slice(1)}>
-          {match}
-        </UserLinkWithTooltip>
-      )}
+      component={(match, key) => {
+        const username = match.slice(1);
+
+        if (username === "aligners") {
+          return (
+            <span
+              key={key}
+              className="inline-flex items-center gap-1 rounded bg-primary/10 px-1.5 py-0.5 font-semibold text-primary cursor-default"
+              title="All Aligners"
+            >
+              @aligners
+            </span>
+          );
+        }
+
+        return (
+          <UserLinkWithTooltip key={key} username={username}>
+            {match}
+          </UserLinkWithTooltip>
+        );
+      }}
     >
       {children}
     </LinkIt>
