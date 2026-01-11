@@ -32,7 +32,7 @@ export default function DeletePostDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent>
+      <DialogContent onClick={(e) => e.stopPropagation()}>
         <DialogHeader>
           <DialogTitle>Delete post?</DialogTitle>
           <DialogDescription>
