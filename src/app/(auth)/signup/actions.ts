@@ -1,6 +1,8 @@
 "use server";
 
 import { lucia } from "@/auth";
+import { nodemailerUtils } from "@/lib/emails/nodemailer";
+import { generateSecureOTP } from "@/lib/generate-otp";
 import prisma from "@/lib/prisma";
 import { signUpSchema, SignUpValues } from "@/lib/validation";
 import { hash } from "@node-rs/argon2";
@@ -54,6 +56,9 @@ export async function signUp(
       };
     }
 
+    const otp = generateSecureOTP();
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+
     await prisma.user.create({
       data: {
         id: userId,
@@ -62,9 +67,13 @@ export async function signUp(
         email,
         passwordHash,
         isOnboarded: false,
-        tags: ["aligners"]
+        tags: ["aligners"],
+        verificationCode: otp,
+        verificationCodeExpiresAt: otpExpiry,
       },
     });
+
+    await nodemailerUtils.sendVerificationEmail(email, otp);
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
@@ -74,7 +83,7 @@ export async function signUp(
       sessionCookie.attributes,
     );
 
-    return redirect("/onboarding");
+    return redirect("/verify-email");
   } catch (error) {
     if (isRedirectError(error)) throw error;
     console.error(error);

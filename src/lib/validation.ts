@@ -46,6 +46,15 @@ export const signUpSchema = z.object({
 
 export type SignUpValues = z.infer<typeof signUpSchema>;
 
+export const verifyEmailSchema = z.object({
+  code: z
+    .string()
+    .length(6, "Verification code must be 6 digits")
+    .regex(/^[0-9]+$/, "Must be digits only"),
+});
+
+export type VerifyEmailValues = z.infer<typeof verifyEmailSchema>;
+
 export const loginSchema = z.object({
   username: z.string().trim().min(1, "Required"),
   password: z.string().min(1, "Required"),
@@ -62,9 +71,7 @@ export const onboardingSchema = z.object({
   bio: z.string().optional(),
   location: z.string().optional(),
   age: z.number().int().min(13).max(120).optional(),
-  gender: z
-    .enum(["male", "female", "other", "prefer-not-to-say"])
-    .optional(),
+  gender: z.enum(["male", "female", "other", "prefer-not-to-say"]).optional(),
   occupation: z.string().optional(),
 });
 
@@ -99,8 +106,16 @@ export const createJobSchema = z
     type: z.enum(["INTERNSHIP", "FULL_TIME", "PART_TIME", "CONTRACT"]),
     location: z.string().max(100).optional(),
     isRemote: z.boolean().default(false),
-    applyUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
-    applyEmail: z.string().email("Must be a valid email").optional().or(z.literal("")),
+    applyUrl: z
+      .string()
+      .url("Must be a valid URL")
+      .optional()
+      .or(z.literal("")),
+    applyEmail: z
+      .string()
+      .email("Must be a valid email")
+      .optional()
+      .or(z.literal("")),
   })
   .refine((data) => data.applyUrl || data.applyEmail, {
     message: "Either application URL or email is required",

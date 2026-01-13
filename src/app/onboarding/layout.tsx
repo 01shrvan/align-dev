@@ -13,6 +13,10 @@ export default async function OnboardingLayout({
     redirect("/login");
   }
 
+  if (!user.isVerified) {
+    redirect("/verify-email");
+  }
+
   const fullUser = await prisma.user.findUnique({
     where: { id: user.id },
     select: { isOnboarded: true },

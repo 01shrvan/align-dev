@@ -1,7 +1,6 @@
 import { render } from "@react-email/render";
 import { createTransport, type Transporter } from "nodemailer";
 import type SMTPTransport from "nodemailer/lib/smtp-transport";
-import { generateSecureOTP } from "../generate-otp";
 import type { Result } from "../types";
 import VerifyEmailTemplate from "./templates/verify-email";
 
@@ -23,9 +22,8 @@ export class NodemailerUtils {
     });
   }
 
-  async sendVerificationEmail(to: string): Promise<Result<null>> {
+  async sendVerificationEmail(to: string, otp: string): Promise<Result<null>> {
     try {
-      const otp = generateSecureOTP();
       await this.transporter.sendMail({
         from: "Align Network <noreply@mail.align-network.xyz>",
         to,
@@ -43,7 +41,4 @@ export class NodemailerUtils {
   }
 }
 
-const nodemailerUtils = new NodemailerUtils();
-
-await nodemailerUtils.sendVerificationEmail("benkeshrvan@gmail.com");
-await nodemailerUtils.sendVerificationEmail("hey@advtszn.xyz");
+export const nodemailerUtils = new NodemailerUtils();
