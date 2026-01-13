@@ -1,6 +1,10 @@
 import { Prisma } from "@/generated/prisma";
 import { Job } from "@/generated/prisma";
 
+export type Result<T> =
+  | { success: true; data: T }
+  | { success: false; error: string };
+
 export function getUserDataSelect(loggedInUserId: string) {
   return {
     id: true,
