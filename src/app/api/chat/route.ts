@@ -19,6 +19,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    await prisma.aIChatMessage.create({
+      data: {
+        userId: session.user.id,
+        role: "user",
+        content: message,
+      },
+    });
+
     const embedding = await getEmbedding(message);
     const vectorQuery = `[${embedding.join(",")}]`;
 
@@ -121,6 +129,15 @@ export async function POST(req: NextRequest) {
     const selectedUsers = relevantUsers.filter((u) =>
       responseData.selectedUserIds?.includes(u.id),
     );
+
+    await prisma.aIChatMessage.create({
+      data: {
+        userId: session.user.id,
+        role: "assistant",
+        content: responseData.message,
+        suggestedUserIds: selectedUsers.map((u) => u.id),
+      },
+    });
 
     return NextResponse.json({
       message: responseData.message,

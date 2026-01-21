@@ -56,7 +56,10 @@ model User {
   personaTraits         String[]           @default([])
   lastAIAnalysis        DateTime?
 
+  aiChatMessages        AIChatMessage[]
+
   searchableText String?
+
   bioEmbedding   Unsupported("vector(768)")?
 
   createdAt DateTime @default(now())
@@ -326,3 +329,17 @@ model CommunityRule {
 
   @@map("community_rules")
 }
+
+model AIChatMessage {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role             String   
+  content          String
+  suggestedUserIds String[] @default([]) 
+  createdAt        DateTime @default(now())
+
+  @@map("ai_chat_messages")
+  @@index([userId])
+}
+
