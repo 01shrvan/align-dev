@@ -2,79 +2,128 @@
 
 This document contains instructions for coding agents operating in this repository.
 
-## 1. Build, Lint, and Test Commands
+## 1. Project Overview & Operational Commands
 
 *   **Package Manager:** `npm`
 *   **Development Server:** `npm run dev` (Runs on port 3000)
-*   **Build:** `npm run build` (Next.js build + Prisma generate)
+*   **Build:** `npm run build` (Runs `prisma generate` + Next.js build)
 *   **Lint:** `npm run lint` (ESLint)
+*   **Type Check:** `npx tsc --noEmit`
 *   **Database:**
-    *   Generate Client: `npx prisma generate`
+    *   Generate Client: `npx prisma generate` (Outputs to `src/generated/prisma`)
     *   Seed Data: `npm run seed:communities`
-    *   Verify User: `npm run verify:user verify <userId>`
-*   **Testing:** Currently, there is no automated testing framework set up.
-    *   *Agent Note:* Do not attempt to run `npm test`. If asked to write tests, check with the user first or propose installing Jest/Vitest.
+    *   Studio: `npx prisma studio`
+*   **Testing:**
+    *   **Status:** No automated testing framework is currently configured.
+    *   **Policy:** Do NOT run `npm test`. If requested to add tests, propose installing **Vitest** and **React Testing Library**.
+*   **Utility Scripts:**
+    *   `npm run verify:user verify <userId>` - Verify a user
+    *   `npm run verify:list` - List verified users
+    *   `npm run add-aligners-tag` - Add tag to users
+    *   `npm run debug:persona-cooldown` - Debug persona system
 
 ## 2. Tech Stack & Key Libraries
 
-*   **Framework:** Next.js 15 (App Router)
+*   **Core Framework:** Next.js 15 (App Router, Server Actions)
 *   **Language:** TypeScript (Strict mode)
-*   **Styling:** Tailwind CSS v4, `tailwindcss-animate`
-*   **UI Components:** Radix UI primitives, Shadcn/ui pattern
-*   **State Management:** Zustand, TanStack Query (`@tanstack/react-query`)
-*   **Database:** PostgreSQL (via Prisma ORM)
-*   **Auth:** Lucia Auth
-*   **Forms:** React Hook Form + Zod
+*   **Styling:** Tailwind CSS v4, `tailwindcss-animate`, `tailwind-merge`
+*   **UI Components:**
+    *   Radix UI primitives (`@radix-ui/*`)
+    *   Shadcn/ui pattern (`src/components/ui`)
+    *   Icons: `lucide-react`
+*   **State Management:**
+    *   Global Client State: `zustand`
+    *   Server State/Caching: `@tanstack/react-query`
+*   **Database:** PostgreSQL (Neon)
+    *   ORM: Prisma (`@prisma/client` generated to custom path)
+    *   Auth Adapter: `@lucia-auth/adapter-prisma`
+*   **Authentication:** Lucia Auth v3
+*   **Forms:** React Hook Form (`react-hook-form`) + Zod (`zod`, `@hookform/resolvers`)
+*   **Feature Libraries:**
+    *   **Rich Text:** Tiptap (`@tiptap/react`)
+    *   **File Uploads:** UploadThing (`@uploadthing/react`)
+    *   **Real-time Chat:** Stream Chat (`stream-chat-react`)
+    *   **AI:** Google Generative AI (`@google/generative-ai`)
+    *   **Email:** Nodemailer / Resend
+    *   **HTTP Client:** Ky (`ky`)
+    *   **Date Handling:** `date-fns`
 
 ## 3. Code Style & Conventions
 
 ### Imports & File Structure
-*   **Path Aliases:** Use `@/` to refer to `src/`.
-    *   Example: `import { cn } from "@/lib/utils";`
-*   **Grouping:** Group imports by:
-    1.  External libraries (e.g., `react`, `next/*`)
-    2.  Internal modules (e.g., `@/components/*`, `@/lib/*`)
+*   **Path Aliases:** ALWAYS use `@/` to refer to `src/` (e.g., `import { cn } from "@/lib/utils"`).
+*   **Import Grouping:**
+    1.  **External:** React, Next.js, 3rd party libraries.
+    2.  **Internal:** Components, Hooks, Lib, Types (starting with `@/`).
+    3.  **Relative:** `./styles.css`, `./types`.
 *   **Exports:**
-    *   Pages (`page.tsx`, `layout.tsx`): Use `export default`.
-    *   Components/Utils: Prefer named exports (e.g., `export function Button`).
+    *   **Pages/Layouts:** `export default function Page() {}`
+    *   **Components:** Prefer named exports: `export function MyComponent() {}`
 
 ### Component Guidelines
 *   **Server vs Client:**
-    *   Default to Server Components (no `"use client"`).
-    *   Add `"use client"` at the top only when needing interactivity (state, effects, event listeners).
+    *   **Default:** Server Components (no `"use client"`).
+    *   **Client:** Add `"use client"` ONLY if using hooks (`useState`, `useEffect`) or event listeners.
 *   **Naming:** PascalCase for component files (e.g., `FollowButton.tsx`).
-*   **Props:** Define types/interfaces for props.
-*   **Async:** Use `async/await` for data fetching in Server Components.
+*   **Props:** Explicitly define `interface Props`. Avoid `any`.
+*   **Async:** Server Components MUST be `async` if they fetch data.
 
-### Styling
-*   **Tailwind:** Use utility classes for styling.
-*   **Class Merging:** ALWAYS use the `cn()` utility from `@/lib/utils` when allowing className overrides or using conditional classes.
-    *   Correct: `className={cn("bg-red-500", className)}`
-    *   Incorrect: `className={`bg-red-500 ${className}`}`
+### Styling (Tailwind)
+*   **Utility Classes:** Use Tailwind utility classes for all styling.
+*   **Merging:** ALWAYS use the `cn()` utility from `@/lib/utils` for conditional classes.
+    *   Example: `className={cn("text-sm font-medium", isActive && "text-primary", className)}`
+*   **Formatting:** Trust Prettier (`prettier-plugin-tailwindcss`) to sort classes.
 
-### Data Fetching & Database
-*   **Prisma:** Use the singleton instance from `@/lib/prisma`.
-    *   `import prisma from "@/lib/prisma";`
-*   **React Query:** Use for client-side data fetching/caching.
-*   **Server Actions:** Prefer Server Actions for mutations where possible.
+### Database Interaction
+*   **Prisma Client:** NEVER import `PrismaClient` directly to instantiate it.
+*   **Singleton:** ALWAYS import the singleton instance: `import prisma from "@/lib/prisma";`
+*   **Types:** Import types from the generated client if needed, or rely on inference.
+    *   *Note:* The schema outputs to `../src/generated/prisma`.
 
-### Error Handling
-*   Use `try/catch` blocks for async operations, especially database calls.
-*   Use `sonner` for toast notifications on the client side.
-*   Validate inputs using Zod schemas (`@/lib/validations` or defined in-file).
+### Authentication Pattern
+*   **Server Side:** Use `validateRequest()` from `@/auth`.
+    ```typescript
+    import { validateRequest } from "@/auth";
+    export default async function Page() {
+      const { user } = await validateRequest();
+      if (!user) { /* redirect or handle */ }
+    }
+    ```
+*   **Redirects:** Use `redirect()` from `next/navigation`.
 
-## 4. Specific Patterns
+## 4. Error Handling & Data Fetching
 
-*   **Authentication:** Use `validateRequest()` from `@/auth` in Server Components/Actions to get the current user.
-    *   `const { user } = await validateRequest();`
-*   **Date Handling:** Use `date-fns` for date manipulation and formatting.
-*   **Icons:** Use `lucide-react`.
+*   **Server Actions:**
+    *   Use `"use server"` at the top of action files.
+    *   Return objects with `{ error: string }` or `{ success: boolean, data: ... }`.
+    *   Wrap DB calls in `try/catch`.
+*   **Client Data:** Use `useQuery` from `@tanstack/react-query`.
+*   **UI Feedback:** Use `sonner` for toast notifications (`toast.error("Message")`).
+*   **Validation:** Use Zod schemas for all inputs.
 
-## 5. File Organization
+## 5. Project Structure
 
-*   `src/app/`: Next.js App Router pages and layouts.
-*   `src/components/`: Reusable UI components.
-    *   `src/components/ui/`: Primitive UI components (buttons, inputs).
-*   `src/lib/`: Utility functions, Prisma client, configuration.
-*   `src/hooks/`: Custom React hooks.
-*   `prisma/`: Database schema and seeds.
+*   `src/app/`: App Router pages.
+    *   `(auth)/`: Route group for authentication pages.
+    *   `(main)/`: Route group for main application layout.
+    *   `api/`: API routes (use sparingly, prefer Server Actions).
+*   `src/components/`:
+    *   `ui/`: Reusable Shadcn UI components.
+    *   `[feature]/`: Feature-specific components.
+*   `src/lib/`: `prisma.ts`, `utils.ts`, `validations.ts`.
+*   `prisma/`: `schema.prisma`, `seed-communities.ts`.
+
+## 6. Agent Operational Rules & Clean Code
+
+1.  **Read First:** Always read the file or component you are about to modify to understand its context and imports.
+2.  **No Unwanted Artifacts:**
+    *   **Comments:** Remove all "TODO" comments once addressed. Do NOT leave commented-out code snippets. Remove default boilerplate comments if they provide no value.
+    *   **Logs:** Remove `console.log` statements before finishing a task.
+    *   **Files:** Delete any temporary files created during development.
+3.  **Strict Adherence:** Follow existing patterns (e.g., how `prisma` is imported, how `cn` is used).
+4.  **No Blind Installs:** Check `package.json` before installing new libraries. Use existing ones if possible.
+5.  **Safety:**
+    *   Do not commit secrets.
+    *   Do not run destructive DB commands (`prisma migrate reset`) without explicit permission.
+    *   Do not edit `package-lock.json` manually.
+6.  **Formatting:** Ensure code is properly indented and formatted (Prettier compatible) before submitting.

@@ -32,13 +32,17 @@ interface ChatClientProps {
 
 export default function ChatClient({ initialMessages }: ChatClientProps) {
   const { user } = useSession();
-  const [messages, setMessages] = useState<Message[]>(initialMessages.length > 0 ? initialMessages : [
-    {
-      role: "assistant",
-      content:
-        "yo! i'm ava. tell me who you're looking for and i'll find 'em for you. no cap.",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>(
+    initialMessages.length > 0
+      ? initialMessages
+      : [
+          {
+            role: "assistant",
+            content:
+              "yo! i'm ava. tell me who you're looking for and i'll find 'em for you. no cap.",
+          },
+        ],
+  );
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
