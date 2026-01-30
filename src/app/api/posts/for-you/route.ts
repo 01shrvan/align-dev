@@ -18,39 +18,82 @@ export async function GET(req: NextRequest) {
       where: { id: user.id },
       include: {
         following: {
-          select: { followingId: true }
+          select: { followingId: true },
         },
         followers: {
-          select: { followerId: true }
-        }
-      }
+          select: { followerId: true },
+        },
+      },
     });
 
     if (!currentUser) {
       return Response.json({ error: "User not found" }, { status: 404 });
     }
 
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
     const posts = await prisma.post.findMany({
-      where: {
-        createdAt: {
-          gte: sevenDaysAgo
-        }
-      },
       take: 200,
       orderBy: { createdAt: "desc" },
-      include: getPostDataInclude(user.id),
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            displayName: true,
+            avatarUrl: true,
+            isVerified: true,
+            bio: true,
+            createdAt: true,
+            followers: {
+              where: {
+                followerId: user.id,
+              },
+              select: {
+                followerId: true,
+              },
+            },
+            _count: {
+              select: {
+                posts: true,
+                followers: true,
+              },
+            },
+          },
+        },
+        attachments: true,
+        likes: {
+          where: {
+            userId: user.id,
+          },
+          select: {
+            userId: true,
+          },
+        },
+        bookmarks: {
+          where: {
+            userId: user.id,
+          },
+          select: {
+            userId: true,
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
+            comments: true,
+          },
+        },
+      },
     });
 
-    const followingIds = currentUser.following.map(f => f.followingId);
-    const postAuthorIds = [...new Set(posts.map(p => p.userId))];
+    console.log(`📊 Fetched ${posts.length} posts from database`);
+
+    const followingIds = currentUser.following.map((f) => f.followingId);
+    const postAuthorIds = [...new Set(posts.map((p) => p.userId))];
     const relevantUserIds = [...new Set([...followingIds, ...postAuthorIds])];
 
     const allUsers = await prisma.user.findMany({
       where: {
-        id: { in: relevantUserIds }
+        id: { in: relevantUserIds },
       },
       select: {
         id: true,
@@ -60,18 +103,18 @@ export async function GET(req: NextRequest) {
         bio: true,
         interests: true,
         following: {
-          select: { followingId: true }
+          select: { followingId: true },
         },
         followers: {
-          select: { followerId: true }
+          select: { followerId: true },
         },
         _count: {
           select: {
             followers: true,
-            posts: true
-          }
-        }
-      }
+            posts: true,
+          },
+        },
+      },
     });
 
     const algorithm = new SocialFeedAlgorithm();
@@ -79,12 +122,14 @@ export async function GET(req: NextRequest) {
       currentUser as any,
       posts,
       allUsers as any,
-      'forYou'
+      "forYou",
     );
+
+    console.log(`✅ Algorithm generated ${scoredPosts.length} scored posts`);
 
     let paginatedPosts = scoredPosts;
     if (cursor) {
-      const cursorIndex = scoredPosts.findIndex(p => p.id === cursor);
+      const cursorIndex = scoredPosts.findIndex((p) => p.id === cursor);
       if (cursorIndex !== -1) {
         paginatedPosts = scoredPosts.slice(cursorIndex + 1);
       }
@@ -92,7 +137,8 @@ export async function GET(req: NextRequest) {
 
     const finalPosts = paginatedPosts.slice(0, pageSize);
 
-    const serializedPosts = finalPosts.map(post => ({
+    // Manually serialize to ensure user data is preserved
+    const serializedPosts = finalPosts.map((post) => ({
       id: post.id,
       content: post.content,
       userId: post.userId,
@@ -117,9 +163,10 @@ export async function GET(req: NextRequest) {
 
     const data: PostsPage = {
       posts: serializedPosts as any,
-      nextCursor: finalPosts.length === pageSize 
-        ? finalPosts[finalPosts.length - 1].id 
-        : null,
+      nextCursor:
+        finalPosts.length === pageSize
+          ? finalPosts[finalPosts.length - 1].id
+          : null,
     };
 
     return Response.json(data);
