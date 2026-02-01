@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <>
       <main className="bg-background text-foreground">
-        <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/30 transition-all duration-300">
+        <header className="fixed top-0 left-0 right-0 z-50 bg-background/30 backdrop-blur-md border-b border-dashed border-border/60 transition-all duration-300">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
@@ -48,7 +48,7 @@ export default function Home() {
                   <div className="w-8 h-8 transition-transform duration-300 group-hover:scale-110">
                     <Image src={logo} alt="Align Network Logo" />
                   </div>
-                  <span className="font-thunder text-3xl font-semibold transition-colors duration-300 group-hover:text-accent">
+                  <span className="font-thunder text-2xl font-semibold transition-colors duration-300 group-hover:text-accent">
                     Align Network
                   </span>
                 </Link>
@@ -56,7 +56,7 @@ export default function Home() {
 
               <div className="hidden md:flex items-center">
                 <Link href="/login">
-                  <Button className="bg-accent text-background hover:bg-accent/90 rounded-sm font-sans transition-all duration-300 hover:scale-105">
+                  <Button className="bg-accent text-background hover:bg-accent/90 font-sans transition-all duration-300 hover:scale-105 rounded-md">
                     Get Started
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
@@ -82,11 +82,11 @@ export default function Home() {
           </div>
 
           {mobileMenuOpen && (
-            <div className="md:hidden bg-background border-b border-border/30 animate-slide-down">
+            <div className="md:hidden bg-background/30 border-b border-dashed border-border/60 animate-slide-down">
               <div className="container mx-auto px-4 py-4">
                 <div className="flex flex-col space-y-4">
                   <Link href="/login" className="w-full">
-                    <Button className="w-full bg-accent text-background hover:bg-accent/90 rounded-sm font-sans transition-all duration-300 hover:scale-105">
+                    <Button className="w-full bg-accent text-background hover:bg-accent/90 font-sans transition-all duration-300 hover:scale-105 rounded-md">
                       Get Started
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
@@ -98,28 +98,25 @@ export default function Home() {
         </header>
 
         <main className="container mx-auto px-4 sm:px-6 lg:px-8 pt-28 md:pt-36 pb-28 md:pb-36">
-          <div className="grid lg:grid-cols-12 gap-6 space-y-12 sm:gap-8 items-center">
+          <div className="grid lg:grid-cols-12 gap-8 space-y-12 sm:gap-10 items-center">
             <div className="lg:col-span-7" data-animate>
-              <span className="inline-flex items-center rounded-full border border-border/40 px-3 py-1 text-[10px] uppercase tracking-wider text-muted-foreground font-sans opacity-0 animate-fade-in-up delay-100">
+              <span className="inline-flex items-center rounded-full border border-dashed border-border/60 px-4 py-2 text-[10px] uppercase tracking-wider text-muted-foreground font-sans opacity-0 animate-fade-in-up delay-100 bg-background/30">
                 No followers. No gatekeeping.
               </span>
 
-              <h1 className="mt-4 sm:mt-6 font-thunder font-bold text-7xl opacity-0 animate-fade-in-up delay-200">
-                Your ideas <span className="text-accent">matter</span>, not your
-                clout.
+              <h1 className="mt-6 sm:mt-8 font-thunder font-bold text-6xl sm:text-7xl opacity-0 animate-fade-in-up delay-200 leading-tight">
+                Your ideas <span className="text-accent">matter</span>, not your clout.
               </h1>
 
-              <p className="mt-4 max-w-xl text-sm sm:text-base text-muted-foreground font-sans opacity-0 animate-fade-in-up delay-300">
-                Post once. Get discovered by people who vibe with you. On Align,
-                your first reflection has the same reach as your 1000th—because
-                it&apos;s about what you said, not who you are.
+              <p className="mt-6 max-w-xl text-sm sm:text-base text-muted-foreground font-sans opacity-0 animate-fade-in-up delay-300 leading-relaxed">
+                Post once. Get discovered by people who vibe with you. On Align, your first reflection has the same reach as your 1000th—because it&apos;s about what you said, not who you are.
               </p>
 
-              <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 opacity-0 animate-fade-in-up delay-400">
+              <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-in-up delay-400">
                 <Link href="/login">
                   <Button
                     size="lg"
-                    className="bg-accent text-background hover:bg-accent/90 rounded-sm font-sans transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                    className="bg-accent text-background hover:bg-accent/90 font-sans transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-md"
                   >
                     Start reflecting
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -131,31 +128,32 @@ export default function Home() {
             <div className="lg:col-span-5" data-animate>
               <div className="relative mx-auto w-full max-w-sm opacity-0 animate-fade-in-up delay-500">
                 <div className="relative group">
-                  <div className="absolute top-4 left-4 right-4 h-64 bg-accent/5 rounded-lg border border-accent/10 transform rotate-6 animate-pulse transition-all duration-500 group-hover:rotate-3 group-hover:scale-105"></div>
+                  <div className="absolute inset-0 h-64 bg-gradient-to-br from-accent/10 to-accent/5 rounded-xl border border-dashed border-accent/20 transform transition-all duration-500 group-hover:scale-105"></div>
 
-                  <div className="absolute top-2 left-2 right-2 h-64 bg-accent/10 rounded-lg border border-accent/20 transform rotate-3 animate-pulse delay-150 transition-all duration-500 group-hover:rotate-1 group-hover:scale-105"></div>
-
-                  <div className="relative h-64 bg-background rounded-lg border border-border/40 p-6 overflow-hidden animate-fade-in transition-all duration-500 group-hover:scale-105 group-hover:shadow-xl">
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-accent/5 rounded-full transform translate-x-10 -translate-y-10 animate-pulse"></div>
-                    <div className="absolute bottom-0 left-0 w-16 h-16 bg-accent/5 rounded-full transform -translate-x-8 translate-y-8 animate-pulse delay-300"></div>
-
-                    <div className="h-full flex flex-col justify-between opacity-100">
+                  <div className="relative h-64 bg-background/30 rounded-xl border border-dashed border-border/60 p-6 overflow-hidden transition-all duration-500 group-hover:scale-105 group-hover:shadow-xl backdrop-blur-sm">
+                    <div
+                      className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+                      style={{
+                        backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+                        backgroundSize: "20px 20px",
+                      }}
+                    ></div>
+                    <div className="h-full flex flex-col justify-between opacity-100 relative z-0">
                       <div>
-                        <div className="text-xs uppercase tracking-wider text-muted-foreground/70 font-sans">
-                          Your next reflection
+                        <div className="text-xs uppercase tracking-wider text-muted-foreground/70 font-mono font-bold">
+                          POST
                         </div>
-                        <div className="mt-2 text-lg font-stretch-normal">
-                          &quot;What if your next post could land you a
-                          co-founder, a mentor or your dream gig—without a
-                          single follower?&quot;
+                        <div className="mt-3 text-sm sm:text-base leading-relaxed">
+                          &quot;What if your next post could land you a co-founder, a mentor, or your dream gig—without a single follower?&quot;
                         </div>
                       </div>
 
-                      <div className="flex items-end justify-between">
-                        <div className="flex space-x-2">
-                          <div className="w-2 h-2 rounded-full bg-accent/40 animate-ping"></div>
-                          <div className="w-2 h-2 rounded-full bg-accent/60 animate-ping delay-100"></div>
-                          <div className="w-2 h-2 rounded-full bg-accent/80 animate-ping delay-200"></div>
+                      <div className="flex items-center justify-between pt-4 border-t border-dashed border-border/40">
+                        <span className="text-xs text-muted-foreground">Live now</span>
+                        <div className="flex space-x-1.5">
+                          <div className="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
+                          <div className="w-2 h-2 rounded-full bg-accent animate-pulse delay-100"></div>
+                          <div className="w-2 h-2 rounded-full bg-accent animate-pulse delay-200"></div>
                         </div>
                       </div>
                     </div>
@@ -167,94 +165,115 @@ export default function Home() {
         </main>
 
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
-          <div className="grid gap-6 sm:gap-8 lg:grid-cols-12" data-animate>
+          <div className="grid gap-8 sm:gap-10 lg:grid-cols-12" data-animate>
             <div className="lg:col-span-5 opacity-0 animate-fade-in-up">
-              <h2 className="font-thunder text-4xl">The broken system—fixed</h2>
-              <p className="mt-3 text-sm text-muted-foreground font-sans">
-                LinkedIn buries you without followers. Reddit hides you without
-                karma. Align puts your words on equal ground.
+              <h2 className="font-thunder text-4xl sm:text-5xl leading-tight">The broken system—fixed</h2>
+              <p className="mt-4 text-sm sm:text-base text-muted-foreground font-sans leading-relaxed">
+                LinkedIn buries you without followers. Reddit hides you without karma. Align puts your words on equal ground.
               </p>
             </div>
 
             <ul className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-100">
-                <div className="flex items-center gap-3">
-                  <Brain className="h-4 w-4 text-accent transition-transform duration-300 group-hover:scale-125" />
-                  <h3 className="font-medium font-thunder text-2xl">
-                    Zero gatekeeping
-                  </h3>
+              <li className="group rounded-xl border border-dashed border-border/60 p-5 sm:p-6 bg-background/30 hover:bg-background/50 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-100">
+                <div className="flex items-start gap-3">
+                  <Brain className="h-5 w-5 text-accent transition-transform duration-300 group-hover:scale-125 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium font-thunder text-lg sm:text-xl">
+                      Zero gatekeeping
+                    </h3>
+                    <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans leading-relaxed">
+                      Fresh grad? Career changer? Introvert? Your first post reaches the same feed as everyone else.
+                    </p>
+                  </div>
                 </div>
-                <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans">
-                  Fresh grad? Career changer? Introvert? Your first post reaches
-                  the same feed as everyone else.
-                </p>
               </li>
-              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-200">
-                <div className="flex items-center gap-3">
-                  <Sparkles className="h-4 w-4 text-accent transition-transform duration-300 group-hover:scale-125" />
-                  <h3 className="font-thunder font-medium text-2xl">
-                    Reflections {">"} résumés
-                  </h3>
+              <li className="group rounded-xl border border-dashed border-border/60 p-5 sm:p-6 bg-background/30 hover:bg-background/50 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-200">
+                <div className="flex items-start gap-3">
+                  <Sparkles className="h-5 w-5 text-accent transition-transform duration-300 group-hover:scale-125 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium font-thunder text-lg sm:text-xl">
+                      Reflections {">"} résumés
+                    </h3>
+                    <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans leading-relaxed">
+                      Share a thought, not a personal brand. We match on tone, tags, and vibes—no follower count required.
+                    </p>
+                  </div>
                 </div>
-                <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans">
-                  Share a thought, not a personal brand. We match on tone, tags,
-                  and vibes—no follower count required.
-                </p>
               </li>
-              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-300">
-                <div className="flex items-center gap-3">
-                  <MessageSquare className="h-4 w-4 text-accent transition-transform duration-300 group-hover:scale-125" />
-                  <h3 className="font-medium font-thunder text-2xl">
-                    Instant alignment
-                  </h3>
+              <li className="group rounded-xl border border-dashed border-border/60 p-5 sm:p-6 bg-background/30 hover:bg-background/50 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-300">
+                <div className="flex items-start gap-3">
+                  <MessageSquare className="h-5 w-5 text-accent transition-transform duration-300 group-hover:scale-125 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium font-thunder text-lg sm:text-xl">
+                      Instant alignment
+                    </h3>
+                    <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans leading-relaxed">
+                      Post at 2 a.m. about your weird side project. Wake up to replies from people who actually get it.
+                    </p>
+                  </div>
                 </div>
-                <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans">
-                  Post at 2 a.m. about your weird side project. Wake up to
-                  replies from people who actually get it.
-                </p>
               </li>
-              <li className="group rounded-lg border border-border/40 p-4 hover:border-accent/30 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-400">
-                <div className="flex items-center gap-3">
-                  <ShieldCheck className="h-4 w-4 text-accent transition-transform duration-300 group-hover:scale-125" />
-                  <h3 className="font-medium font-thunder text-2xl">
-                    No algorithm games
-                  </h3>
+              <li className="group rounded-xl border border-dashed border-border/60 p-5 sm:p-6 bg-background/30 hover:bg-background/50 transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 animate-fade-in-up delay-400">
+                <div className="flex items-start gap-3">
+                  <ShieldCheck className="h-5 w-5 text-accent transition-transform duration-300 group-hover:scale-125 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium font-thunder text-lg sm:text-xl">
+                      No algorithm games
+                    </h3>
+                    <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans leading-relaxed">
+                      We don't boost "influencers." We surface resonance. Every reflection has a fair shot at discovery.
+                    </p>
+                  </div>
                 </div>
-                <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-sans">
-                  We don’t boost “influencers.” We surface resonance. Every
-                  reflection has a fair shot at discovery.
-                </p>
               </li>
             </ul>
           </div>
         </section>
 
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
-          <div className="grid gap-4 sm:gap-6 md:grid-cols-2" data-animate>
-            <div className="rounded-lg space-y-4 border border-border/40 p-4 sm:p-6 hover:shadow-accent/10 hover:shadow-lg transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up delay-100">
-              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-sans">
+          <div className="grid gap-6 sm:gap-8 md:grid-cols-2" data-animate>
+            <div className="rounded-xl space-y-5 border border-dashed border-border/60 p-6 sm:p-8 bg-background/30 hover:bg-background/50 transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up delay-100">
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-mono font-bold">
                 For Gen Z & Early-Career
               </span>
-              <h3 className="mt-2 font-thunder text-4xl">
+              <h3 className="font-thunder text-3xl sm:text-4xl leading-tight">
                 Skip the follower grind
               </h3>
-              <ul className="mt-3 sm:mt-4 space-y-1 sm:space-y-1 list-disc list-inside text-xs sm:text-base text-muted-foreground font-sans">
-                <li>Post once, find your circle overnight</li>
-                <li>Land internships via shared vibes, not cold DMs</li>
-                <li>No need to “build a brand” before you’re heard</li>
+              <ul className="space-y-3 text-sm sm:text-base text-muted-foreground font-sans">
+                <li className="flex items-start gap-3">
+                  <span className="text-accent mt-1">•</span>
+                  <span>Post once, find your circle overnight</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-accent mt-1">•</span>
+                  <span>Land internships via shared vibes, not cold DMs</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-accent mt-1">•</span>
+                  <span>No need to "build a brand" before you're heard</span>
+                </li>
               </ul>
             </div>
-            <div className="rounded-lg border border-border/40 p-4 sm:p-6 hover:shadow-accent/10 hover:shadow-lg transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up delay-200">
-              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-sans">
+            <div className="rounded-xl border border-dashed border-border/60 p-6 sm:p-8 bg-background/30 hover:bg-background/50 transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up delay-200">
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-mono font-bold">
                 For Niche Creators
               </span>
-              <h3 className="mt-2 font-thunder text-4xl">
+              <h3 className="mt-4 font-thunder text-3xl sm:text-4xl leading-tight">
                 Discover collaborators instantly
               </h3>
-              <ul className="mt-3 sm:mt-4 space-y-1 sm:space-y-1 list-disc list-inside text-xs sm:text-base text-muted-foreground font-sans">
-                <li>Share WIPs—get aligned feedback, not vanity likes</li>
-                <li>Find co-founders who vibe with your mission</li>
-                <li>Turn reflections into paid gigs</li>
+              <ul className="mt-5 space-y-3 text-sm sm:text-base text-muted-foreground font-sans">
+                <li className="flex items-start gap-3">
+                  <span className="text-accent mt-1">•</span>
+                  <span>Share WIPs—get aligned feedback, not vanity likes</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-accent mt-1">•</span>
+                  <span>Find co-founders who vibe with your mission</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-accent mt-1">•</span>
+                  <span>Turn reflections into paid gigs</span>
+                </li>
               </ul>
             </div>
           </div>
@@ -264,37 +283,43 @@ export default function Home() {
           className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16"
           data-animate
         >
-          <div className="rounded-lg border border-border/40 px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 text-center hover:shadow-accent/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground/80 font-sans mb-2">
+          <div className="rounded-xl border border-dashed border-border/60 px-6 py-10 sm:px-8 sm:py-12 md:px-10 md:py-16 text-center hover:shadow-lg hover:bg-background/40 transition-all duration-300 hover:scale-105 opacity-0 animate-fade-in-up bg-background/30 relative overflow-hidden">
+            <div
+              className="absolute inset-0 z-[-1] opacity-[0.03] pointer-events-none"
+              style={{
+                backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+                backgroundSize: "20px 20px",
+              }}
+            ></div>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground/80 font-mono font-bold mb-4">
               Tired of shouting into the void?
             </p>
-            <h2 className="font-thunder text-9xl font-extrabold uppercase">
+            <h2 className="font-thunder text-5xl sm:text-7xl lg:text-8xl font-extrabold uppercase leading-tight">
               Get <span className="text-accent">aligned</span> today
             </h2>
-            <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-muted-foreground font-sans">
-              Post your first reflection. Find three people who vibe with it. No
-              followers required.
+            <p className="mt-4 sm:mt-6 text-sm sm:text-base text-muted-foreground font-sans max-w-2xl mx-auto leading-relaxed">
+              Post your first reflection. Find people who vibe with it. No followers required.
             </p>
-            <div className="mt-4 sm:mt-6">
+            <div className="mt-8 sm:mt-10 flex justify-center">
               <Link href="/login">
                 <Button
                   size="lg"
-                  className="bg-accent text-background hover:bg-accent/90 rounded-sm font-sans transition-all duration-300 hover:scale-110 hover:shadow-xl animate-bounce"
+                  className="bg-accent text-background hover:bg-accent/90 font-sans transition-all duration-300 hover:scale-110 hover:shadow-xl rounded-md"
                 >
                   Start reflecting
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
             </div>
-            <p className="mt-4 text-xs text-muted-foreground/60">
+            <p className="mt-6 sm:mt-8 text-xs text-muted-foreground/60 font-sans">
               Crafted by Shrvan
             </p>
           </div>
         </section>
 
-        <footer className="border-t border-border/30 bg-background/80 backdrop-blur-sm py-4">
+        <footer className="border-t border-dashed border-border/60 bg-background/30 backdrop-blur-sm py-6 sm:py-8">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-4">
               <div className="flex items-center gap-2 group">
                 <div className="relative w-5 h-5 transition-transform duration-300 group-hover:scale-110">
                   <Image
@@ -309,7 +334,7 @@ export default function Home() {
                 </span>
               </div>
 
-              <div className="flex items-center gap-6 text-xs text-muted-foreground">
+              <div className="flex items-center gap-6 sm:gap-4 text-xs text-muted-foreground">
                 <Link
                   href="https://x.com/NetworkAli56631"
                   className="hover:text-accent transition-all duration-300 hover:scale-125"
