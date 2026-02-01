@@ -1,8 +1,6 @@
 "use client";
 
 import LoadingButton from "@/components/LoadingButton";
-import { PasswordInput } from "@/components/PasswordInput";
-import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -12,30 +10,35 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { loginSchema, type LoginValues } from "@/lib/validation";
+import {
+  forgotPasswordSchema,
+  type ForgotPasswordValues,
+} from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { login } from "./actions";
+import { requestPasswordReset } from "./actions";
 
-export default function LoginForm() {
+export default function ForgotPasswordForm() {
   const [error, setError] = useState<string>();
+  const [success, setSuccess] = useState<string>();
 
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<LoginValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<ForgotPasswordValues>({
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      email: "",
     },
   });
 
-  async function onSubmit(values: LoginValues) {
+  async function onSubmit(values: ForgotPasswordValues) {
     setError(undefined);
+    setSuccess(undefined);
     startTransition(async () => {
-      const { error } = await login(values);
+      const { error, success } = await requestPasswordReset(values);
       if (error) setError(error);
+      if (success) setSuccess(success);
     });
   }
 
@@ -45,18 +48,22 @@ export default function LoginForm() {
         {error && (
           <p className="text-center text-destructive text-sm">{error}</p>
         )}
+        {success && (
+          <p className="text-center text-green-500 text-sm">{success}</p>
+        )}
 
         <FormField
           control={form.control}
-          name="username"
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-white text-sm font-normal">
-                Username
+                Email
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Username"
+                  placeholder="Email"
+                  type="email"
                   {...field}
                   className="bg-black border-gray-600 text-white placeholder:text-gray-500 focus:border-blue-500 h-12 rounded-lg"
                 />
@@ -65,36 +72,9 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-white text-sm font-normal">
-                Password
-              </FormLabel>
-              <FormControl>
-                <PasswordInput
-                  placeholder="Password"
-                  {...field}
-                  className="bg-black border-gray-600 text-white placeholder:text-gray-500 focus:border-blue-500 h-12 rounded-lg"
-                />
-              </FormControl>
-              <FormMessage className="text-red-400 text-xs" />
-            </FormItem>
-          )}
-        />
-
-        <Link
-          href="/forgot-password"
-          className="block text-right text-sm text-blue-400 hover:underline"
-        >
-          Forgot password?
-        </Link>
 
         <LoadingButton loading={isPending} type="submit" className="w-full">
-          Sign in
+          Send Reset Link
         </LoadingButton>
       </form>
     </Form>

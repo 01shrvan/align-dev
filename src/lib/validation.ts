@@ -123,3 +123,27 @@ export const createJobSchema = z
   });
 
 export type CreateJobInput = z.infer<typeof createJobSchema>;
+
+export const forgotPasswordSchema = z.object({
+  email: requiredString.email("Invalid email"),
+});
+
+export type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
+
+export const resetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, "Must be at least 8 characters")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        "Must contain at least one lowercase letter, one uppercase letter, and one number",
+      ),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export type ResetPasswordValues = z.infer<typeof resetPasswordSchema>;

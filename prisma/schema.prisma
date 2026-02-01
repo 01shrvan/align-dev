@@ -18,49 +18,51 @@ datasource db {
 }
 
 model User {
-  id                    String             @id
-  username              String             @unique
-  displayName           String
-  email                 String?            @unique
-  passwordHash          String?
-  googleId              String?            @unique
-  avatarUrl             String?
-  bio                   String?
-  sessions              Session[]
-  posts                 Post[]
-  following             Follow[]           @relation("Following")
-  followers             Follow[]           @relation("Followers")
-  likes                 Like[]
-  bookmarks             Bookmark[]
-  jobs                  Job[]
-  comments              Comment[]
-  receivedNotifications Notification[]     @relation("Recipient")
-  issuedNotifications   Notification[]     @relation("Issuer")
-  createdCommunities    Community[]        @relation("CommunityCreator")
-  communityMemberships  CommunityMember[]
-  communityPosts        CommunityPost[]    @relation("CommunityPosts")
-  communityMessages     CommunityMessage[] @relation("CommunityMessages")
-  isVerified            Boolean            @default(false)
-  verificationCode      String?
-  verificationCodeExpiresAt DateTime?
-  isOnboarded           Boolean            @default(false)
-  interests             String[]           @default([])
-  location              String?
-  age                   Int?
-  gender                String?
-  occupation            String?
-  tags                  String[]           @default(["aligners"])
-  commentLikes          CommentLike[]
-  aiSuggestedInterests  String[]           @default([])
-  persona               String?
-  personaTraits         String[]           @default([])
-  lastAIAnalysis        DateTime?
+  id                          String             @id
+  username                    String             @unique
+  displayName                 String
+  email                       String?            @unique
+  passwordHash                String?
+  googleId                    String?            @unique
+  avatarUrl                   String?
+  bio                         String?
+  sessions                    Session[]
+  posts                       Post[]
+  following                   Follow[]           @relation("Following")
+  followers                   Follow[]           @relation("Followers")
+  likes                       Like[]
+  bookmarks                   Bookmark[]
+  jobs                        Job[]
+  comments                    Comment[]
+  receivedNotifications       Notification[]     @relation("Recipient")
+  issuedNotifications         Notification[]     @relation("Issuer")
+  createdCommunities          Community[]        @relation("CommunityCreator")
+  communityMemberships        CommunityMember[]
+  communityPosts              CommunityPost[]    @relation("CommunityPosts")
+  communityMessages           CommunityMessage[] @relation("CommunityMessages")
+  isVerified                  Boolean            @default(false)
+  verificationCode            String?
+  verificationCodeExpiresAt   DateTime?
+  resetPasswordToken          String?
+  resetPasswordTokenExpiresAt DateTime?
+  isOnboarded                 Boolean            @default(false)
+  interests                   String[]           @default([])
+  location                    String?
+  age                         Int?
+  gender                      String?
+  occupation                  String?
+  tags                        String[]           @default(["aligners"])
+  commentLikes                CommentLike[]
+  aiSuggestedInterests        String[]           @default([])
+  persona                     String?
+  personaTraits               String[]           @default([])
+  lastAIAnalysis              DateTime?
 
-  aiChatMessages        AIChatMessage[]
+  aiChatMessages AIChatMessage[]
 
   searchableText String?
 
-  bioEmbedding   Unsupported("vector(768)")?
+  bioEmbedding Unsupported("vector(768)")?
 
   createdAt DateTime @default(now())
 
@@ -334,12 +336,11 @@ model AIChatMessage {
   id               String   @id @default(cuid())
   userId           String
   user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  role             String   
+  role             String
   content          String
-  suggestedUserIds String[] @default([]) 
+  suggestedUserIds String[] @default([])
   createdAt        DateTime @default(now())
 
-  @@map("ai_chat_messages")
   @@index([userId])
+  @@map("ai_chat_messages")
 }
-

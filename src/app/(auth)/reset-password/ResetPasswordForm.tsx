@@ -2,7 +2,6 @@
 
 import LoadingButton from "@/components/LoadingButton";
 import { PasswordInput } from "@/components/PasswordInput";
-import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -11,30 +10,35 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { loginSchema, type LoginValues } from "@/lib/validation";
+import {
+  resetPasswordSchema,
+  type ResetPasswordValues,
+} from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { login } from "./actions";
+import { resetPassword } from "./actions";
 
-export default function LoginForm() {
+interface ResetPasswordFormProps {
+  token: string;
+}
+
+export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const [error, setError] = useState<string>();
-
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<LoginValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<ResetPasswordValues>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      username: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  async function onSubmit(values: LoginValues) {
+  async function onSubmit(values: ResetPasswordValues) {
     setError(undefined);
     startTransition(async () => {
-      const { error } = await login(values);
+      const { error } = await resetPassword(token, values);
       if (error) setError(error);
     });
   }
@@ -48,15 +52,15 @@ export default function LoginForm() {
 
         <FormField
           control={form.control}
-          name="username"
+          name="password"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-white text-sm font-normal">
-                Username
+                New Password
               </FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Username"
+                <PasswordInput
+                  placeholder="New Password"
                   {...field}
                   className="bg-black border-gray-600 text-white placeholder:text-gray-500 focus:border-blue-500 h-12 rounded-lg"
                 />
@@ -68,15 +72,15 @@ export default function LoginForm() {
 
         <FormField
           control={form.control}
-          name="password"
+          name="confirmPassword"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-white text-sm font-normal">
-                Password
+                Confirm Password
               </FormLabel>
               <FormControl>
                 <PasswordInput
-                  placeholder="Password"
+                  placeholder="Confirm Password"
                   {...field}
                   className="bg-black border-gray-600 text-white placeholder:text-gray-500 focus:border-blue-500 h-12 rounded-lg"
                 />
@@ -86,15 +90,8 @@ export default function LoginForm() {
           )}
         />
 
-        <Link
-          href="/forgot-password"
-          className="block text-right text-sm text-blue-400 hover:underline"
-        >
-          Forgot password?
-        </Link>
-
         <LoadingButton loading={isPending} type="submit" className="w-full">
-          Sign in
+          Reset Password
         </LoadingButton>
       </form>
     </Form>

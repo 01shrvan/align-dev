@@ -3,6 +3,7 @@ import { createTransport, type Transporter } from "nodemailer";
 import type SMTPTransport from "nodemailer/lib/smtp-transport";
 import type { Result } from "../types";
 import VerifyEmailTemplate from "./templates/verify-email";
+import ResetPasswordTemplate from "./templates/reset-password";
 
 export class NodemailerUtils {
   private readonly transporter: Transporter<
@@ -36,6 +37,33 @@ export class NodemailerUtils {
       return {
         success: false,
         error: err instanceof Error ? err.message : "Failed to send otp",
+      };
+    }
+  }
+
+  async sendPasswordResetEmail(
+    to: string,
+    url: string,
+    username?: string,
+  ): Promise<Result<null>> {
+    try {
+      await this.transporter.sendMail({
+        from: "Align Network <noreply@mail.align-network.xyz>",
+        to,
+        subject: "Reset your password",
+        html: await render(
+          <ResetPasswordTemplate url={url} username={username} />,
+        ),
+      });
+
+      return { success: true, data: null };
+    } catch (err) {
+      return {
+        success: false,
+        error:
+          err instanceof Error
+            ? err.message
+            : "Failed to send password reset email",
       };
     }
   }
