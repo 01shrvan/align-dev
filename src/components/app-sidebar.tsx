@@ -58,7 +58,6 @@ export function AppSidebar({ unreadNotificationCount = 0 }: AppSidebarProps) {
 
   return (
     <Sidebar
-      className="bg-background/30 border border-dashed border-border/60"
       collapsible="icon"
       variant="sidebar"
       side="left"

@@ -181,7 +181,7 @@ const Sidebar = React.forwardRef<
           <SheetContent
             data-sidebar="sidebar"
             data-mobile="true"
-            className="w-[--sidebar-width-mobile] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
+            className="w-[--sidebar-width-mobile] bg-background/30 backdrop-blur-sm p-0 text-sidebar-foreground [&>button]:hidden"
             side={side}
           >
             <div className="flex h-full w-full flex-col">{children}</div>
@@ -194,7 +194,7 @@ const Sidebar = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "group peer fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] duration-200 ease-linear md:flex flex-col",
+          "group peer fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] duration-200 ease-linear md:flex flex-col border-r border-dashed border-border/60 bg-background/30 backdrop-blur-sm",
           side === "left"
             ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
             : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
@@ -210,7 +210,14 @@ const Sidebar = React.forwardRef<
         {...props}
       >
         <div
-          className="flex h-full w-full flex-col bg-sidebar text-sidebar-foreground"
+          className="absolute inset-0 z-[-1] opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+            backgroundSize: "20px 20px",
+          }}
+        ></div>
+        <div
+          className="flex h-full w-full flex-col bg-transparent text-sidebar-foreground relative"
           data-sidebar="sidebar"
         >
           {children}
@@ -297,7 +304,7 @@ const SidebarFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col gap-2 border-t border-sidebar-border px-4 py-2 mt-auto", className)}
+    className={cn("flex flex-col gap-2 border-t border-dashed border-border/60 px-4 py-2 mt-auto", className)}
     {...props}
   />
 ))
