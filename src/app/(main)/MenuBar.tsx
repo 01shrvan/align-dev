@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
 import NotificationsButton from "./NotificationsButton";
 
 interface MenuBarProps {
@@ -49,12 +49,19 @@ export default function MenuBar({
 
   return (
     <nav
-      className={clsx(
-        "flex w-full sm:flex-col sm:w-auto justify-between",
+      className={cn(
+        "flex w-full sm:flex-col sm:w-auto justify-between relative",
         className,
         pathname === "/chat" && "sm:hidden",
       )}
     >
+      <div
+        className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none hidden sm:block"
+        style={{
+          backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
+        }}
+      ></div>
       {menuItems.map((item) => {
         const isActive =
           item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
@@ -65,7 +72,7 @@ export default function MenuBar({
             <NotificationsButton
               key={item.href}
               initialState={{ unreadCount: unreadNotificationCount }}
-              className={clsx(
+              className={cn(
                 "flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start flex-1 sm:flex-none gap-1 sm:gap-3 py-2 text-sm font-medium transition-colors",
                 isActive
                   ? "text-[rgba(130,230,100,1)]"
@@ -79,7 +86,7 @@ export default function MenuBar({
           <Link
             key={item.href}
             href={item.href}
-            className={clsx(
+            className={cn(
               "flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start flex-1 sm:flex-none gap-1 sm:gap-3 py-2 text-sm font-medium transition-colors",
               isActive ? "text-[rgba(130,230,100,1)]" : "text-muted-foreground",
             )}

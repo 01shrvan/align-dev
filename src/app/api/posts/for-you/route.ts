@@ -137,7 +137,6 @@ export async function GET(req: NextRequest) {
 
     const finalPosts = paginatedPosts.slice(0, pageSize);
 
-    // Manually serialize to ensure user data is preserved
     const serializedPosts = finalPosts.map((post) => ({
       id: post.id,
       content: post.content,

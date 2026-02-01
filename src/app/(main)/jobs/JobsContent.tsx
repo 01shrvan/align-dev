@@ -61,28 +61,38 @@ export default function JobsContent() {
   }
 
   return (
-    <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border md:pl-3 md:ml-3 md:border-none">
+    <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border/60 md:pl-3 md:ml-3 md:border-none">
       <main className="flex w-full min-w-0 min-h-full">
-        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5 md:border-none md:pr-3 md:mr-3">
-          <div className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 p-5 shadow-sm">
-            <div className="flex items-center justify-between gap-4 flex-col sm:flex-row sm:items-center">
-              <div>
-                <h1 className="text-2xl font-bold md:text-xl">Jobs & Internships</h1>
-                <p className="text-muted-foreground mt-1 text-sm">
-                  Discover opportunities or post your own
-                </p>
-              </div>
-              <Button onClick={() => setShowForm(!showForm)} size="lg" className="w-full sm:w-auto">
-                Post Opportunity
-              </Button>
+        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border/60 pr-5 mr-5 md:border-none md:pr-3 md:mr-3 max-w-5xl mx-auto bg-background/30 rounded-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-dashed border-border/60 relative overflow-hidden">
+          <div
+            className="absolute inset-0 z-[-1] opacity-[0.04] rounded-xl pointer-events-none"
+            style={{
+              backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+              backgroundSize: "20px 20px",
+            }}
+          ></div>
+
+          <div className="flex items-center justify-between p-4 border-b border-dashed border-border/60 bg-background/60 backdrop-blur-sm rounded-t-xl">
+            <h1 className="text-lg sm:text-xl font-bold">Jobs & Internships</h1>
+            <div className="text-[10px] text-muted-foreground font-mono bg-secondary/50 px-2 py-1 rounded border border-border/40">
+              OPPORTUNITIES
             </div>
           </div>
 
-          {showForm && (
-            <JobForm onSuccess={() => setShowForm(false)} onCancel={() => setShowForm(false)} />
-          )}
+          <div className="px-4 sm:px-6 pt-2 space-y-5">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm text-muted-foreground">
+                Discover opportunities or post your own
+              </p>
+              <Button onClick={() => setShowForm(!showForm)} size="sm" className="whitespace-nowrap">
+                Post
+              </Button>
+            </div>
 
-          <div className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 p-4 shadow-sm">
+            {showForm && (
+              <JobForm onSuccess={() => setShowForm(false)} onCancel={() => setShowForm(false)} />
+            )}
+
             <div className="flex gap-2 flex-wrap">
               <Button
                 variant={filter === null ? "default" : "outline"}
@@ -120,36 +130,38 @@ export default function JobsContent() {
                 Contract
               </Button>
             </div>
+
+            {status === "success" && !jobs.length && !hasNextPage ? (
+              <div className="py-10 text-center">
+                <Briefcase className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                <p className="text-base font-medium mb-2">No opportunities found</p>
+                <p className="text-muted-foreground mb-4 text-sm">
+                  {filter
+                    ? "Try changing your filter or be the first to post!"
+                    : "Be the first to post a job opportunity!"}
+                </p>
+                {!showForm && (
+                  <Button onClick={() => setShowForm(true)} size="sm">
+                    Post Opportunity
+                  </Button>
+                )}
+              </div>
+            ) : (
+              <InfiniteScrollContainer
+                className="space-y-5"
+                onBottomReached={() => hasNextPage && !isFetching && fetchNextPage()}
+              >
+                {jobs.map((job) => (
+                  <JobCard key={job.id} job={job} />
+                ))}
+                {isFetchingNextPage && (
+                  <Loader2 className="mx-auto my-3 animate-spin" />
+                )}
+              </InfiniteScrollContainer>
+            )}
           </div>
 
-          {status === "success" && !jobs.length && !hasNextPage ? (
-            <div className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 p-10 shadow-sm text-center">
-              <Briefcase className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-lg font-medium mb-2 md:text-base">No opportunities found</p>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {filter
-                  ? "Try changing your filter or be the first to post!"
-                  : "Be the first to post a job opportunity!"}
-              </p>
-              {!showForm && (
-                <Button onClick={() => setShowForm(true)}>
-                  Post Opportunity
-                </Button>
-              )}
-            </div>
-          ) : (
-            <InfiniteScrollContainer
-              className="space-y-5"
-              onBottomReached={() => hasNextPage && !isFetching && fetchNextPage()}
-            >
-              {jobs.map((job) => (
-                <JobCard key={job.id} job={job} />
-              ))}
-              {isFetchingNextPage && (
-                <Loader2 className="mx-auto my-3 animate-spin" />
-              )}
-            </InfiniteScrollContainer>
-          )}
+          <div className="h-4 px-4 sm:px-6" />
         </div>
       </main>
     </div>

@@ -104,20 +104,20 @@ export async function generateMetadata({
       ? `${user.bio.slice(0, 197)}...`
       : user.bio
     : [
-        details.join(" • "),
-        interestSummary ? `Interests: ${interestSummary}` : null,
-        counts,
-      ]
-        .filter(Boolean)
-        .join(" • ");
+      details.join(" • "),
+      interestSummary ? `Interests: ${interestSummary}` : null,
+      counts,
+    ]
+      .filter(Boolean)
+      .join(" • ");
 
   const image = user.avatarUrl || "/assets/opengraph-image.png";
   const description = user.avatarUrl
     ? baseDescription
     : `Discover ${user.displayName} on Align — where thoughts find their people. ${counts}${interestSummary ? ` • Interests: ${interestSummary}` : ""}`.slice(
-        0,
-        240,
-      );
+      0,
+      240,
+    );
   const url = `/users/${user.username}`;
 
   return {
@@ -154,9 +154,9 @@ export default async function Page({ params }: PageProps) {
   const user = await getUser(username, loggedInUser.id);
 
   return (
-    <div className="flex-1 pl-2 sm:pl-5 ml-2 sm:ml-5 border-l border-dashed border-border overflow-hidden">
+    <div className="flex-1 pl-2 sm:pl-5 ml-2 sm:ml-5 border-l border-dashed border-border/60 overflow-hidden">
       <main className="flex w-full min-w-0">
-        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-2 sm:pr-5 mr-2 sm:mr-5">
+        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border/60 pr-2 sm:pr-5 mr-2 sm:mr-5">
           <UserProfile user={user} loggedInUserId={loggedInUser.id} />
           {user.id === loggedInUser.id && (
             <>
@@ -215,7 +215,14 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
   const bioSections = parseBioSections(user.bio);
 
   return (
-    <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-3 sm:p-5 shadow-sm overflow-hidden">
+    <div className="h-fit w-full space-y-5 rounded-xl bg-background/30 p-4 sm:p-6 shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] overflow-hidden border border-border/40 backdrop-blur-sm relative">
+      <div
+        className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
+        }}
+      ></div>
       <AvatarComponent.Avatar className="mx-auto size-32 sm:size-48">
         <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
         <AvatarComponent.AvatarFallback>

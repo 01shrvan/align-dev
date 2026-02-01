@@ -6,23 +6,42 @@ import FollowingFeed from "../FollowingFeed";
 
 export default function Home() {
   return (
-    <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border">
+    <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border/60">
       <main className="flex w-full min-w-0 min-h-full">
-        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5 min-h-full">
-          <PostEditor />
-          <div className="border-b border-dashed border-border mt-1 mb-2" />
-          <Tabs defaultValue="for-you" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="for-you">For you</TabsTrigger>
-              <TabsTrigger value="following">Following</TabsTrigger>
-            </TabsList>
-            <TabsContent value="for-you" className="space-y-4">
-              <ForYouFeed key="for-you" />
-            </TabsContent>
-            <TabsContent value="following" className="space-y-4">
-              <FollowingFeed key="following" />
-            </TabsContent>
-          </Tabs>
+        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border/60 pr-5 mr-5 min-h-full max-w-5xl mx-auto bg-background/30 rounded-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] relative">
+          <div
+            className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+            style={{
+              backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+              backgroundSize: "20px 20px",
+            }}
+          ></div>
+
+          <div className="flex-none flex items-center justify-between p-4 border-b border-dashed border-border/60 bg-background/60 backdrop-blur-sm rounded-t-xl">
+            <h1 className="text-xl font-bold">Your Feed</h1>
+            <div className="text-[10px] text-muted-foreground font-mono bg-secondary/50 px-2 py-1 rounded border border-border/40">
+              FEED
+            </div>
+          </div>
+
+          <div className="px-4 sm:px-6 space-y-5">
+            <PostEditor />
+            <div className="border-b border-dashed border-border/60" />
+            <Tabs defaultValue="for-you" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="for-you">For you</TabsTrigger>
+                <TabsTrigger value="following">Following</TabsTrigger>
+              </TabsList>
+              <TabsContent value="for-you" className="space-y-4">
+                <ForYouFeed key="for-you" />
+              </TabsContent>
+              <TabsContent value="following" className="space-y-4">
+                <FollowingFeed key="following" />
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          <div className="h-4 px-4 sm:px-6" />
         </div>
         <TrendsSidebar />
       </main>

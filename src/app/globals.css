@@ -3,7 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
 :root {
   --radius: 0.5rem;
 
@@ -288,4 +287,13 @@
 .ProseMirror p {
   word-break: break-word;
   overflow-wrap: anywhere;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
