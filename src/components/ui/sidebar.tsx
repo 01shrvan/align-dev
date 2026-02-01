@@ -328,10 +328,7 @@ const SidebarContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
-      "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
-      className
-    )}
+    className={cn("flex flex-col gap-2 overflow-y-auto flex-1 px-4 py-4", className)}
     {...props}
   />
 ))
@@ -343,7 +340,7 @@ const SidebarGroup = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("relative flex w-full min-w-0 flex-col gap-2 p-2", className)}
+    className={cn("overflow-hidden", className)}
     {...props}
   />
 ))
@@ -405,7 +402,7 @@ const SidebarMenu = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ul
     ref={ref}
-    className={cn("flex w-full min-w-0 flex-col gap-1", className)}
+    className={cn("flex w-full min-w-0 flex-col gap-2", className)}
     {...props}
   />
 ))
@@ -424,22 +421,22 @@ const SidebarMenuItem = React.forwardRef<
 SidebarMenuItem.displayName = "SidebarMenuItem"
 
 const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md px-2 py-1.5 text-sm outline-none ring-sidebar-ring transition-all hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-1 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:p-0 [&>span:last-child]:truncate [&>svg]:h-4 [&>svg]:w-4 [&>svg]:shrink-0",
+  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md px-3 py-2 text-sm font-medium outline-none ring-sidebar-ring transition-all duration-200 hover:bg-background/50 hover:text-foreground active:bg-background/60 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-0 group-data-[state=collapsed]/sidebar:justify-center group-data-[state=collapsed]/sidebar:[&>span:last-child]:hidden [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
       isActive: {
-        true: "bg-sidebar-accent text-sidebar-accent-foreground",
-        false: "hover:bg-sidebar-accent/50 text-sidebar-foreground/80",
+        true: "bg-background/50 text-[rgba(130,230,100,1)]",
+        false: "text-sidebar-foreground",
+      },
+      size: {
+        default: "h-9",
+        sm: "h-7",
+        lg: "h-12 px-2 py-2",
       },
     },
-    compoundVariants: [
-      {
-        isActive: true,
-        className: "bg-sidebar-primary text-sidebar-primary-foreground",
-      },
-    ],
     defaultVariants: {
       isActive: false,
+      size: "default",
     },
   }
 )

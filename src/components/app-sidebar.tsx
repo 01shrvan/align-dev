@@ -76,10 +76,10 @@ export function AppSidebar({ unreadNotificationCount = 0 }: AppSidebarProps) {
                     <NotificationsButton
                       initialState={{ unreadCount: unreadNotificationCount }}
                       className={clsx(
-                        "w-full flex items-center justify-start gap-3 px-2 py-1.5 text-sm font-medium transition-colors rounded-md",
+                        "w-full flex items-center justify-start gap-3 px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md",
                         isActive
-                          ? "text-[rgba(130,230,100,1)] bg-sidebar-accent/30"
-                          : "text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/20",
+                          ? "text-[rgba(130,230,100,1)] bg-background/50"
+                          : "text-muted-foreground hover:text-foreground hover:bg-background/50",
                       )}
                     />
                   </SidebarMenuItem>
@@ -91,10 +91,6 @@ export function AppSidebar({ unreadNotificationCount = 0 }: AppSidebarProps) {
                   <SidebarMenuButton asChild isActive={isActive}>
                     <Link
                       href={item.href}
-                      className={clsx(
-                        "gap-3",
-                        isActive && "text-[rgba(130,230,100,1)]"
-                      )}
                       title={item.title}
                     >
                       <IconComponent
@@ -121,11 +117,13 @@ export function AppSidebar({ unreadNotificationCount = 0 }: AppSidebarProps) {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              onClick={async () => {
-                await logout()
-              }}
             >
-              <button className="w-full text-left gap-3">
+              <button 
+                className="w-full text-left gap-3"
+                onClick={async () => {
+                  await logout()
+                }}
+              >
                 <LogOut size={20} className="shrink-0" />
                 <span className="group-data-[collapsible=icon]:hidden">Logout</span>
               </button>
