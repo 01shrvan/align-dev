@@ -51,9 +51,9 @@ export async function login(
     );
 
     if (existingUser.isOnboarded) {
-      return redirect("/home");
+      redirect("/home");
     } else {
-      return redirect("/onboarding");
+      redirect("/onboarding");
     }
   } catch (error) {
     if (isRedirectError(error)) throw error;

@@ -83,7 +83,7 @@ export async function signUp(
       sessionCookie.attributes,
     );
 
-    return redirect("/verify-email");
+    redirect("/verify-email");
   } catch (error) {
     if (isRedirectError(error)) throw error;
     console.error(error);
