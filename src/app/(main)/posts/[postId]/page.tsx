@@ -114,10 +114,20 @@ export default async function Page({ params }: PageProps) {
   const post = await getPost(postId, user.id);
 
   return (
-    <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border">
+    <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border/60">
       <main className="flex w-full min-w-0 min-h-full">
-        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5 min-h-full">
-          <Post post={post} />
+        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border/60 pr-5 mr-5 min-h-full max-w-5xl mx-auto bg-background/30 rounded-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] relative">
+          <div
+            className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+            style={{
+              backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+              backgroundSize: "20px 20px",
+            }}
+          ></div>
+
+          <div className="px-4 sm:px-6 pt-4 sm:pt-6">
+            <Post post={post} />
+          </div>
         </div>
         <div className="sticky top-[5.25rem] hidden h-fit w-80 flex-none lg:block">
           <Suspense fallback={<Loader2 className="mx-auto animate-spin" />}>
@@ -139,8 +149,15 @@ async function UserInfoSidebar({ user }: UserInfoSidebarProps) {
   if (!loggedInUser) return null;
 
   return (
-    <div className="space-y-5 rounded-2xl bg-card p-5 shadow-sm">
-      <div className="text-xl font-bold">About this user</div>
+    <div className="space-y-5 rounded-xl bg-background/30 p-4 sm:p-6 shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-border/40 backdrop-blur-sm relative">
+      <div
+        className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
+        }}
+      ></div>
+      <div className="text-lg font-bold">About this user</div>
       <UserTooltip user={user}>
         <Link
           href={`/users/${user.username}`}

@@ -148,10 +148,17 @@ export default function CommunityPage({
         );
     }
     return (
-        <div className="flex-1 px-4 md:pl-5 md:ml-5 md:border-l md:border-dashed md:border-border">
+        <div className="flex-1 px-4 md:pl-5 md:ml-5 md:border-l md:border-dashed md:border-border/60">
             <main className="flex w-full min-w-0 min-h-full flex-col lg:flex-row">
-                <div className="w-full min-w-0 space-y-5 lg:border-r lg:border-dashed lg:border-border lg:pr-5 lg:mr-5 min-h-full">
-                    <div className="rounded-2xl bg-card shadow-sm overflow-hidden">
+                <div className="w-full min-w-0 space-y-5 lg:border-r lg:border-dashed lg:border-border/60 lg:pr-5 lg:mr-5 min-h-full">
+                    <div className="rounded-xl bg-background/30 shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] overflow-hidden border border-border/40 relative">
+                      <div
+                        className="absolute inset-0 z-[-1] opacity-[0.03] pointer-events-none"
+                        style={{
+                          backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+                          backgroundSize: "20px 20px",
+                        }}
+                      ></div>
                         <div className="relative h-32 md:h-48 w-full bg-gradient-to-br from-primary/20 to-primary/5">
                             {community.bannerUrl && (
                                 <img
@@ -257,7 +264,14 @@ export default function CommunityPage({
                     </div>
 
                     {!isMember ? (
-                        <div className="rounded-2xl bg-card p-12 text-center shadow-sm">
+                        <div className="rounded-xl bg-background/30 p-10 sm:p-12 text-center shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-border/40 relative">
+                          <div
+                            className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+                            style={{
+                              backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+                              backgroundSize: "20px 20px",
+                            }}
+                          ></div>
                             <Lock className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                             <h3 className="text-xl font-semibold mb-2">Join to participate</h3>
                             <p className="text-muted-foreground mb-4">
@@ -269,7 +283,14 @@ export default function CommunityPage({
                         </div>
                     ) : (
                         <>
-                            <div className="rounded-2xl bg-card p-4 shadow-sm">
+                            <div className="rounded-xl bg-background/30 p-4 shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-border/40 relative">
+                              <div
+                                className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+                                style={{
+                                  backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+                                  backgroundSize: "20px 20px",
+                                }}
+                              ></div>
                                 <Textarea
                                     placeholder={isChatCommunity ? "Send a message..." : "Share something with the community..."}
                                     value={content}
@@ -293,7 +314,14 @@ export default function CommunityPage({
                             </div>
 
                             {isChatCommunity ? (
-                                <div className="rounded-2xl bg-card p-4 shadow-sm space-y-4">
+                                <div className="rounded-xl bg-background/30 p-4 shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-border/40 space-y-4 relative">
+                                  <div
+                                    className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+                                    style={{
+                                      backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+                                      backgroundSize: "20px 20px",
+                                    }}
+                                  ></div>
                                     <h3 className="font-semibold text-lg mb-4">Chat</h3>
                                     {messages.length === 0 ? (
                                         <p className="text-center text-muted-foreground py-8">
@@ -336,7 +364,14 @@ export default function CommunityPage({
                                     className="space-y-4"
                                 >
                                     {posts.length === 0 ? (
-                                        <div className="rounded-2xl bg-card p-12 text-center shadow-sm">
+                                        <div className="rounded-xl bg-background/30 p-10 sm:p-12 text-center shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-border/40 relative">
+                                          <div
+                                            className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+                                            style={{
+                                              backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+                                              backgroundSize: "20px 20px",
+                                            }}
+                                          ></div>
                                             <Newspaper className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                                             <p className="text-muted-foreground">
                                                 No posts yet. Be the first to share something!
@@ -344,7 +379,14 @@ export default function CommunityPage({
                                         </div>
                                     ) : (
                                         posts.map((post: any) => (
-                                            <div key={post.id} className="rounded-2xl bg-card p-6 shadow-sm">
+                                            <div key={post.id} className="rounded-xl bg-background/30 p-5 sm:p-6 shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-border/40 relative">
+                                              <div
+                                                className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+                                                style={{
+                                                  backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+                                                  backgroundSize: "20px 20px",
+                                                }}
+                                              ></div>
                                                 <div className="flex gap-3 mb-4">
                                                     <Avatar>
                                                         <AvatarImage src={post.user.avatarUrl || undefined} />

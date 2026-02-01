@@ -58,50 +58,63 @@ export default function CommunitiesPage() {
     const communities = data?.pages.flatMap((page) => page.communities) || [];
 
     return (
-        <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border">
+        <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border/60">
             <main className="flex w-full min-w-0 min-h-full">
-                <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border pr-5 mr-5 min-h-full">
-                    <div className="rounded-2xl bg-card p-6 shadow-sm">
-                        <div className="flex flex-col sm:flex-row items-start justify-between mb-4 gap-4">
-                            <div>
-                                <h1 className="text-3xl font-bold flex items-center gap-2">
-                                    <Users className="h-8 w-8" />
-                                    Communities
-                                </h1>
-                                <p className="text-muted-foreground mt-1">
-                                    Discover and join communities that match your interests
-                                </p>
+                <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border/60 pr-5 mr-5 min-h-full">
+                    <div className="max-w-5xl mx-auto bg-background/30 rounded-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] relative overflow-hidden">
+                        <div
+                            className="absolute inset-0 z-[-1] opacity-[0.03]"
+                            style={{
+                                backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+                                backgroundSize: "20px 20px",
+                            }}
+                        ></div>
+
+                        <div className="flex items-center justify-between p-4 border-b border-dashed border-border/60 bg-background/60 backdrop-blur-sm">
+                            <h1 className="text-lg sm:text-xl font-bold">Communities</h1>
+                            <div className="text-[10px] text-muted-foreground font-mono bg-secondary/50 px-2 py-1 rounded border border-border/40">
+                                DISCOVER
                             </div>
-                            <Button onClick={() => setCreateDialogOpen(true)} size="lg">
-                                <Plus className="mr-2 h-4 w-4" />
-                                Create Community
-                            </Button>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row gap-3 mt-4">
-                            <div className="relative flex-1">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input
-                                    placeholder="Search communities..."
-                                    value={searchQuery}
-                                    onChange={(e) => handleSearch(e.target.value)}
-                                    className="pl-10"
-                                />
+                        <div className="p-4 sm:p-6 space-y-4">
+                            <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
+                                <div>
+                                    <p className="text-sm text-muted-foreground">
+                                        Discover and join communities that match your interests
+                                    </p>
+                                </div>
+                                <Button onClick={() => setCreateDialogOpen(true)} size="sm" className="whitespace-nowrap">
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Create
+                                </Button>
                             </div>
-                            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                                <SelectTrigger className="w-full sm:w-[200px]">
-                                    <Filter className="mr-2 h-4 w-4" />
-                                    <SelectValue placeholder="All Categories" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">All Categories</SelectItem>
-                                    {COMMUNITY_CATEGORIES.map((category) => (
-                                        <SelectItem key={category} value={category}>
-                                            {category}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <div className="relative flex-1">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                        placeholder="Search communities..."
+                                        value={searchQuery}
+                                        onChange={(e) => handleSearch(e.target.value)}
+                                        className="pl-10"
+                                    />
+                                </div>
+                                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                                    <SelectTrigger className="w-full sm:w-[200px]">
+                                        <Filter className="mr-2 h-4 w-4" />
+                                        <SelectValue placeholder="All Categories" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">All Categories</SelectItem>
+                                        {COMMUNITY_CATEGORIES.map((category) => (
+                                            <SelectItem key={category} value={category}>
+                                                {category}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </div>
                     </div>
 
