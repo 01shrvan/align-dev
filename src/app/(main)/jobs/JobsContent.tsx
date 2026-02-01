@@ -63,9 +63,9 @@ export default function JobsContent() {
   return (
     <div className="flex-1 pl-5 ml-5 border-l border-dashed border-border/60 md:pl-3 md:ml-3 md:border-none">
       <main className="flex w-full min-w-0 min-h-full">
-        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border/60 pr-5 mr-5 md:border-none md:pr-3 md:mr-3 max-w-5xl mx-auto bg-background/30 rounded-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] relative">
+        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border/60 pr-5 mr-5 md:border-none md:pr-3 md:mr-3 max-w-5xl mx-auto bg-background/30 rounded-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-dashed border-border/60 relative overflow-hidden">
           <div
-            className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+            className="absolute inset-0 z-[-1] opacity-[0.04] rounded-xl pointer-events-none"
             style={{
               backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
               backgroundSize: "20px 20px",

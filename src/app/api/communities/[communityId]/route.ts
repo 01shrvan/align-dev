@@ -4,16 +4,17 @@ import { NextRequest } from "next/server";
 
 export async function GET(
     req: NextRequest,
-    { params }: { params: { communityId: string } }
+    { params }: { params: Promise<{ communityId: string }> }
 ) {
     try {
+        const { communityId } = await params;
         const { user } = await validateRequest();
         if (!user) {
             return Response.json({ error: "Unauthorized" }, { status: 401 });
         }
 
         const community = await prisma.community.findUnique({
-            where: { id: params.communityId },
+            where: { id: communityId },
             include: {
                 creator: {
                     select: {
@@ -56,9 +57,10 @@ export async function GET(
 
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { communityId: string } }
+    { params }: { params: Promise<{ communityId: string }> }
 ) {
     try {
+        const { communityId } = await params;
         const { user } = await validateRequest();
         if (!user) {
             return Response.json({ error: "Unauthorized" }, { status: 401 });
@@ -68,7 +70,7 @@ export async function DELETE(
             where: {
                 userId_communityId: {
                     userId: user.id,
-                    communityId: params.communityId
+                    communityId: communityId
                 }
             }
         });
@@ -81,7 +83,7 @@ export async function DELETE(
         }
 
         await prisma.community.delete({
-            where: { id: params.communityId }
+            where: { id: communityId }
         });
 
         return Response.json({ success: true });

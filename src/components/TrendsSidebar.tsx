@@ -43,8 +43,15 @@ async function WhoToFollow() {
   });
 
   return (
-    <div className="space-y-5 rounded-2xl bg-card/80 backdrop-blur-sm border-b border-border/50 p-5 shadow-sm">
-      <div className="text-xl font-bold">Who to follow</div>
+    <div className="space-y-5 rounded-xl bg-background/30 p-4 sm:p-6 shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-border/40 backdrop-blur-sm relative">
+      <div
+        className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
+        }}
+      ></div>
+      <div className="text-lg font-bold">Who to follow</div>
       {usersToFollow.map((user) => (
         <div key={user.id} className="flex items-center justify-between gap-3">
           <UserTooltip user={user}>
@@ -109,8 +116,15 @@ async function TrendingTopics() {
   const trendingTopics = await getTrendingTopics();
 
   return (
-    <div className="space-y-5 rounded-2xl bg-card/80 backdrop-blur-sm border-b border-border/50 p-5 shadow-sm">
-      <div className="text-xl font-bold">Trending topics</div>
+    <div className="space-y-5 rounded-xl bg-background/30 p-4 sm:p-6 shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-border/40 backdrop-blur-sm relative">
+      <div
+        className="absolute inset-0 z-[-1] opacity-[0.03] rounded-xl pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(#888 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
+        }}
+      ></div>
+      <div className="text-lg font-bold">Trending topics</div>
       {trendingTopics.map(({ hashtag, count }) => {
         const title = hashtag.split("#")[1];
 
