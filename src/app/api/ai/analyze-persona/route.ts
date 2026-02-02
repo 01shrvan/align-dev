@@ -6,47 +6,14 @@ import { NextRequest } from "next/server";
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
+  const { user } = await validateRequest();
+
+  if (!user) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
-    const { user } = await validateRequest();
-
-    if (!user) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const userData = await prisma.user.findUnique({
-      where: { id: user.id },
-      select: { lastAIAnalysis: true },
-    });
-
-    const lastAnalysis = userData?.lastAIAnalysis;
-    if (lastAnalysis) {
-      const hoursSinceLastAnalysis =
-        (Date.now() - lastAnalysis.getTime()) / (1000 * 60 * 60);
-
-      console.log(
-        `User ${user.id} - Hours since last analysis: ${hoursSinceLastAnalysis}`,
-      );
-
-      if (hoursSinceLastAnalysis < 24) {
-        const hoursRemaining = Math.ceil(24 - hoursSinceLastAnalysis);
-        console.log(
-          `User ${user.id} - Analysis blocked, ${hoursRemaining} hours remaining`,
-        );
-
-        return Response.json(
-          {
-            error: `Please wait ${hoursRemaining} more hour${hoursRemaining !== 1 ? "s" : ""} before your next analysis`,
-            hoursRemaining,
-            lastAnalysis: lastAnalysis.toISOString(),
-          },
-          { status: 429 },
-        );
-      }
-    }
-
-    console.log(
-      `Starting persona analysis for user ${user.id}, last analysis: ${lastAnalysis?.toISOString() || "never"}`,
-    );
+    console.log(`Starting persona analysis for user ${user.id}`);
     const startTime = Date.now();
 
     const analysis = await analyzeUserPersona(user.id);
@@ -61,7 +28,6 @@ export async function POST(req: NextRequest) {
       data: {
         persona: analysis.persona,
         personaTraits: analysis.traits,
-        lastAIAnalysis: new Date(),
       },
     });
 

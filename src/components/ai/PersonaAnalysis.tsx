@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Brain, Loader2, Users, Clock, AlertCircle } from "lucide-react";
+import { Brain, Loader2, Users, Clock } from "lucide-react";
 import { kyAI } from "@/lib/ky";
 import { toast } from "sonner";
 import Link from "next/link";
@@ -26,55 +26,14 @@ interface PersonaMatch {
   sharedInterests: string[];
 }
 
-interface CooldownStatus {
-  canAnalyze: boolean;
-  timeRemaining: number;
-  lastAnalysis: string | null;
-}
-
 export default function PersonaAnalysis() {
   const [loading, setLoading] = useState(false);
   const [loadingMatches, setLoadingMatches] = useState(false);
-  const [loadingCooldown, setLoadingCooldown] = useState(true);
   const [analysis, setAnalysis] = useState<PersonaAnalysisResult | null>(null);
   const [matches, setMatches] = useState<PersonaMatch[]>([]);
   const [progress, setProgress] = useState("");
-  const [cooldownStatus, setCooldownStatus] = useState<CooldownStatus | null>(
-    null,
-  );
-
-  useEffect(() => {
-    checkCooldownStatus();
-  }, []);
-
-  async function checkCooldownStatus() {
-    setLoadingCooldown(true);
-    try {
-      const status = await kyAI
-        .get("/api/ai/analyze-persona/cooldown")
-        .json<CooldownStatus>();
-
-      setCooldownStatus(status);
-    } catch (error) {
-      console.error("Failed to check cooldown status:", error);
-      setCooldownStatus({
-        canAnalyze: true,
-        timeRemaining: 0,
-        lastAnalysis: null,
-      });
-    } finally {
-      setLoadingCooldown(false);
-    }
-  }
 
   async function analyzePersona() {
-    if (cooldownStatus && !cooldownStatus.canAnalyze) {
-      toast.error(
-        `Please wait ${cooldownStatus.timeRemaining} more hour${cooldownStatus.timeRemaining !== 1 ? "s" : ""} before your next analysis`,
-      );
-      return;
-    }
-
     setLoading(true);
     setProgress("Gathering your posts and comments...");
 
@@ -101,7 +60,6 @@ export default function PersonaAnalysis() {
       clearInterval(progressInterval);
       setProgress("");
       setAnalysis(result);
-      await checkCooldownStatus();
       toast.success("Your persona has been revealed!");
     } catch (error: unknown) {
       console.error("Persona analysis error:", error);
@@ -112,17 +70,7 @@ export default function PersonaAnalysis() {
           json?: () => Promise<{ error?: string }>;
         };
       };
-      if (errorResponse.response?.status === 429) {
-        try {
-          const errorData = await errorResponse.response.json?.();
-          const message =
-            errorData?.error || "Please wait 24 hours between analyses";
-          toast.error(message);
-          await checkCooldownStatus();
-        } catch {
-          toast.error("Please wait 24 hours between analyses");
-        }
-      } else if (errorResponse.response?.status === 408) {
+      if (errorResponse.response?.status === 408) {
         toast.error(
           "Analysis is taking longer than expected. Please try again.",
         );
@@ -181,67 +129,29 @@ export default function PersonaAnalysis() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="w-full sm:w-auto">
           <h3 className="text-base sm:text-lg font-bold flex items-center gap-2">
-            <Brain className="h-4 w-4 sm:h-5 sm:w-5 text-accent flex-shrink-0" />
-            Your Persona
+            <Brain className="h-4 w-4 sm:h-5 sm:w-5 text-foreground flex-shrink-0" />
+            Vibe Check
           </h3>
           <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-            Discover your unique thinking archetype
+            What's your digital aura?
           </p>
         </div>
 
-        {cooldownStatus && !cooldownStatus.canAnalyze && (
-          <div className="p-3 sm:p-4 bg-orange-500/10 rounded-lg border border-orange-500/30 flex items-start gap-2">
-            <AlertCircle className="h-4 w-4 text-orange-500 flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="text-sm font-medium text-orange-700 dark:text-orange-400">
-                Analysis on Cooldown
-              </p>
-              <p className="text-xs text-orange-600 dark:text-orange-300 mt-1">
-                You can run another analysis in {cooldownStatus.timeRemaining}{" "}
-                hour{cooldownStatus.timeRemaining !== 1 ? "s" : ""}. This helps
-                us manage server resources and ensures quality results.
-              </p>
-              {cooldownStatus.lastAnalysis && (
-                <p className="text-xs text-orange-600 dark:text-orange-300 mt-1">
-                  Last analysis:{" "}
-                  {new Date(cooldownStatus.lastAnalysis).toLocaleDateString()}
-                </p>
-              )}
-            </div>
-          </div>
-        )}
-
         <Button
           onClick={analyzePersona}
-          disabled={
-            loading ||
-            loadingCooldown ||
-            (cooldownStatus ? !cooldownStatus.canAnalyze : false)
-          }
-          className="bg-accent text-background w-full sm:w-auto flex-shrink-0"
+          disabled={loading}
+          className="w-full sm:w-auto flex-shrink-0 font-semibold"
           size="sm"
         >
           {loading ? (
             <>
               <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 animate-spin" />
-              <span className="text-xs sm:text-sm">Analyzing...</span>
-            </>
-          ) : loadingCooldown ? (
-            <>
-              <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 animate-spin" />
-              <span className="text-xs sm:text-sm">Checking...</span>
-            </>
-          ) : cooldownStatus && !cooldownStatus.canAnalyze ? (
-            <>
-              <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-              <span className="text-xs sm:text-sm">
-                Wait {cooldownStatus.timeRemaining}h
-              </span>
+              <span className="text-xs sm:text-sm">Reading the stars...</span>
             </>
           ) : (
             <>
               <Brain className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-              <span className="text-xs sm:text-sm">Discover</span>
+              <span className="text-xs sm:text-sm">Analyze Me</span>
             </>
           )}
         </Button>
@@ -266,21 +176,21 @@ export default function PersonaAnalysis() {
 
       {analysis && (
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="p-3 sm:p-4 bg-gradient-to-r from-accent/20 to-accent/10 rounded-lg border border-accent/30">
-            <h4 className="text-lg sm:text-xl font-bold mb-2 break-words">
+          <div className="p-4 bg-secondary/30 rounded-xl border border-border">
+            <h4 className="text-xl sm:text-2xl font-black mb-2 break-words tracking-tight">
               {analysis.persona}
             </h4>
-            <p className="text-xs sm:text-sm mb-3 leading-relaxed break-words">
+            <p className="text-sm text-muted-foreground mb-4 leading-relaxed break-words">
               {analysis.description}
             </p>
 
-            <div className="flex flex-wrap justify-center sm:justify-start gap-2">
+            <div className="flex flex-wrap gap-2">
               {analysis.traits.map((trait) => (
                 <span
                   key={trait}
-                  className="px-2 py-1 text-xs rounded-full bg-background/50 border border-accent/30 break-words"
+                  className="px-2.5 py-1 text-xs font-medium rounded-md bg-background border border-border break-words"
                 >
-                  {trait}
+                  #{trait}
                 </span>
               ))}
             </div>
@@ -290,28 +200,26 @@ export default function PersonaAnalysis() {
             onClick={findMatches}
             disabled={loadingMatches}
             variant="outline"
-            className="w-full"
+            className="w-full border-dashed"
             size="sm"
           >
             {loadingMatches ? (
               <>
                 <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 animate-spin" />
-                <span className="text-xs sm:text-sm">
-                  Finding your tribe...
-                </span>
+                <span className="text-xs sm:text-sm">Scouting...</span>
               </>
             ) : (
               <>
                 <Users className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                <span className="text-xs sm:text-sm">Find People Like You</span>
+                <span className="text-xs sm:text-sm">Find Vibe Matches</span>
               </>
             )}
           </Button>
 
           {matches.length > 0 && (
             <div className="space-y-2">
-              <h5 className="font-semibold text-xs sm:text-sm">
-                Your Vibe Tribe ({matches.length})
+              <h5 className="font-bold text-xs sm:text-sm uppercase tracking-wider text-muted-foreground">
+                Matches Found ({matches.length})
               </h5>
               {matches.map((match) => (
                 <Link

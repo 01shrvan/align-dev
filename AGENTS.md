@@ -20,7 +20,6 @@ This document contains instructions for coding agents operating in this reposito
     *   `npm run verify:user verify <userId>` - Verify a user
     *   `npm run verify:list` - List verified users
     *   `npm run add-aligners-tag` - Add tag to users
-    *   `npm run debug:persona-cooldown` - Debug persona system
 
 ## 2. Tech Stack & Key Libraries
 

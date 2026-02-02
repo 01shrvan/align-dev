@@ -32,7 +32,7 @@ import {
   DrawerTrigger,
 } from "./ui/drawer";
 import * as AvatarComponent from "@/components/ui/avatar";
-import { useQueryClient } from "@tanstack/react-query";
+
 import { useState, useEffect } from "react";
 import VerifiedBadge from "@/components/VerifiedBadge";
 
@@ -70,7 +70,7 @@ export default function UserButton({
   unreadNotificationCount = 0,
 }: UserButtonProps) {
   const { user } = useSession();
-  const queryClient = useQueryClient();
+
   const pathname = usePathname();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -85,7 +85,6 @@ export default function UserButton({
   }, []);
 
   const handleLogout = () => {
-    queryClient.clear();
     logout();
   };
 

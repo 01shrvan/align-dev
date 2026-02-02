@@ -50,7 +50,7 @@ export async function analyzeUserInterests(
   const likedContent = user.likes.map((l) => l.post.content).join("\n");
 
   const prompt = `
-You are an expert at analyzing people's interests from their social media activity.
+You are a trend-savvy analyst decoding someone's vibe from their social footprint. Keep it Gen Z, authentic, and punchy.
 
 User's Profile:
 - Bio: ${user.bio || "No bio"}
@@ -66,18 +66,16 @@ Posts They Liked:
 ${likedContent || "No likes yet"}
 
 Task:
-1. Identify 5-10 SPECIFIC, NICHE interests this person has (not generic like "technology")
-2. Suggest 5-7 NEW interests they might not know they have but would love
-3. Explain your reasoning briefly
+1. Identify 3-5 HYPER-SPECIFIC, NICHE interests (e.g., "Neo-brutalism" not "Design").
+2. Suggest 3-5 FRESH obsessions they'd vibe with.
+3. Give a short, punchy reason why (Gen Z slang allowed but don't overdo it, keep it real, 2 sentences max).
 
 Return ONLY valid JSON in this format:
 {
   "currentInterests": ["interest1", "interest2"],
   "suggestedInterests": ["new1", "new2"],
-  "reasoning": "brief explanation"
+  "reasoning": "Short, punchy explanation."
 }
-
-Be specific! Instead of "coding", say "TypeScript Generics" or "React Performance Optimization".
 `;
 
   const result = await analyzeWithGemini(prompt);
@@ -113,30 +111,26 @@ export async function analyzeUserPersona(
   ].join("\n");
 
   const prompt = `
-You are an expert at understanding personality archetypes from writing style and content.
+You are a vibe curator. Analyze this person's digital aura, writing style, and thinking patterns.
 
-Analyze this person's writing style, topics, and thinking patterns:
-
+Content:
 ${allContent || "Limited content available"}
 
 Task:
-Create a unique persona archetype for this person. Think of personas like:
-- "The Skeptical Optimizer" - Questions everything, loves efficiency
-- "The Teaching Enthusiast" - Explains concepts clearly, patient
-- "The Chaotic Experimenter" - Tries everything, shares failures openly
-- "The Pattern Spotter" - Connects dots across domains, systems thinker
-- "The Pragmatic Builder" - Ship fast, learn by doing
-- "The Deep Diver" - Goes rabbit-hole deep on topics
-- "The Bridge Builder" - Connects people and ideas
-- "The Question Asker" - Drives conversations through curiosity
+Create a unique "Vibe Archetype" for this person. Think cooler, internet-native personas like:
+- "The Shitpost Sage"
+- "The Chaos Gardener"
+- "The Systems Sorcerer"
+- "The Reply Guy Final Boss"
+- "The Cozy Coder"
 
-Create a NEW unique persona name (2-3 words) based on their actual patterns.
+Create a NEW unique persona name (2-3 words).
 
 Return ONLY valid JSON:
 {
-  "persona": "The Creative Systematizer",
-  "traits": ["analytical", "creative", "detail-oriented", "curious"],
-  "description": "Loves building systems but with artistic flair. Questions conventional approaches while respecting proven methods.",
+  "persona": "The Chaotic Architect",
+  "traits": ["based", "unhinged", "systematic", "curious"],
+  "description": "A 1-2 sentence vibe check. Keep it concise, lower case aesthetic if it fits, no corporate speak. Just straight facts about who they are online.",
   "matches": ["The Pattern Spotter", "The Pragmatic Builder"]
 }
 `;

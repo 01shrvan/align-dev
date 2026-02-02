@@ -13,24 +13,6 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userData = await prisma.user.findUnique({
-      where: { id: user.id },
-      select: { lastAIAnalysis: true },
-    });
-
-    const lastAnalysis = userData?.lastAIAnalysis;
-    if (lastAnalysis) {
-      const hoursSinceLastAnalysis =
-        (Date.now() - lastAnalysis.getTime()) / (1000 * 60 * 60);
-
-      if (hoursSinceLastAnalysis < 24) {
-        return Response.json(
-          { error: "Please wait 24 hours between analyses" },
-          { status: 429 },
-        );
-      }
-    }
-
     console.log(`Starting interest analysis for user ${user.id}`);
     const startTime = Date.now();
 
@@ -45,7 +27,6 @@ export async function POST(req: NextRequest) {
       where: { id: user.id },
       data: {
         aiSuggestedInterests: analysis.suggestedInterests,
-        lastAIAnalysis: new Date(),
       },
     });
 

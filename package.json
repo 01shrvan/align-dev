@@ -12,8 +12,7 @@
     "verify:user": "tsx scripts/verify-user.ts verify",
     "unverify:user": "tsx scripts/verify-user.ts unverify",
     "verify:list": "tsx scripts/verify-user.ts list",
-    "add-aligners-tag": "tsx scripts/add-aligners-tag.ts",
-    "debug:persona-cooldown": "tsx scripts/debug-persona-cooldown.ts"
+    "add-aligners-tag": "tsx scripts/add-aligners-tag.ts"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",

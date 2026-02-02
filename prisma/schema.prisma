@@ -56,7 +56,6 @@ model User {
   aiSuggestedInterests        String[]           @default([])
   persona                     String?
   personaTraits               String[]           @default([])
-  lastAIAnalysis              DateTime?
 
   aiChatMessages AIChatMessage[]
 

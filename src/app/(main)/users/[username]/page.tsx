@@ -104,20 +104,20 @@ export async function generateMetadata({
       ? `${user.bio.slice(0, 197)}...`
       : user.bio
     : [
-      details.join(" • "),
-      interestSummary ? `Interests: ${interestSummary}` : null,
-      counts,
-    ]
-      .filter(Boolean)
-      .join(" • ");
+        details.join(" • "),
+        interestSummary ? `Interests: ${interestSummary}` : null,
+        counts,
+      ]
+        .filter(Boolean)
+        .join(" • ");
 
   const image = user.avatarUrl || "/assets/opengraph-image.png";
   const description = user.avatarUrl
     ? baseDescription
     : `Discover ${user.displayName} on Align — where thoughts find their people. ${counts}${interestSummary ? ` • Interests: ${interestSummary}` : ""}`.slice(
-      0,
-      240,
-    );
+        0,
+        240,
+      );
   const url = `/users/${user.username}`;
 
   return {
@@ -156,7 +156,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <div className="flex-1 pl-2 sm:pl-5 ml-2 sm:ml-5 border-l border-dashed border-border/60 overflow-hidden">
       <main className="flex w-full min-w-0">
-        <div className="w-full min-w-0 space-y-5 border-r border-dashed border-border/60 pr-2 sm:pr-5 mr-2 sm:mr-5">
+        <div className="w-full min-w-0 flex flex-col gap-5 border-r border-dashed border-border/60 pr-2 sm:pr-5 mr-2 sm:mr-5">
           <UserProfile user={user} loggedInUserId={loggedInUser.id} />
           {user.id === loggedInUser.id && (
             <>

@@ -3,11 +3,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Sparkles, Plus, Check, Loader2, Clock } from "lucide-react";
+import { Loader2, Clock, Zap } from "lucide-react";
 import { kyAI } from "@/lib/ky";
-import kyInstance from "@/lib/ky";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface InterestAnalysisResult {
   currentInterests: string[];
@@ -18,9 +16,7 @@ interface InterestAnalysisResult {
 export default function InterestDiscovery() {
   const [loading, setLoading] = useState(false);
   const [analysis, setAnalysis] = useState<InterestAnalysisResult | null>(null);
-  const [addedInterests, setAddedInterests] = useState<Set<string>>(new Set());
   const [progress, setProgress] = useState("");
-  const queryClient = useQueryClient();
 
   async function analyzeInterests() {
     setLoading(true);
@@ -82,39 +78,23 @@ export default function InterestDiscovery() {
     }
   }
 
-  async function addInterest(interest: string) {
-    try {
-      await kyInstance.post("/api/users/interests", {
-        json: { interest },
-      });
-
-      setAddedInterests((prev) => new Set(prev).add(interest));
-      toast.success(`Added "${interest}" to your interests`);
-
-      queryClient.invalidateQueries({ queryKey: ["user-data"] });
-    } catch (error) {
-      toast.error("Failed to add interest");
-      console.error(error);
-    }
-  }
-
   return (
     <Card className="p-4 sm:p-6 space-y-4">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="w-full sm:w-auto">
           <h3 className="text-base sm:text-lg font-bold flex items-center gap-2">
-            <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-accent flex-shrink-0" />
-            AI Interest Discovery
+            <Zap className="h-4 w-4 sm:h-5 sm:w-5 text-foreground flex-shrink-0" />
+            Interest Discovery
           </h3>
           <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-            Discover niche interests you didn&apos;t know you had
+            Uncover hidden gems in your data
           </p>
         </div>
 
         <Button
           onClick={analyzeInterests}
           disabled={loading}
-          className="bg-accent text-background w-full sm:w-auto flex-shrink-0"
+          className="w-full sm:w-auto flex-shrink-0 font-semibold"
           size="sm"
         >
           {loading ? (
@@ -124,8 +104,8 @@ export default function InterestDiscovery() {
             </>
           ) : (
             <>
-              <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-              <span className="text-xs sm:text-sm">Analyze Me</span>
+              <Zap className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+              <span className="text-xs sm:text-sm">Discover</span>
             </>
           )}
         </Button>
@@ -134,7 +114,7 @@ export default function InterestDiscovery() {
       {loading && progress && (
         <div className="p-3 sm:p-4 bg-muted/50 rounded-lg border border-muted animate-pulse">
           <div className="flex items-center gap-2 mb-2">
-            <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-accent animate-spin flex-shrink-0" />
+            <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground animate-spin flex-shrink-0" />
             <span className="text-xs sm:text-sm font-medium">
               Processing...
             </span>
@@ -151,28 +131,23 @@ export default function InterestDiscovery() {
       {analysis && (
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div>
-            <h4 className="font-semibold mb-2">You might also vibe with:</h4>
-            <div className="flex flex-wrap justify-center sm:justify-start gap-2">
+            <h4 className="font-semibold mb-2 text-sm text-muted-foreground uppercase tracking-wider">
+              You might also vibe with
+            </h4>
+            <div className="flex flex-wrap gap-2">
               {analysis.suggestedInterests.map((interest) => (
-                <button
+                <span
                   key={interest}
-                  onClick={() => addInterest(interest)}
-                  disabled={addedInterests.has(interest)}
-                  className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full bg-accent/10 border border-accent/30 hover:bg-accent/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm"
+                  className="px-2.5 py-1 text-xs font-medium rounded-md bg-secondary text-secondary-foreground border border-border break-words"
                 >
-                  <span className="break-words">{interest}</span>
-                  {addedInterests.has(interest) ? (
-                    <Check className="h-3 w-3 flex-shrink-0" />
-                  ) : (
-                    <Plus className="h-3 w-3 flex-shrink-0" />
-                  )}
-                </button>
+                  {interest}
+                </span>
               ))}
             </div>
           </div>
 
-          <div className="text-xs sm:text-sm text-muted-foreground p-3 bg-muted/50 rounded-lg">
-            <p className="font-medium mb-1">Why these suggestions?</p>
+          <div className="text-sm text-muted-foreground p-4 bg-secondary/30 rounded-xl border border-border">
+            <p className="font-bold mb-1 text-foreground">Why these?</p>
             <p className="break-words leading-relaxed">{analysis.reasoning}</p>
           </div>
         </div>

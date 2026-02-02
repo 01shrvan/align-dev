@@ -94,7 +94,7 @@ export async function GET(req: NextRequest) {
       `Found ${scoredMatches.length} matches in ${duration}ms for user ${user.id}`,
     );
 
-    return Response.json(scoredMatches.slice(0, 10));
+    return Response.json(scoredMatches.slice(0, 5));
   } catch (error) {
     console.error("Find matches error:", error);
 
