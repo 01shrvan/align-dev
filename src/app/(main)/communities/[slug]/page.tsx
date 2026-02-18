@@ -21,7 +21,7 @@ import {
   Newspaper,
   Shield,
   Lock,
-} from "lucide-react";
+} from "@/lib/icons";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Link from "next/link";

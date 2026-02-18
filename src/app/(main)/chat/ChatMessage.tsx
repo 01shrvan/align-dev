@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, memo } from "react";
-import { User as UserIcon, Ghost } from "lucide-react";
+import { Compass, User as UserIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -55,7 +55,7 @@ function ChatMessage({
       >
         {isAssistant ? (
           <AvatarFallback className="bg-primary/5 text-primary">
-            <Ghost size={16} />
+            <Compass size={16} />
           </AvatarFallback>
         ) : (
           <>

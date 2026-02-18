@@ -17,7 +17,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { useCreateJobMutation } from "./mutations";
 import LoadingButton from "@/components/LoadingButton";
-import { X } from "lucide-react";
+import { X } from "@/lib/icons";
 
 interface JobFormProps {
   onSuccess?: () => void;

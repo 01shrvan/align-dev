@@ -9,7 +9,7 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/lib/icons";
 import { useEffect } from "react";
 import Notification from "./Notification";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { SearchIcon } from "lucide-react";
+import { SearchIcon } from "@/lib/icons";
 import { useRouter } from "next/navigation";
 import { Input } from "./ui/input";
 

@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select";
 import { COMMUNITY_CATEGORIES } from "@/lib/types/community";
 import kyInstance from "@/lib/ky";
-import { Loader2, MessageSquare, Newspaper } from "lucide-react";
+import { Loader2, MessageSquare, Newspaper } from "@/lib/icons";
 import { toast } from "sonner";
 
 interface CreateCommunityDialogProps {

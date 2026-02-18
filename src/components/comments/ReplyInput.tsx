@@ -6,7 +6,7 @@ import kyInstance from "@/lib/ky";
 import { CommentData } from "@/lib/types";
 import { createCommentSchema } from "@/lib/validation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/lib/icons";
 import { useState } from "react";
 import { toast } from "sonner";
 

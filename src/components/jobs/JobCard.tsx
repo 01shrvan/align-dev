@@ -6,7 +6,7 @@ import Link from "next/link";
 import * as AvatarComponent from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Briefcase, MapPin, Mail, ExternalLink, MoreHorizontal, Trash2 } from "lucide-react";
+import { Briefcase, MapPin, Mail, ExternalLink, MoreHorizontal, Trash2 } from "@/lib/icons";
 import { useSession } from "@/app/(main)/SessionProvider";
 import {
   DropdownMenu,

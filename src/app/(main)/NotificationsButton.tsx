@@ -2,11 +2,11 @@
 
 import kyInstance from "@/lib/ky";
 import { NotificationCountInfo } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
-import { Bell } from "lucide-react";
+import { Bell } from "@/lib/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 interface NotificationsButtonProps {
   initialState: NotificationCountInfo;
@@ -18,16 +18,33 @@ export default function NotificationsButton({
   className,
 }: NotificationsButtonProps) {
   const pathname = usePathname();
+  const [data, setData] = useState<NotificationCountInfo>(initialState);
 
-  const { data } = useQuery({
-    queryKey: ["unread-notification-count"],
-    queryFn: () =>
-      kyInstance
-        .get("/api/notifications/unread-count")
-        .json<NotificationCountInfo>(),
-    initialData: initialState,
-    refetchInterval: 60 * 1000,
-  });
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchUnreadCount = async () => {
+      try {
+        const nextData = await kyInstance
+          .get("/api/notifications/unread-count")
+          .json<NotificationCountInfo>();
+
+        if (isMounted) {
+          setData(nextData);
+        }
+      } catch {
+        setData((prev) => prev);
+      }
+    };
+
+    fetchUnreadCount();
+    const intervalId = setInterval(fetchUnreadCount, 60 * 1000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const isActive = pathname.startsWith("/notifications");
 
@@ -49,7 +66,7 @@ export default function NotificationsButton({
           strokeWidth={1.5}
           className="shrink-0"
         />
-        {!!data.unreadCount && (
+        {!!data?.unreadCount && (
           <span className="absolute -right-1 -top-1 rounded-full bg-primary px-1 text-xs font-medium tabular-nums text-primary-foreground">
             {data.unreadCount}
           </span>

@@ -12,7 +12,7 @@ import {
   LogOutIcon,
   Users,
   MessageCircle,
-} from "lucide-react";
+} from "@/lib/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {

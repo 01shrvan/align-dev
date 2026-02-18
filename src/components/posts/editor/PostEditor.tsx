@@ -9,7 +9,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { useDropzone } from "@uploadthing/react";
 import { useSubmitPostMutation } from "./mutations";
 import "./styles.css";
-import { ImageIcon, Loader2, X, Users } from "lucide-react";
+import { ImageIcon, Loader2, X, Users } from "@/lib/icons";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import useMediaUpload, { type Attachment } from "./useMediaUpload";

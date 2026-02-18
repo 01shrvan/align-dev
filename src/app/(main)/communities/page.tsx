@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, Search, Filter, Loader2, Users } from "lucide-react";
+import { Plus, Search, Filter, Loader2, Users } from "@/lib/icons";
 import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
 
 export default function CommunitiesPage() {

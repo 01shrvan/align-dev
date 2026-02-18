@@ -1,7 +1,7 @@
 "use client";
 
 import type { PostData } from "@/lib/types";
-import { MoreHorizontal, Trash2 } from "lucide-react";
+import { MoreHorizontal, Trash2 } from "@/lib/icons";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import {

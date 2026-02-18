@@ -4,7 +4,7 @@ import { CommunityData } from "@/lib/types/community";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Users, Lock, Shield } from "lucide-react";
+import { Users, Lock, Shield } from "@/lib/icons";
 import Link from "next/link";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import kyInstance from "@/lib/ky";

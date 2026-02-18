@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Brain, Loader2, Users, Clock } from "lucide-react";
+import { Brain, Loader2, Users, Clock } from "@/lib/icons";
 import { kyAI } from "@/lib/ky";
 import { toast } from "sonner";
 import Link from "next/link";

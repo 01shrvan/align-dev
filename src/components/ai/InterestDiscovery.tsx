@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Loader2, Clock, Zap } from "lucide-react";
+import { Loader2, Clock, Zap } from "@/lib/icons";
 import { kyAI } from "@/lib/ky";
 import { toast } from "sonner";
 

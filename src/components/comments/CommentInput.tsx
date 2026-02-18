@@ -1,5 +1,5 @@
 import { PostData } from "@/lib/types";
-import { Loader2, SendHorizonal } from "lucide-react";
+import { Loader2, SendHorizonal } from "@/lib/icons";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";

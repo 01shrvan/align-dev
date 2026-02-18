@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Compass, MessageSquare, Sparkles } from "lucide-react";
+import { ArrowRight, Compass, MessageSquare, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.svg";
 

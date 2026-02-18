@@ -9,7 +9,7 @@ import UserTooltip from "../UserTooltip";
 import CommentMoreButton from "./CommentMoreButton";
 import VerifiedBadge from "@/components/VerifiedBadge";
 import CommentLikeButton from "./CommentLikeButton";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare } from "@/lib/icons";
 import { useState, useEffect } from "react";
 import ReplyInput from "./ReplyInput";
 import kyInstance from "@/lib/ky";

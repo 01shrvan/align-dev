@@ -16,7 +16,7 @@ import { Media } from "@/generated/prisma";
 import LikeButton from "./LikeButton";
 import BookmarkButton from "./BookmarkButton";
 import Comments from "../comments/Comments";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare } from "@/lib/icons";
 import { useState } from "react";
 import VerifiedBadge from "@/components/VerifiedBadge";
 

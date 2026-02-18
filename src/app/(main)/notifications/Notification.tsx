@@ -2,7 +2,7 @@ import * as AvatarComponent from "@/components/ui/avatar";
 import type { NotificationType } from "@/generated/prisma";
 import type { NotificationData } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Heart, MessageCircle, User2, AtSign, Users, Bell } from "lucide-react";
+import { Heart, MessageCircle, User2, AtSign, Users, Bell } from "@/lib/icons";
 import Link from "next/link";
 
 interface NotificationProps {

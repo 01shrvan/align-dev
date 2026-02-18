@@ -7,7 +7,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { Bookmark } from "lucide-react";
+import { Bookmark } from "@/lib/icons";
 import { toast } from "sonner";
 
 interface BookmarkButtonProps {

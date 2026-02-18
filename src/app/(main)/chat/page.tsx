@@ -68,5 +68,5 @@ export default async function ChatPage() {
     };
   });
 
-  return <ChatClient initialMessages={messages} />;
+  return <ChatClient initialMessages={messages} assistantName="Ava" />;
 }

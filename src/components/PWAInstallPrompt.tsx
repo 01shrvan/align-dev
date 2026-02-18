@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { X, Download } from "lucide-react";
+import { X, Download } from "@/lib/icons";
 
 export default function PWAInstallPrompt() {
     const [deferredPrompt, setDeferredPrompt] = useState<any>(null);

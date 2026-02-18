@@ -25,7 +25,7 @@ import {
   UpdateUserProfileValues,
 } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Camera } from "lucide-react";
+import { Camera } from "@/lib/icons";
 import Image, { StaticImageData } from "next/image";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";

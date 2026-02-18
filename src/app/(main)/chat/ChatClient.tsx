@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { CornerDownLeft } from "lucide-react";
+import { Compass, CornerDownLeft } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSession } from "../SessionProvider";
@@ -28,9 +28,13 @@ interface Message {
 
 interface ChatClientProps {
   initialMessages: Message[];
+  assistantName?: string;
 }
 
-export default function ChatClient({ initialMessages }: ChatClientProps) {
+export default function ChatClient({
+  initialMessages,
+  assistantName = "Ava",
+}: ChatClientProps) {
   const { user } = useSession();
   const [messages, setMessages] = useState<Message[]>(
     initialMessages.length > 0
@@ -124,8 +128,11 @@ export default function ChatClient({ initialMessages }: ChatClientProps) {
 
       <div className="flex-none flex items-center justify-between p-4 border-b border-dashed border-border/60 bg-background/60 backdrop-blur-sm z-10">
         <div className="flex items-center gap-3">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-primary/20 bg-primary/5 text-primary">
+            <Compass size={18} />
+          </span>
           <div className="flex flex-col">
-            <h1 className="text-xl font-bold leading-none">Ava</h1>
+            <h1 className="text-xl font-bold leading-none">{assistantName}</h1>
             <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium">
               v1.0 • Beta
             </span>

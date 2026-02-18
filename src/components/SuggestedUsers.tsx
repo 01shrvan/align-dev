@@ -6,9 +6,9 @@ import { UserData } from "@/lib/types";
 import UserTooltip from "./UserTooltip";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Users } from "lucide-react";
+import { Users } from "@/lib/icons";
 import FollowButton from "./FollowButton";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/lib/icons";
 
 interface SuggestedUser extends UserData {
     score?: number;

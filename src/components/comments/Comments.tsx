@@ -1,7 +1,7 @@
 import kyInstance from "@/lib/ky";
 import { CommentsPage, PostData } from "@/lib/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/lib/icons";
 import { Button } from "../ui/button";
 import Comment from "./Comment";
 import CommentInput from "./CommentInput";

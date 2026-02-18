@@ -9,7 +9,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { Heart } from "lucide-react";
+import { Heart } from "@/lib/icons";
 import { toast } from "sonner";
 
 interface CommentLikeButtonProps {

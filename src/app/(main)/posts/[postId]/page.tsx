@@ -5,7 +5,7 @@ import Post from "@/components/posts/Post";
 import UserTooltip from "@/components/UserTooltip";
 import prisma from "@/lib/prisma";
 import { getPostDataInclude, UserData } from "@/lib/types";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/lib/icons";
 import { Metadata } from "next";
 export const dynamic = "force-dynamic";
 import Link from "next/link";

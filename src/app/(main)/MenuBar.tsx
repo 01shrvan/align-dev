@@ -4,9 +4,9 @@ import {
   Bookmark,
   Home,
   Briefcase,
-  MessageCircle,
+  Compass,
   Users,
-} from "lucide-react";
+} from "@/lib/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -38,7 +38,7 @@ const menuItems = [
     label: "Communities",
   },
   { href: "/jobs", icon: Briefcase, label: "Jobs", title: "Jobs" },
-  { href: "/chat", icon: MessageCircle, label: "Ava", title: "Ava" },
+  { href: "/chat", icon: Compass, label: "Ava", title: "Ava" },
 ];
 
 export default function MenuBar({

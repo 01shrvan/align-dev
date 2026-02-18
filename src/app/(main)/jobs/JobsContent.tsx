@@ -1,7 +1,7 @@
 "use client";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Briefcase, Loader2 } from "lucide-react";
+import { Briefcase, Loader2 } from "@/lib/icons";
 import JobCard from "@/components/jobs/JobCard";
 import JobForm from "@/components/jobs/JobForm";
 import { JobsPage } from "@/lib/types";

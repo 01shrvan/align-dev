@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "@/lib/icons";
 import React, { useState } from "react";
 import { Input } from "./ui/input";
 
