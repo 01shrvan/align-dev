@@ -3,17 +3,25 @@ import prisma from "@/lib/prisma";
 import { getUserDataSelect } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { Loader2 } from "@/lib/icons";
+import { getTopVibeMatches } from "@/lib/vibe-check";
 import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 import FollowButton from "./FollowButton";
 import * as AvatarComponent from "@/components/ui/avatar";
 import VerifiedBadge from "@/components/VerifiedBadge";
-import UserTooltip from "./UserTooltip";
 
-export default function TrendsSidebar() {
+interface TrendsSidebarProps {
+  topClassName?: string;
+}
+
+export default function TrendsSidebar({
+  topClassName = "top-[5.25rem]",
+}: TrendsSidebarProps) {
   return (
-    <div className="sticky top-[5.25rem] hidden h-fit w-72 flex-none space-y-5 md:block lg:w-80">
+    <div
+      className={`sticky hidden h-fit w-72 flex-none space-y-5 md:block lg:w-80 ${topClassName}`}
+    >
       <Suspense fallback={<Loader2 className="mx-auto animate-spin" />}>
         <WhoToFollow />
         {/* <TrendingTopics /> */}
@@ -27,20 +35,29 @@ async function WhoToFollow() {
 
   if (!loggedInUser) return null;
 
-  const usersToFollow = await prisma.user.findMany({
-    where: {
-      NOT: {
-        id: loggedInUser.id,
-      },
-      followers: {
-        none: {
-          followerId: loggedInUser.id,
+  let usersToFollow = await getTopVibeMatches(loggedInUser.id, 5);
+
+  if (!usersToFollow.length) {
+    const fallbackUsers = await prisma.user.findMany({
+      where: {
+        NOT: {
+          id: loggedInUser.id,
+        },
+        followers: {
+          none: {
+            followerId: loggedInUser.id,
+          },
         },
       },
-    },
-    select: getUserDataSelect(loggedInUser.id),
-    take: 5,
-  });
+      select: getUserDataSelect(loggedInUser.id),
+      take: 5,
+    });
+
+    usersToFollow = fallbackUsers.map((user) => ({
+      ...user,
+      vibeAlignment: 0,
+    }));
+  }
 
   return (
     <div className="space-y-5 rounded-xl bg-background/30 p-4 sm:p-6 shadow-[0_0_50px_-12px_rgba(0,0,0,0.1)] border border-border/40 backdrop-blur-sm relative">
@@ -54,28 +71,31 @@ async function WhoToFollow() {
       <div className="text-lg font-bold">Who to follow</div>
       {usersToFollow.map((user) => (
         <div key={user.id} className="flex items-center justify-between gap-3">
-          <UserTooltip user={user}>
-            <Link
-              href={`/users/${user.username}`}
-              className="flex items-center gap-3"
-            >
-              <AvatarComponent.Avatar>
-                <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
-                <AvatarComponent.AvatarFallback>
-                  {user.username[0]}
-                </AvatarComponent.AvatarFallback>
-              </AvatarComponent.Avatar>
-              <div>
-                <p className="line-clamp-1 break-all font-semibold hover:underline flex items-center gap-1">
-                  {user.displayName}
-                  {user.isVerified && <VerifiedBadge size={14} />}
+          <Link
+            href={`/users/${user.username}`}
+            className="flex items-center gap-3"
+          >
+            <AvatarComponent.Avatar>
+              <AvatarComponent.AvatarImage src={user.avatarUrl as string} />
+              <AvatarComponent.AvatarFallback>
+                {user.username[0]}
+              </AvatarComponent.AvatarFallback>
+            </AvatarComponent.Avatar>
+            <div>
+              <p className="line-clamp-1 break-all font-semibold hover:underline flex items-center gap-1">
+                {user.displayName}
+                {user.isVerified && <VerifiedBadge size={14} />}
+              </p>
+              <p className="line-clamp-1 break-all text-muted-foreground">
+                @{user.username}
+              </p>
+              {user.vibeAlignment > 0 && (
+                <p className="mt-1 text-[11px] font-medium text-muted-foreground">
+                  match {user.vibeAlignment}%
                 </p>
-                <p className="line-clamp-1 break-all text-muted-foreground">
-                  @{user.username}
-                </p>
-              </div>
-            </Link>
-          </UserTooltip>
+              )}
+            </div>
+          </Link>
           <FollowButton
             userId={user.id}
             initialState={{

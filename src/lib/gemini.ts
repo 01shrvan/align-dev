@@ -11,12 +11,12 @@ export const geminiModel = genAI.getGenerativeModel({
 });
 
 export const embeddingModel = genAI.getGenerativeModel({
-  model: "text-embedding-004",
+  model: "gemini-embedding-001",
 });
 
 export async function getEmbedding(text: string) {
   const result = await embeddingModel.embedContent(text);
-  return result.embedding.values;
+  return result.embedding.values.slice(0, 768);
 }
 
 function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {

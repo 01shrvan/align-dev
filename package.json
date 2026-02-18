@@ -12,7 +12,8 @@
     "verify:user": "tsx scripts/verify-user.ts verify",
     "unverify:user": "tsx scripts/verify-user.ts unverify",
     "verify:list": "tsx scripts/verify-user.ts list",
-    "add-aligners-tag": "tsx scripts/add-aligners-tag.ts"
+    "add-aligners-tag": "tsx scripts/add-aligners-tag.ts",
+    "backfill:embeddings": "tsx scripts/generate-embeddings.ts"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
