@@ -10,23 +10,21 @@ interface NotificationProps {
 }
 
 function getNotificationText(notification: NotificationData): string {
-  const issuerName = notification.issuer.displayName;
-
   switch (notification.type) {
     case "FOLLOW":
-      return `${issuerName} followed you`;
+      return "followed you";
 
     case "LIKE":
-      return `${issuerName} liked your post`;
+      return "liked your post";
 
     case "COMMENT":
-      return `${issuerName} commented on your post`;
+      return "commented on your post";
 
     case "MENTION":
-      return `mentioned you in a post`;
+      return "mentioned you in a post";
 
     case "ALIGNERS":
-      return `mentioned @aligners`;
+      return "mentioned @aligners";
 
     default:
       return "New notification";
@@ -36,22 +34,24 @@ function getNotificationText(notification: NotificationData): string {
 function getNotificationIcon(type: NotificationType) {
   switch (type) {
     case "FOLLOW":
-      return <User2 className="size-7 text-primary" />;
+      return <User2 className="size-5 md:size-7 text-primary" />;
 
     case "LIKE":
-      return <Heart className="size-7 fill-red-500 text-red-500" />;
+      return <Heart className="size-5 md:size-7 fill-red-500 text-red-500" />;
 
     case "COMMENT":
-      return <MessageCircle className="size-7 fill-primary text-primary" />;
+      return (
+        <MessageCircle className="size-5 md:size-7 fill-primary text-primary" />
+      );
 
     case "MENTION":
-      return <AtSign className="size-7 text-primary" />;
+      return <AtSign className="size-5 md:size-7 text-primary" />;
 
     case "ALIGNERS":
-      return <Users className="size-7 text-primary" />;
+      return <Users className="size-5 md:size-7 text-primary" />;
 
     default:
-      return <Bell className="size-7" />;
+      return <Bell className="size-5 md:size-7" />;
   }
 }
 
@@ -80,12 +80,12 @@ export default function Notification({ notification }: NotificationProps) {
     <Link href={href} className="block">
       <article
         className={cn(
-          "flex gap-3 rounded-2xl bg-card p-5 shadow-sm transition-colors hover:bg-card/70",
+          "flex gap-2 md:gap-3 rounded-2xl bg-card p-3 md:p-5 shadow-sm transition-colors hover:bg-card/70",
           !notification.read && "bg-primary/10",
         )}
       >
         <div className="flex-shrink-0 pt-0.5">{icon}</div>
-        <AvatarComponent.Avatar className="size-8 flex-shrink-0">
+        <AvatarComponent.Avatar className="size-8 md:size-10 flex-shrink-0">
           <AvatarComponent.AvatarImage
             src={notification.issuer.avatarUrl || ""}
           />
@@ -94,13 +94,13 @@ export default function Notification({ notification }: NotificationProps) {
               notification.issuer.username[0]}
           </AvatarComponent.AvatarFallback>
         </AvatarComponent.Avatar>
-        <div className="flex-1 space-y-1">
-          <div>
+        <div className="flex-1 space-y-1 min-w-0">
+          <div className="text-sm md:text-base">
             <span className="font-bold">{notification.issuer.displayName}</span>{" "}
             <span>{message}</span>
           </div>
           {notification.post && (
-            <div className="line-clamp-3 whitespace-pre-line text-muted-foreground">
+            <div className="line-clamp-2 md:line-clamp-3 whitespace-pre-line text-xs md:text-sm text-muted-foreground">
               {notification.post.content}
             </div>
           )}

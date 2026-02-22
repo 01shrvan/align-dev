@@ -75,27 +75,23 @@ export default function SearchResults({ query }: SearchResultsProps) {
 
   function UserRow({ user }: { user: UserData }) {
     return (
-      <div className="flex items-center justify-between rounded-2xl bg-card p-5 shadow-sm">
-        <div className="flex items-center gap-3 min-w-0">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-card p-4 md:p-5 shadow-sm">
+        <div className="flex items-center gap-3 min-w-0 flex-1">
           <Link href={`/users/${user.username}`}>
-            <Avatar>
+            <Avatar className="h-9 w-9 md:h-10 md:w-10">
               <AvatarImage src={user.avatarUrl as string} />
               <AvatarFallback>{user.username[0].toUpperCase()}</AvatarFallback>
             </Avatar>
           </Link>
           <div className="min-w-0">
-            <Link href={`/users/${user.username}`} className="font-semibold hover:underline block truncate">
+            <Link
+              href={`/users/${user.username}`}
+              className="font-semibold hover:underline block truncate text-sm md:text-base"
+            >
               {user.displayName}
             </Link>
-            <div className="text-sm text-muted-foreground truncate">@{user.username}</div>
-            <div className="text-sm text-muted-foreground">
-              <FollowerCount
-                userId={user.id}
-                initialState={{
-                  followers: user._count.followers,
-                  isFollowedByUser: !!user.followers.length,
-                }}
-              />
+            <div className="text-xs md:text-sm text-muted-foreground truncate">
+              @{user.username}
             </div>
           </div>
         </div>
@@ -120,41 +116,59 @@ export default function SearchResults({ query }: SearchResultsProps) {
       <TabsContent value="posts">
         {status === "pending" && <PostsLoadingSkeleton />}
         {status === "success" && !posts.length && !hasNextPage && (
-          <p className="text-center text-muted-foreground">No posts found for this query.</p>
+          <p className="text-center text-muted-foreground">
+            No posts found for this query.
+          </p>
         )}
         {status === "error" && (
-          <p className="text-center text-destructive">An error occurred while loading posts.</p>
+          <p className="text-center text-destructive">
+            An error occurred while loading posts.
+          </p>
         )}
         {status === "success" && (
           <InfiniteScrollContainer
             className="space-y-5"
-            onBottomReached={() => hasNextPage && !isFetching && fetchNextPage()}
+            onBottomReached={() =>
+              hasNextPage && !isFetching && fetchNextPage()
+            }
           >
             {posts.map((post) => (
               <Post key={post.id} post={post} />
             ))}
-            {isFetchingNextPage && <Loader2 className="mx-auto my-3 animate-spin" />}
+            {isFetchingNextPage && (
+              <Loader2 className="mx-auto my-3 animate-spin" />
+            )}
           </InfiniteScrollContainer>
         )}
       </TabsContent>
 
       <TabsContent value="users">
-        {usersStatus === "pending" && <Loader2 className="mx-auto my-3 animate-spin" />}
+        {usersStatus === "pending" && (
+          <Loader2 className="mx-auto my-3 animate-spin" />
+        )}
         {usersStatus === "success" && !users.length && !hasNextUsers && (
-          <p className="text-center text-muted-foreground">No users found for this query.</p>
+          <p className="text-center text-muted-foreground">
+            No users found for this query.
+          </p>
         )}
         {usersStatus === "error" && (
-          <p className="text-center text-destructive">An error occurred while loading users.</p>
+          <p className="text-center text-destructive">
+            An error occurred while loading users.
+          </p>
         )}
         {usersStatus === "success" && (
           <InfiniteScrollContainer
             className="space-y-4"
-            onBottomReached={() => hasNextUsers && !isFetchingUsers && fetchNextUsers()}
+            onBottomReached={() =>
+              hasNextUsers && !isFetchingUsers && fetchNextUsers()
+            }
           >
             {users.map((u) => (
               <UserRow key={u.id} user={u} />
             ))}
-            {isFetchingNextUsers && <Loader2 className="mx-auto my-3 animate-spin" />}
+            {isFetchingNextUsers && (
+              <Loader2 className="mx-auto my-3 animate-spin" />
+            )}
           </InfiniteScrollContainer>
         )}
       </TabsContent>
