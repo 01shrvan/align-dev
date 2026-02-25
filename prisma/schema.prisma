@@ -41,6 +41,7 @@ model User {
   communityPosts              CommunityPost[]    @relation("CommunityPosts")
   communityMessages           CommunityMessage[] @relation("CommunityMessages")
   isVerified                  Boolean            @default(false)
+  isEmailVerified             Boolean            @default(false)
   verificationCode            String?
   verificationCodeExpiresAt   DateTime?
   resetPasswordToken          String?

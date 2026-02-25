@@ -23,7 +23,7 @@ export async function verifyEmail(
     const dbUser = await prisma.user.findUnique({
       where: { id: user.id },
       select: {
-        isVerified: true,
+        isEmailVerified: true,
         verificationCode: true,
         verificationCodeExpiresAt: true,
       },
@@ -33,7 +33,7 @@ export async function verifyEmail(
       return { error: "User not found" };
     }
 
-    if (dbUser.isVerified) {
+    if (dbUser.isEmailVerified) {
       return redirect("/onboarding");
     }
 
@@ -51,7 +51,7 @@ export async function verifyEmail(
     await prisma.user.update({
       where: { id: user.id },
       data: {
-        isVerified: true,
+        isEmailVerified: true,
         verificationCode: null,
         verificationCodeExpiresAt: null,
       },
@@ -86,7 +86,7 @@ export async function resendVerificationEmail(): Promise<{
       return { error: "User not found or email missing" };
     }
 
-    if (dbUser.isVerified) {
+    if (dbUser.isEmailVerified) {
       return { error: "Email already verified" };
     }
 

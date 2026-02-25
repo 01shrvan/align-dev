@@ -13,7 +13,7 @@ export default async function OnboardingLayout({
     redirect("/login");
   }
 
-  if (!user.isVerified) {
+  if (!user.isEmailVerified) {
     redirect("/verify-email");
   }
 

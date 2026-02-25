@@ -66,6 +66,8 @@ export async function signUp(
         displayName: username,
         email,
         passwordHash,
+        isVerified: false,
+        isEmailVerified: false,
         isOnboarded: false,
         tags: ["aligners"],
         verificationCode: otp,

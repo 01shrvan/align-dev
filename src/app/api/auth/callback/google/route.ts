@@ -48,6 +48,13 @@ export async function GET(req: NextRequest) {
     });
 
     if (existingUser) {
+      if (!existingUser.isEmailVerified) {
+        await prisma.user.update({
+          where: { id: existingUser.id },
+          data: { isEmailVerified: true },
+        });
+      }
+
       const session = await lucia.createSession(existingUser.id, {});
       const sessionCookie = lucia.createSessionCookie(session.id);
       cookieStore.set(
@@ -88,6 +95,8 @@ export async function GET(req: NextRequest) {
           username,
           displayName: googleUser.name,
           googleId: googleUser.id,
+          isVerified: false,
+          isEmailVerified: true,
           isOnboarded: false,
         },
       });

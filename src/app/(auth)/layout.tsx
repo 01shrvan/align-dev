@@ -10,7 +10,7 @@ export default async function AuthLayout({
   const { user } = await validateRequest();
 
   if (user) {
-    if (!user.isVerified) redirect("/verify-email");
+    if (!user.isEmailVerified) redirect("/verify-email");
 
     const fullUser = await prisma.user.findUnique({
       where: { id: user.id },

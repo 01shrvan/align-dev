@@ -12,7 +12,7 @@ export default async function Layout({
     redirect("/login");
   }
 
-  if (user.isVerified) {
+  if (user.isEmailVerified) {
     redirect("/onboarding");
   }
 

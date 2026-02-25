@@ -1,0 +1,2 @@
+-- Migration file restored to satisfy Prisma migration history.
+-- The project schema no longer includes payments-related models.
