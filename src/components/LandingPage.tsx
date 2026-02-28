@@ -4,72 +4,67 @@ import { ArrowRight, Compass, MessageSquare, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.svg";
 
-const features = [
+const pillars = [
   {
-    title: "Discover opportunities",
-    description:
-      "Access curated conversations and opportunities from people already aligned with your work.",
+    title: "Clarity in Public",
+    description: "Post one sharp thought and let signal do the matching.",
     icon: Compass,
   },
   {
-    title: "Streamlined interactions",
-    description:
-      "Post once and let relevant people find you without endless profile optimization.",
+    title: "Conversations that Matter",
+    description: "Replies are built for ideas, not empty engagement loops.",
     icon: MessageSquare,
   },
   {
-    title: "Signal-first identity",
-    description:
-      "Your ideas and consistency carry more weight than vanity metrics.",
+    title: "Momentum by Consistency",
+    description: "Small daily posts compound into real opportunities.",
     icon: Sparkles,
   },
 ];
 
-const trustItems = [
-  "Student founders",
-  "Indie hackers",
-  "Creator circles",
-  "Startup teams",
-  "Design communities",
-  "Builder groups",
+const notionFaces = [
+  {
+    src: "https://api.dicebear.com/9.x/notionists/svg?seed=Ari&backgroundColor=fde68a",
+    position: "left-[26px] top-0",
+  },
+  {
+    src: "https://api.dicebear.com/9.x/notionists/svg?seed=Kai&backgroundColor=bfdbfe",
+    position: "right-0 top-[26px]",
+  },
+  {
+    src: "https://api.dicebear.com/9.x/notionists/svg?seed=Nia&backgroundColor=fbcfe8",
+    position: "left-[26px] bottom-0",
+  },
+  {
+    src: "https://api.dicebear.com/9.x/notionists/svg?seed=Zoe&backgroundColor=c7d2fe",
+    position: "left-0 top-[26px]",
+  },
 ];
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_8%_8%,hsl(var(--accent)/0.16),transparent_34%),radial-gradient(circle_at_90%_12%,hsl(var(--accent)/0.12),transparent_28%)]" />
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+      <div className="pointer-events-none fixed inset-0 -z-20 bg-[radial-gradient(80rem_40rem_at_50%_-10%,hsl(var(--accent)/0.18),transparent_70%),linear-gradient(to_bottom,hsl(var(--background)),hsl(var(--background)))]" />
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[linear-gradient(hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-[size:28px_28px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_85%)]" />
 
-      <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-border/50 bg-background/75 backdrop-blur-xl">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-2">
-            <Image
-              src={logo}
-              alt="Align Network Logo"
-              className="h-8 w-8"
-              priority
-            />
-            <span className="font-thunder text-2xl leading-none">
-              Align Network
-            </span>
+            <Image src={logo} alt="Align Network Logo" className="h-8 w-8" priority />
+            <span className="font-thunder text-2xl leading-none">Align Network</span>
           </Link>
 
           <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
-            <a
-              href="#features"
-              className="transition-colors hover:text-foreground"
-            >
-              Features
+            <a href="#why" className="transition-colors hover:text-foreground">
+              Why
             </a>
-            <a
-              href="#platform"
-              className="transition-colors hover:text-foreground"
-            >
-              Platform
+            <a href="#pillars" className="transition-colors hover:text-foreground">
+              How
             </a>
           </nav>
 
           <Link href="/login">
-            <Button className="rounded-sm bg-accent text-background hover:bg-accent/90">
+            <Button className="rounded-full border border-foreground/20 bg-gradient-to-r from-foreground to-foreground/85 px-5 text-background shadow-[0_12px_26px_hsl(var(--foreground)/0.22)] hover:from-foreground/95 hover:to-foreground/80 dark:border-accent/30 dark:from-accent dark:to-accent/80 dark:text-accent-foreground dark:shadow-[0_12px_26px_hsl(var(--accent)/0.3)]">
               Get Started
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -78,157 +73,155 @@ export default function LandingPage() {
       </header>
 
       <main>
-        <section className="border-b border-border/60">
-          <div className="mx-auto grid w-full max-w-6xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-12 lg:items-center lg:px-8 lg:py-28">
-            <div className="lg:col-span-7">
-              <span className="inline-flex items-center rounded-full border border-border/70 bg-card/70 px-3 py-1 text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
-                The platform for what is next in networking
+        <section id="why" className="border-b border-border/50">
+          <div className="mx-auto w-full max-w-6xl px-4 pb-20 pt-16 sm:px-6 lg:px-8 lg:pb-24 lg:pt-24">
+            <div className="mx-auto max-w-5xl text-center">
+              <span className="inline-flex items-center rounded-full border border-border/70 bg-card/70 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+                Minimal social for high-agency people
               </span>
 
-              <h1 className="mt-6 max-w-3xl font-thunder text-5xl leading-[0.88] sm:text-6xl lg:text-7xl">
-                Minimal UI.
+              <h1 className="mt-7 text-balance font-thunder text-6xl uppercase leading-[0.84] sm:text-7xl lg:text-9xl">
+                Think in public.
                 <br />
-                Maximum signal.
-                <br />
-                Better outcomes.
+                Get found faster.
               </h1>
 
-              <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                Share reflections, get discovered by the right people, and build
-                real momentum without follower games.
+              <p className="mx-auto mt-6 max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
+                Align is where builders publish sharp reflections, attract the right people, and
+                build momentum without chasing trends.
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-3">
+              <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
                 <Link href="/login">
                   <Button
                     size="lg"
-                    className="rounded-sm bg-accent text-background shadow-[0_14px_34px_hsl(var(--accent)/0.3)] hover:bg-accent/90"
+                    className="rounded-full border border-foreground/20 bg-gradient-to-r from-foreground to-foreground/85 px-8 text-background shadow-[0_16px_42px_hsl(var(--foreground)/0.28)] hover:from-foreground/95 hover:to-foreground/80 dark:border-accent/30 dark:from-accent dark:to-accent/80 dark:text-accent-foreground dark:shadow-[0_16px_42px_hsl(var(--accent)/0.34)]"
                   >
-                    Start showcasing now
+                    Start Posting
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-                <a href="#features">
-                  <Button size="lg" variant="outline" className="rounded-sm">
-                    Explore platform
+                <a href="#pillars">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="rounded-full border-border/70 bg-card/70 px-8 hover:bg-card"
+                  >
+                    See The Flow
                   </Button>
                 </a>
               </div>
-            </div>
 
-            <div className="lg:col-span-5">
-              <div className="relative">
-                <div className="absolute -inset-3 -z-10 rounded-[28px] bg-[linear-gradient(135deg,hsl(var(--accent)/0.28),transparent_38%,hsl(var(--accent)/0.12))] blur-2xl" />
-
-                <div className="rounded-2xl border border-border/70 bg-card/90 p-6 shadow-[0_22px_45px_-30px_hsl(var(--foreground)/0.5)]">
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                      Reflection preview
-                    </p>
-                    <span className="rounded-full border border-border/70 px-2 py-0.5 text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
-                      Live
-                    </span>
+              <div className="mx-auto mt-14 grid max-w-4xl grid-cols-1 gap-3 sm:grid-cols-3">
+                {[
+                  ["01", "Post one clear thought daily."],
+                  ["02", "Start better conversations."],
+                  ["03", "Let relevance compound."],
+                ].map((item) => (
+                  <div key={item[0]} className="rounded-2xl border border-border/60 bg-card/60 p-5">
+                    <p className="text-xs tracking-[0.2em] text-muted-foreground">{item[0]}</p>
+                    <p className="mt-3 text-sm leading-relaxed">{item[1]}</p>
                   </div>
-
-                  <blockquote className="mt-5 text-xl leading-relaxed text-card-foreground">
-                    &ldquo;What are you building today that could create your
-                    next big opportunity?&rdquo;
-                  </blockquote>
-
-                  <div className="mt-6 space-y-2 border-t border-border/70 pt-4 text-sm text-muted-foreground">
-                    <div className="flex items-center justify-between">
-                      <span>Distribution</span>
-                      <span className="text-foreground">Relevance-first</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Follower weighting</span>
-                      <span className="text-foreground">Zero</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Output quality</span>
-                      <span className="text-foreground">
-                        High-intent replies
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 grid grid-cols-2 gap-3">
-                  <div className="rounded-xl border border-border/60 bg-card/70 p-3">
-                    <p className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-                      Reach model
-                    </p>
-                    <p className="mt-2 text-sm">
-                      Equal visibility on first posts
-                    </p>
-                  </div>
-                  <div className="rounded-xl border border-border/60 bg-card/70 p-3">
-                    <p className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-                      Outcome
-                    </p>
-                    <p className="mt-2 text-sm">Conversations that compound</p>
-                  </div>
-                </div>
+                ))}
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="platform" className="border-b border-border/60 py-10">
-          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-            <p className="text-center text-xs uppercase tracking-[0.24em] text-muted-foreground">
-              Built for high-intent communities
-            </p>
-            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              {trustItems.map((item) => (
-                <div
-                  key={item}
-                  className="rounded-lg border border-border/60 bg-card/65 px-3 py-2 text-center text-sm"
-                >
-                  {item}
-                </div>
-              ))}
             </div>
           </div>
         </section>
 
         <section
-          id="features"
-          className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20"
+          id="pillars"
+          className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
         >
-          <div className="mb-8 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              First layer
-            </p>
-            <h2 className="mt-3 font-thunder text-4xl sm:text-5xl">
-              Clean interface, deliberate structure, better focus.
+          <div className="mb-10 text-center">
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">How it works</p>
+            <h2 className="mt-3 font-thunder text-4xl uppercase sm:text-5xl">
+              Less feed. More fit.
             </h2>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
-            {features.map((item, index) => {
+          <div className="grid auto-rows-[minmax(170px,_auto)] gap-4 md:grid-cols-6">
+            <article className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/70 p-6 md:col-span-4 md:row-span-2">
+              <div className="pointer-events-none absolute -right-16 -top-20 h-52 w-52 rounded-full bg-accent/20 blur-3xl" />
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Intent signal</p>
+              <h3 className="mt-3 max-w-xl font-thunder text-3xl uppercase leading-none sm:text-4xl">
+                Your voice finds aligned people.
+              </h3>
+              <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
+                Post one thought. Align routes it to people with matching interests and context.
+              </p>
+              <div className="mt-6 flex items-center gap-4">
+                <div className="relative h-20 w-20 rounded-full border border-border/70 bg-background/80">
+                  <div className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-border/70 bg-card" />
+                  {notionFaces.map((face) => (
+                    <div
+                      key={face.src}
+                      className={`absolute h-7 w-7 overflow-hidden rounded-full border border-border/70 bg-background ${face.position}`}
+                    >
+                      <img
+                        src={face.src}
+                        alt="Notion-style avatar"
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <a
+                  href="https://faces.notion.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Inspired by faces.notion.com
+                </a>
+              </div>
+            </article>
+
+            <article className="rounded-2xl border border-border/60 bg-card/60 p-6 md:col-span-2 md:row-span-2">
+              <div className="flex h-full flex-col">
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Match quality</p>
+                <p className="mt-3 font-thunder text-4xl leading-none">92%</p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Higher relevance than random feed discovery.
+                </p>
+                <div className="mt-auto h-2 rounded-full bg-background">
+                  <div className="h-full w-[92%] rounded-full bg-foreground dark:bg-accent" />
+                </div>
+              </div>
+            </article>
+
+            <article className="rounded-2xl border border-border/60 bg-card/60 p-6 md:col-span-3">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Conversation depth</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Build threads that move ideas forward, not just reactions.
+              </p>
+              <div className="mt-5 rounded-xl border border-border/70 bg-background/70 p-4 text-sm">
+                "This was the first post that brought me three high-quality intros in one day."
+              </div>
+            </article>
+
+            <article className="rounded-2xl border border-border/60 bg-card/60 p-6 md:col-span-3">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Compounding reach</p>
+              <p className="mt-3 font-thunder text-4xl leading-none">30 days</p>
+              <p className="mt-2 text-sm text-muted-foreground">of consistent posting can reshape your network surface area.</p>
+            </article>
+
+            {pillars.map((item, index) => {
               const Icon = item.icon;
 
               return (
                 <article
                   key={item.title}
-                  className="group rounded-xl border border-border/60 bg-card/70 p-5 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40"
+                  className="group rounded-2xl border border-border/60 bg-card/55 p-6 transition-all duration-200 hover:-translate-y-1 hover:border-foreground/30 md:col-span-2"
                 >
-                  <div className="h-28 rounded-lg border border-border/60 bg-gradient-to-br from-accent/20 via-card to-background" />
-                  <div className="mt-4 flex items-center justify-between">
-                    <div className="inline-flex rounded-lg border border-border/70 bg-background p-2">
-                      <Icon className="h-4 w-4 text-accent" />
+                  <div className="flex items-center justify-between">
+                    <div className="inline-flex rounded-xl border border-border/70 bg-background p-2.5">
+                      <Icon className="h-4 w-4" />
                     </div>
-                    <span className="font-mono text-xs text-muted-foreground">
-                      0{index + 1}
-                    </span>
+                    <span className="font-mono text-xs text-muted-foreground">0{index + 1}</span>
                   </div>
-                  <h3 className="mt-4 font-thunder text-3xl leading-none">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    {item.description}
-                  </p>
+                  <h3 className="mt-6 font-thunder text-3xl uppercase leading-none">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
                 </article>
               );
             })}
@@ -238,18 +231,16 @@ export default function LandingPage() {
         <section className="border-y border-border/60 bg-card/35">
           <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-6 px-4 py-14 sm:px-6 md:flex-row md:items-center lg:px-8">
             <div className="max-w-2xl">
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Start now
-              </p>
-              <h2 className="mt-3 font-thunder text-4xl leading-[0.92] sm:text-5xl">
-                Publish your first reflection and find your people fast.
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Start now</p>
+              <h2 className="mt-3 font-thunder text-4xl uppercase leading-[0.92] sm:text-5xl">
+                Publish one sharp thought today.
               </h2>
             </div>
 
             <Link href="/login" className="shrink-0">
               <Button
                 size="lg"
-                className="rounded-sm bg-accent text-background hover:bg-accent/90"
+                className="rounded-full border border-foreground/20 bg-gradient-to-r from-foreground to-foreground/85 px-8 text-background shadow-[0_16px_40px_hsl(var(--foreground)/0.25)] hover:from-foreground/95 hover:to-foreground/80 dark:border-accent/30 dark:from-accent dark:to-accent/80 dark:text-accent-foreground dark:shadow-[0_16px_40px_hsl(var(--accent)/0.34)]"
               >
                 Join Align
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -263,26 +254,17 @@ export default function LandingPage() {
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             <Image src={logo} alt="Align Network Logo" className="h-5 w-5" />
-            <span>© {new Date().getFullYear()} Align Network</span>
+            <span>(c) {new Date().getFullYear()} Align Network</span>
           </div>
 
           <div className="flex items-center gap-4">
-            <Link
-              href="https://x.com/NetworkAli56631"
-              className="hover:text-foreground"
-            >
+            <Link href="https://x.com/NetworkAli56631" className="hover:text-foreground">
               X
             </Link>
-            <Link
-              href="https://www.linkedin.com/company/celestia-labs/"
-              className="hover:text-foreground"
-            >
+            <Link href="https://www.linkedin.com/company/celestia-labs/" className="hover:text-foreground">
               LinkedIn
             </Link>
-            <Link
-              href="https://discord.gg/4dpETE5G"
-              className="hover:text-foreground"
-            >
+            <Link href="https://discord.gg/4dpETE5G" className="hover:text-foreground">
               Discord
             </Link>
           </div>
