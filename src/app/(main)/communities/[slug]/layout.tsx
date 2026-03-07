@@ -30,10 +30,16 @@ export async function generateMetadata({
   }
 
   const counts = `${community._count.members} members · ${community.type === "CHAT" ? `${community._count.messages} messages` : `${community._count.posts} posts`}`;
-  const baseDescription = community.description?.trim() || `${community.category} • ${community.privacy} • ${counts}`;
-  const description = baseDescription.length > 240 ? `${baseDescription.slice(0, 237)}…` : baseDescription;
+  const baseDescription =
+    community.description?.trim() ||
+    `${community.category} • ${community.privacy} • ${counts}`;
+  const description =
+    baseDescription.length > 240
+      ? `${baseDescription.slice(0, 237)}…`
+      : baseDescription;
 
-  const image = community.bannerUrl || community.avatarUrl || "/assets/opengraph-image.png";
+  const image =
+    community.bannerUrl || community.avatarUrl || "/assets/opengraph-image.png";
   const url = `/communities/${community.slug}`;
 
   return {

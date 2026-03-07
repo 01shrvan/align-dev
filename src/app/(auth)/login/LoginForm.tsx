@@ -1,8 +1,11 @@
 "use client";
 
+import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
 import LoadingButton from "@/components/LoadingButton";
 import { PasswordInput } from "@/components/PasswordInput";
-import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -13,9 +16,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { loginSchema, type LoginValues } from "@/lib/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
 import { login } from "./actions";
 
 export default function LoginForm() {
@@ -41,9 +41,11 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
         {error && (
-          <p className="text-center text-destructive text-sm">{error}</p>
+          <p className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            {error}
+          </p>
         )}
 
         <FormField
@@ -51,17 +53,18 @@ export default function LoginForm() {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white text-sm font-normal">
+              <FormLabel className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 Username
               </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Username"
+                  autoComplete="username"
                   {...field}
-                  className="bg-black border-gray-600 text-white placeholder:text-gray-500 focus:border-blue-500 h-12 rounded-lg"
+                  className="h-12 rounded-xl border-border/80 bg-card/40 px-4 text-base text-foreground placeholder:text-muted-foreground/70 focus-visible:border-primary focus-visible:ring-primary/20"
                 />
               </FormControl>
-              <FormMessage className="text-red-400 text-xs" />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
@@ -71,29 +74,34 @@ export default function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white text-sm font-normal">
+              <FormLabel className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 Password
               </FormLabel>
               <FormControl>
                 <PasswordInput
                   placeholder="Password"
+                  autoComplete="current-password"
                   {...field}
-                  className="bg-black border-gray-600 text-white placeholder:text-gray-500 focus:border-blue-500 h-12 rounded-lg"
+                  className="h-12 rounded-xl border-border/80 bg-card/40 px-4 text-base text-foreground placeholder:text-muted-foreground/70 focus-visible:border-primary focus-visible:ring-primary/20"
                 />
               </FormControl>
-              <FormMessage className="text-red-400 text-xs" />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
 
         <Link
           href="/forgot-password"
-          className="block text-right text-sm text-blue-400 hover:underline"
+          className="block text-right text-sm font-medium text-primary transition-colors hover:text-primary/80"
         >
           Forgot password?
         </Link>
 
-        <LoadingButton loading={isPending} type="submit" className="w-full">
+        <LoadingButton
+          loading={isPending}
+          type="submit"
+          className="h-11 w-full rounded-xl text-sm"
+        >
           Sign in
         </LoadingButton>
       </form>

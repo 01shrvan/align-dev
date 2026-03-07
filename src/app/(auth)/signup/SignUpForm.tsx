@@ -1,5 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import LoadingButton from "@/components/LoadingButton";
+import { PasswordInput } from "@/components/PasswordInput";
 import {
   Form,
   FormControl,
@@ -10,12 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signUpSchema, SignUpValues } from "@/lib/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
 import { signUp } from "./actions";
-import { PasswordInput } from "@/components/PasswordInput";
-import LoadingButton from "@/components/LoadingButton";
 
 export default function SignUpForm() {
   const [error, setError] = useState<string>();
@@ -41,52 +41,82 @@ export default function SignUpForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-        {error && <p className="text-center text-destructive">{error}</p>}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {error && (
+          <p className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            {error}
+          </p>
+        )}
+
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                Username
+              </FormLabel>
               <FormControl>
-                <Input placeholder="eg. 01shrvan" {...field} />
+                <Input
+                  placeholder="eg. 01shrvan"
+                  autoComplete="username"
+                  {...field}
+                  className="h-12 rounded-xl border-border/80 bg-card/40 px-4 text-base text-foreground placeholder:text-muted-foreground/70 focus-visible:border-primary focus-visible:ring-primary/20"
+                />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                Email
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="eg. shrvan@xyz.com"
                   type="email"
+                  autoComplete="email"
                   {...field}
+                  className="h-12 rounded-xl border-border/80 bg-card/40 px-4 text-base text-foreground placeholder:text-muted-foreground/70 focus-visible:border-primary focus-visible:ring-primary/20"
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                Password
+              </FormLabel>
               <FormControl>
-                <PasswordInput placeholder="eg. 1407" {...field} />
+                <PasswordInput
+                  placeholder="eg. 1407"
+                  autoComplete="new-password"
+                  {...field}
+                  className="h-12 rounded-xl border-border/80 bg-card/40 px-4 text-base text-foreground placeholder:text-muted-foreground/70 focus-visible:border-primary focus-visible:ring-primary/20"
+                />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
-        <LoadingButton loading={isPending} type="submit" className="w-full">
+
+        <LoadingButton
+          loading={isPending}
+          type="submit"
+          className="h-11 w-full rounded-xl text-sm"
+        >
           Create account
         </LoadingButton>
       </form>

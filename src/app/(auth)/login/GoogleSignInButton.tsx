@@ -4,7 +4,7 @@ export default function GoogleSignInButton() {
   return (
     <Button
       variant="outline"
-      className="w-full h-12 px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-800 shadow-sm hover:bg-slate-50 hover:shadow-md transition-all duration-200 ease-in-out"
+      className="h-11 w-full rounded-xl border-dashed border-border/80 bg-card/40 px-4 py-2 text-foreground shadow-none transition-all duration-200 hover:border-primary/40 hover:bg-card/80"
       asChild
     >
       <a

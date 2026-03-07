@@ -32,11 +32,11 @@ export default function JobsContent() {
           "/api/jobs",
           pageParam
             ? {
-              searchParams: {
-                cursor: pageParam,
-                ...(filter && { type: filter }),
-              },
-            }
+                searchParams: {
+                  cursor: pageParam,
+                  ...(filter && { type: filter }),
+                },
+              }
             : filter
               ? { searchParams: { type: filter } }
               : undefined,
@@ -84,13 +84,20 @@ export default function JobsContent() {
               <p className="text-sm text-muted-foreground">
                 Discover opportunities or post your own
               </p>
-              <Button onClick={() => setShowForm(!showForm)} size="sm" className="whitespace-nowrap">
+              <Button
+                onClick={() => setShowForm(!showForm)}
+                size="sm"
+                className="whitespace-nowrap"
+              >
                 Post
               </Button>
             </div>
 
             {showForm && (
-              <JobForm onSuccess={() => setShowForm(false)} onCancel={() => setShowForm(false)} />
+              <JobForm
+                onSuccess={() => setShowForm(false)}
+                onCancel={() => setShowForm(false)}
+              />
             )}
 
             <div className="flex gap-2 flex-wrap">
@@ -134,7 +141,9 @@ export default function JobsContent() {
             {status === "success" && !jobs.length && !hasNextPage ? (
               <div className="py-10 text-center">
                 <Briefcase className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                <p className="text-base font-medium mb-2">No opportunities found</p>
+                <p className="text-base font-medium mb-2">
+                  No opportunities found
+                </p>
                 <p className="text-muted-foreground mb-4 text-sm">
                   {filter
                     ? "Try changing your filter or be the first to post!"
@@ -149,7 +158,9 @@ export default function JobsContent() {
             ) : (
               <InfiniteScrollContainer
                 className="space-y-5"
-                onBottomReached={() => hasNextPage && !isFetching && fetchNextPage()}
+                onBottomReached={() =>
+                  hasNextPage && !isFetching && fetchNextPage()
+                }
               >
                 {jobs.map((job) => (
                   <JobCard key={job.id} job={job} />

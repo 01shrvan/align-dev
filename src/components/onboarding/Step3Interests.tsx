@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { useOnboardingStore } from "@/lib/onboarding-store";
-import { useState, useEffect, useRef } from "react";
-import { useTypingEffect } from "@/hooks/useTypingEffect";
-import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
 import { completeOnboarding } from "@/app/onboarding/actions";
 import LoadingButton from "@/components/LoadingButton";
+import { Button } from "@/components/ui/button";
+import { useTypingEffect } from "@/hooks/useTypingEffect";
+import { useOnboardingStore } from "@/lib/onboarding-store";
+import { cn } from "@/lib/utils";
 
 const INTERESTS = [
   "Content Creation",
@@ -40,9 +40,10 @@ const INTERESTS = [
 ];
 
 export default function Step3Interests() {
-  const { userData, updateUserData, prevStep, resetOnboarding } = useOnboardingStore();
+  const { userData, updateUserData, prevStep, resetOnboarding } =
+    useOnboardingStore();
   const [selectedInterests, setSelectedInterests] = useState<string[]>(
-    userData.interests || []
+    userData.interests || [],
   );
   const [showInterests, setShowInterests] = useState(false);
   const [error, setError] = useState<string>();
@@ -52,8 +53,8 @@ export default function Step3Interests() {
   const question = "what topics light you up?";
   const subtitle = "pick 3-5 things you're passionate about";
   const { displayedText, isComplete } = useTypingEffect(
-    hasTyped.current ? question : question,
-    hasTyped.current ? 0 : 30
+    question,
+    hasTyped.current ? 0 : 30,
   );
   const [showSubtitle, setShowSubtitle] = useState(hasTyped.current);
 
@@ -73,8 +74,8 @@ export default function Step3Interests() {
       prev.includes(interest)
         ? prev.filter((i) => i !== interest)
         : prev.length < 5
-        ? [...prev, interest]
-        : prev
+          ? [...prev, interest]
+          : prev,
     );
   };
 
@@ -109,7 +110,7 @@ export default function Step3Interests() {
       } else {
         resetOnboarding();
       }
-    } catch (err) {
+    } catch {
       setError("Something went wrong. Please try again.");
       setIsPending(false);
     }
@@ -118,92 +119,111 @@ export default function Step3Interests() {
   const canProceed = selectedInterests.length >= 3;
 
   return (
-    <div className="space-y-8 min-h-[500px] flex flex-col justify-center">
-      <div className="space-y-4">
-        <h2 className="text-2xl md:text-3xl font-medium text-foreground/90 leading-relaxed min-h-[80px]">
+    <div className="flex min-h-[500px] flex-col justify-between gap-8">
+      <div className="space-y-6">
+        <span className="inline-flex w-fit rounded-full border border-border/70 bg-card/50 px-3 py-1 text-xs uppercase tracking-[0.16em] text-muted-foreground">
+          Step 3 - Interests
+        </span>
+
+        <h2 className="min-h-[80px] font-serif text-3xl leading-tight text-foreground sm:text-4xl">
           {displayedText}
           {!isComplete && !hasTyped.current && (
-            <span className="inline-block w-0.5 h-6 bg-primary ml-1 animate-pulse" />
+            <span className="ml-1 inline-block h-7 w-0.5 animate-pulse bg-primary" />
           )}
         </h2>
 
         <p
-          className={`text-base text-muted-foreground transition-all duration-500 ${
-            showSubtitle
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-4"
-          }`}
+          className={cn(
+            "text-sm text-muted-foreground transition-all duration-500 sm:text-base",
+            showSubtitle ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
+          )}
         >
           {showSubtitle && subtitle}
         </p>
 
         <div
-          className={`transition-all duration-500 ${
+          className={cn(
+            "transition-all duration-500",
             showInterests
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-4"
-          }`}
+              ? "translate-y-0 opacity-100"
+              : "translate-y-4 opacity-0",
+          )}
         >
           {showInterests && (
             <div className="space-y-4 pt-4">
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-                {INTERESTS.map((interest) => (
-                  <button
-                    key={interest}
-                    onClick={() => toggleInterest(interest)}
-                    className={cn(
-                      "p-3 rounded-lg border text-sm font-medium transition-all hover:scale-[1.02] duration-200 h-12 flex items-center justify-center",
-                      selectedInterests.includes(interest)
-                        ? "bg-primary text-primary-foreground border-primary shadow-md"
-                        : "bg-card hover:bg-accent/50 border-border hover:border-accent-foreground/50"
-                    )}
-                    disabled={
-                      !selectedInterests.includes(interest) &&
-                      selectedInterests.length >= 5
-                    }
-                  >
-                    {interest}
-                  </button>
-                ))}
+              <div className="grid max-h-[320px] grid-cols-2 gap-2 overflow-y-auto pr-2 sm:grid-cols-3 custom-scrollbar">
+                {INTERESTS.map((interest) => {
+                  const isSelected = selectedInterests.includes(interest);
+                  const isDisabled =
+                    !selectedInterests.includes(interest) &&
+                    selectedInterests.length >= 5;
+
+                  return (
+                    <button
+                      key={interest}
+                      type="button"
+                      onClick={() => toggleInterest(interest)}
+                      className={cn(
+                        "flex h-12 items-center justify-center rounded-xl border p-3 text-sm font-medium transition-all duration-200",
+                        isSelected
+                          ? "border-primary/60 bg-primary/15 text-primary"
+                          : "border-border/70 bg-card/40 text-foreground/90 hover:border-primary/40 hover:bg-card/80",
+                        isDisabled &&
+                          "cursor-not-allowed opacity-45 hover:border-border/70 hover:bg-card/40",
+                      )}
+                      disabled={isDisabled}
+                    >
+                      {interest}
+                    </button>
+                  );
+                })}
               </div>
 
-              <div className="text-center text-sm text-muted-foreground">
-                {selectedInterests.length}/5 selected
-                {selectedInterests.length > 0 && (
-                  <div className="flex flex-wrap gap-2 justify-center mt-2">
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span className="uppercase tracking-[0.14em]">
+                  Pick 3 to 5 interests
+                </span>
+                <span>{selectedInterests.length}/5 selected</span>
+              </div>
+
+              {selectedInterests.length > 0 && (
+                <div className="rounded-2xl border border-border/70 bg-card/35 p-3">
+                  <div className="flex flex-wrap gap-2">
                     {selectedInterests.map((interest) => (
                       <span
                         key={interest}
-                        className="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs"
+                        className="rounded-full border border-primary/30 bg-primary/10 px-2 py-1 text-xs text-primary"
                       >
                         {interest}
                       </span>
                     ))}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           )}
         </div>
       </div>
 
       {error && (
-        <div className="text-center text-destructive text-sm">{error}</div>
+        <p className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          {error}
+        </p>
       )}
 
       {showInterests && (
-        <div className="flex gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <Button
             onClick={prevStep}
             variant="outline"
-            className="flex-1 h-12 text-base"
+            className="h-11 flex-1 rounded-xl border-dashed text-sm"
             disabled={isPending}
           >
             Back
           </Button>
           <LoadingButton
             onClick={handleComplete}
-            className="flex-1 h-12 text-base"
+            className="h-11 flex-1 rounded-xl text-sm"
             disabled={!canProceed}
             loading={isPending}
           >

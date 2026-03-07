@@ -120,7 +120,9 @@ export default function JobsPageComponent() {
         {jobs.map((job) => (
           <JobCard key={job.id} job={job} />
         ))}
-        {isFetchingNextPage && <Loader2 className="mx-auto my-3 animate-spin" />}
+        {isFetchingNextPage && (
+          <Loader2 className="mx-auto my-3 animate-spin" />
+        )}
       </InfiniteScrollContainer>
     </div>
   );

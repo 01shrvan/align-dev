@@ -62,22 +62,31 @@ export default function ForYouFeed() {
       onBottomReached={() => hasNextPage && !isFetching && fetchNextPage()}
     >
       {posts.map((post: any) => (
-        <div key={post.id} className="bg-card rounded-xl border shadow-sm overflow-hidden">
-          {post.feedScore && post.feedScore.reasons && post.feedScore.reasons.length > 0 && (
-            <div className="px-4 py-2 bg-gradient-to-r from-muted/30 to-transparent border-b border-border/50">
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <div className="flex flex-wrap gap-x-3 gap-y-1">
-                  {post.feedScore.reasons.slice(0, 2).map((reason: any, idx: number) => (
-                    <span key={idx} className="flex items-center gap-1">
-                      <span className="font-medium text-foreground">
-                        {reason.type === 'trending' ? 'Recently posted' : reason.description}
-                      </span>
-                    </span>
-                  ))}
+        <div
+          key={post.id}
+          className="bg-card rounded-xl border shadow-sm overflow-hidden"
+        >
+          {post.feedScore &&
+            post.feedScore.reasons &&
+            post.feedScore.reasons.length > 0 && (
+              <div className="px-4 py-2 bg-gradient-to-r from-muted/30 to-transparent border-b border-border/50">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="flex flex-wrap gap-x-3 gap-y-1">
+                    {post.feedScore.reasons
+                      .slice(0, 2)
+                      .map((reason: any, idx: number) => (
+                        <span key={idx} className="flex items-center gap-1">
+                          <span className="font-medium text-foreground">
+                            {reason.type === "trending"
+                              ? "Recently posted"
+                              : reason.description}
+                          </span>
+                        </span>
+                      ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
           <Post post={post} />
         </div>
       ))}

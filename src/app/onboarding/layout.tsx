@@ -26,5 +26,5 @@ export default async function OnboardingLayout({
     redirect("/");
   }
 
-  return <div className="min-h-screen bg-background">{children}</div>;
+  return <>{children}</>;
 }

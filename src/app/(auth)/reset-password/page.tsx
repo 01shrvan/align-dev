@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import ResetPasswordForm from "./ResetPasswordForm";
+import { MeshGradient } from "@paper-design/shaders-react";
 
 export const metadata: Metadata = {
   title: "Reset Password",
@@ -21,51 +22,64 @@ export default async function Page({ searchParams }: PageProps) {
   }
 
   return (
-    <div className="h-screen text-white flex overflow-hidden">
-      <div className="hidden lg:flex lg:w-1/2 items-center justify-center p-12">
-        <div className="w-80 h-80">
-          <Image
-            src={logo || "/placeholder.svg"}
-            alt="Reset Password"
-            className="w-full h-full object-contain"
-            priority
-          />
+    <div className="relative min-h-screen overflow-hidden bg-background text-foreground flex">
+      <div className="hidden lg:block w-1/2 relative h-screen border-r border-border/50">
+        <MeshGradient
+          className="absolute inset-0 w-full h-full"
+          colors={["#121212", "#dddbcb", "#83e665", "#c1ff70"]}
+          distortion={0.53}
+          swirl={0.23}
+          grainMixer={0.0}
+          grainOverlay={0.33}
+          speed={0.2}
+        />
+        <div className="absolute inset-0 flex flex-col justify-between p-12 pointer-events-none z-10">
+          <div className="space-y-6">
+            <Image src={logo} alt="Align" className="h-14 w-14" priority />
+            <div className="space-y-4">
+              {/* <p className="text-xs uppercase tracking-[0.28em] text-foreground/80 drop-shadow-md">
+                Recover Account
+              </p> */}
+              <h1 className="font-serif text-6xl leading-[1.05] text-[#dddbcb] drop-shadow-sm">
+                Set new
+                <br />
+                password.
+              </h1>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 py-8">
-        <div className="max-w-md">
-          <div className="lg:hidden mb-6 w-12 h-12">
-            <Image
-              src={logo || "/placeholder.svg"}
-              alt="Reset Password"
-              className="w-full h-full object-contain"
-              priority
-            />
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-4 sm:px-6 lg:px-16 py-8 relative">
+        <div className="w-full max-w-md mx-auto">
+          <div className="mb-8 flex items-center gap-3 lg:hidden">
+            <Image src={logo} alt="Align" className="h-10 w-10" priority />
+            <span className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
+              Align
+            </span>
           </div>
 
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-5xl lg:text-6xl font-bold">
-                Set new<br />password
-              </h1>
-              <p className="text-gray-400">
-                Please enter your new password below.
+          <div className="space-y-7">
+            <div className="space-y-2">
+              <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
+                Recovery
               </p>
+              <h2 className="font-serif text-3xl leading-tight text-foreground sm:text-4xl">
+                Choose a password
+              </h2>
+              {/* <p className="text-sm text-muted-foreground">
+                Please enter your new password below.
+              </p> */}
             </div>
 
-            <div className="space-y-4">
-              <ResetPasswordForm token={token} />
-            </div>
+            <ResetPasswordForm token={token} />
 
-            <div className="space-y-3">
-              <Link
-                href="/login"
-                className="inline-block text-blue-400 hover:underline transition-colors font-medium text-sm"
-              >
-                &larr; Back to login
-              </Link>
-            </div>
+            <Link
+              href="/login"
+              className="inline-block text-sm font-medium text-primary transition-colors hover:text-primary/80"
+            >
+              &larr; Back to login
+            </Link>
           </div>
         </div>
       </div>

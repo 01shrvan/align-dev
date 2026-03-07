@@ -36,7 +36,10 @@ function OtpInputGroup({
   inputRef,
 }: OtpInputGroupProps) {
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
-  const digits = Array.from({ length: OTP_LENGTH }, (_, index) => value[index] ?? "");
+  const digits = Array.from(
+    { length: OTP_LENGTH },
+    (_, index) => value[index] ?? "",
+  );
 
   function handleChange(index: number, rawValue: string) {
     const sanitizedValue = rawValue.replace(/\D/g, "");
@@ -59,7 +62,10 @@ function OtpInputGroup({
     inputRefs.current[Math.min(cursor, OTP_LENGTH - 1)]?.focus();
   }
 
-  function handleKeyDown(index: number, event: React.KeyboardEvent<HTMLInputElement>) {
+  function handleKeyDown(
+    index: number,
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) {
     if (event.key === "Backspace") {
       event.preventDefault();
       const nextDigits = [...digits];
@@ -90,7 +96,10 @@ function OtpInputGroup({
     }
   }
 
-  function handlePaste(index: number, event: React.ClipboardEvent<HTMLInputElement>) {
+  function handlePaste(
+    index: number,
+    event: React.ClipboardEvent<HTMLInputElement>,
+  ) {
     const pastedDigits = event.clipboardData
       .getData("text")
       .replace(/\D/g, "")
@@ -106,11 +115,13 @@ function OtpInputGroup({
     }
 
     onChange(nextDigits.join(""));
-    inputRefs.current[Math.min(index + pastedDigits.length, OTP_LENGTH - 1)]?.focus();
+    inputRefs.current[
+      Math.min(index + pastedDigits.length, OTP_LENGTH - 1)
+    ]?.focus();
   }
 
   return (
-    <div className="flex justify-center gap-2">
+    <div className="flex justify-between gap-2">
       {digits.map((digit, index) => (
         <Input
           key={index}
@@ -131,7 +142,7 @@ function OtpInputGroup({
           name={`otp-digit-${index + 1}`}
           aria-label={`Verification code digit ${index + 1}`}
           aria-invalid={invalid}
-          className="h-12 w-12 px-0 text-center font-mono text-lg"
+          className="h-12 w-full max-w-14 rounded-xl border-border/80 bg-card/40 px-0 text-center font-mono text-lg text-foreground focus-visible:border-primary focus-visible:ring-primary/20"
           onChange={(event) => handleChange(index, event.target.value)}
           onKeyDown={(event) => handleKeyDown(index, event)}
           onPaste={(event) => handlePaste(index, event)}
@@ -182,16 +193,22 @@ export default function VerifyEmailForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-3"
+          className="space-y-5"
           autoComplete="off"
         >
-          {error && <p className="text-center text-destructive">{error}</p>}
+          {error && (
+            <p className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              {error}
+            </p>
+          )}
           <FormField
             control={form.control}
             name="code"
             render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel className="text-center">Verification Code</FormLabel>
+                <FormLabel className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                  Verification Code
+                </FormLabel>
                 <FormControl>
                   <OtpInputGroup
                     value={field.value}
@@ -201,20 +218,24 @@ export default function VerifyEmailForm() {
                     inputRef={field.ref}
                   />
                 </FormControl>
-                <FormMessage className="text-center" />
+                <FormMessage className="text-xs" />
               </FormItem>
             )}
           />
-          <LoadingButton loading={isPending} type="submit" className="w-full">
+          <LoadingButton
+            loading={isPending}
+            type="submit"
+            className="h-11 w-full rounded-xl text-sm"
+          >
             Verify Email
           </LoadingButton>
         </form>
       </Form>
-      <div className="text-center text-sm">
-        <span className="text-gray-400">Didn&apos;t receive a code? </span>
+      <div className="text-sm text-muted-foreground">
+        Didn&apos;t receive a code?{" "}
         <Button
           variant="link"
-          className="p-0 h-auto font-medium text-blue-400 hover:underline"
+          className="h-auto p-0 font-medium text-primary transition-colors hover:text-primary/80"
           onClick={onResend}
           disabled={isResendPending || isPending}
         >
