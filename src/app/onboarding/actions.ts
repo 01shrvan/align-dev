@@ -1,6 +1,7 @@
 "use server";
 
 import { validateRequest } from "@/auth";
+import { queueFeedPersonalizationRefresh } from "@/lib/ai/feed-personalization";
 import prisma from "@/lib/prisma";
 import { onboardingSchema, OnboardingValues } from "@/lib/validation";
 import { redirect } from "next/navigation";
@@ -35,6 +36,8 @@ export async function completeOnboarding(
         isOnboarded: true,
       },
     });
+
+    queueFeedPersonalizationRefresh(user.id);
 
     return redirect("/");
   } catch (error) {

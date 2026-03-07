@@ -1,7 +1,11 @@
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
-import { getPostDataInclude, PostsPage } from "@/lib/types";
+import { PostsPage } from "@/lib/types";
 import { SocialFeedAlgorithm } from "@/lib/algorithms/social-feed-engine";
+import {
+  buildFeedPersonalizationSignals,
+  queueFeedPersonalizationRefresh,
+} from "@/lib/ai/feed-personalization";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -85,8 +89,6 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    console.log(`📊 Fetched ${posts.length} posts from database`);
-
     const followingIds = currentUser.following.map((f) => f.followingId);
     const postAuthorIds = [...new Set(posts.map((p) => p.userId))];
     const relevantUserIds = [...new Set([...followingIds, ...postAuthorIds])];
@@ -117,15 +119,17 @@ export async function GET(req: NextRequest) {
       },
     });
 
+    const personalizationSignals = buildFeedPersonalizationSignals(currentUser);
+    queueFeedPersonalizationRefresh(currentUser.id);
+
     const algorithm = new SocialFeedAlgorithm();
     const scoredPosts = algorithm.generateFeed(
-      currentUser as any,
+      currentUser,
       posts,
-      allUsers as any,
+      allUsers,
       "forYou",
+      personalizationSignals,
     );
-
-    console.log(`✅ Algorithm generated ${scoredPosts.length} scored posts`);
 
     let paginatedPosts = scoredPosts;
     if (cursor) {
@@ -161,7 +165,7 @@ export async function GET(req: NextRequest) {
     }));
 
     const data: PostsPage = {
-      posts: serializedPosts as any,
+      posts: serializedPosts,
       nextCursor:
         finalPosts.length === pageSize
           ? finalPosts[finalPosts.length - 1].id

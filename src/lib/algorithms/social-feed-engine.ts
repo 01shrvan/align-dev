@@ -1,11 +1,20 @@
 import { PostData } from "@/lib/types";
-import { User } from "@/generated/prisma";
+import type { FeedPersonalizationSignals } from "@/lib/ai/feed-personalization";
 
 export interface FeedScore {
   postId: string;
   score: number;
   reasons: Array<{
-    type: 'interest' | 'follower' | 'engagement' | 'trending' | 'similar_users' | 'cold_feed';
+    type:
+      | "interest"
+      | "follower"
+      | "engagement"
+      | "trending"
+      | "similar_users"
+      | "cold_feed"
+      | "ai_interest"
+      | "discovery"
+      | "verified";
     description: string;
     weight: number;
   }>;
@@ -19,7 +28,10 @@ export interface SuggestedUser {
   reasons: string[];
 }
 
-interface UserWithRelations extends User {
+interface UserWithRelations {
+  id: string;
+  interests: string[];
+  bio: string | null;
   following: Array<{ followingId: string }>;
   followers: Array<{ followerId: string }>;
 }
@@ -35,6 +47,12 @@ export class SocialFeedAlgorithm {
   private readonly MIN_FEED_ITEMS = 20;
 
   private readonly COLD_FEED_THRESHOLD_HOURS = 48;
+
+  private readonly VERIFIED_PRIOR_WEIGHT = 0.05;
+
+  private readonly MAX_VERIFIED_RATIO = 0.2;
+
+  private readonly EMERGING_CREATOR_FOLLOWER_THRESHOLD = 150;
 
   private jaccardSimilarity(setA: string[], setB: string[]): number {
     if (setA.length === 0 || setB.length === 0) return 0;
@@ -80,13 +98,28 @@ export class SocialFeedAlgorithm {
     }
   }
 
+  private calculateEmergingCreatorBoost(
+    followerCount: number,
+    exploreRatio: number,
+  ): number {
+    const scarcity = Math.max(
+      0,
+      1 - followerCount / this.EMERGING_CREATOR_FOLLOWER_THRESHOLD,
+    );
+    const normalizedExploreRatio = Math.min(Math.max(exploreRatio, 0.1), 0.4);
+
+    return scarcity * normalizedExploreRatio * 0.12;
+  }
+
   scorePostForUser(
     post: PostData,
     currentUser: UserWithRelations,
     allUsers: UserWithRelations[],
-    feedState: FeedState
+    feedState: FeedState,
+    personalizationSignals?: FeedPersonalizationSignals,
+    similarUserIds?: Set<string>,
   ): FeedScore {
-    const reasons: FeedScore['reasons'] = [];
+    const reasons: FeedScore["reasons"] = [];
     let totalScore = 0;
 
     if (!post.user) {
@@ -94,113 +127,154 @@ export class SocialFeedAlgorithm {
       return {
         postId: post.id,
         score: 0,
-        reasons: []
+        reasons: [],
       };
     }
 
-    const isFollowing = currentUser.following.some(f => f.followingId === post.userId);
-    if (isFollowing) {
-      totalScore += 0.4;
-      reasons.push({
-        type: 'follower',
-        description: `From @${post.user.username}`,
-        weight: 0.4
-      });
-    }
-
+    const exploreRatio = personalizationSignals?.exploreRatio ?? 0.24;
     const userInterests = currentUser.interests || [];
+    const aiInterests = personalizationSignals?.adjacentInterests || [];
     const postTopics = this.extractTopicsFromPost(post);
-
-    if (userInterests.length > 0 && postTopics.length > 0) {
-      const interestScore = this.jaccardSimilarity(userInterests, postTopics);
-      const weightedScore = interestScore * 0.25;
-      totalScore += weightedScore;
-
-      if (interestScore > 0.2) {
-        const matches = userInterests.filter(i =>
-          postTopics.some(t => t.toLowerCase().includes(i.toLowerCase()))
-        );
-        if (matches.length > 0) {
-          reasons.push({
-            type: 'interest',
-            description: `Matches: ${matches.slice(0, 2).join(', ')}`,
-            weight: weightedScore
-          });
-        }
-      }
-    }
-
     const likesCount = post._count.likes;
     const commentsCount = post._count.comments;
     const bookmarksCount = post.bookmarks.length;
-
-    const engagementScore = Math.min(
-      (likesCount * 2 + commentsCount * 3 + bookmarksCount * 4) / 100,
-      1
-    );
-    totalScore += engagementScore * 0.2;
-
-    if (engagementScore > 0.3) {
-      reasons.push({
-        type: 'engagement',
-        description: `${likesCount} likes, ${commentsCount} comments`,
-        weight: engagementScore * 0.2
-      });
-    }
-
     const authorFollowerCount = post.user._count?.followers || 0;
-    const socialProofScore = Math.min(authorFollowerCount / 1000, 1) * 0.15;
 
-    if (socialProofScore > 0.05) {
-      totalScore += socialProofScore;
+    const isFollowing = currentUser.following.some(
+      (following) => following.followingId === post.userId,
+    );
+    const isSimilarUser = similarUserIds
+      ? similarUserIds.has(post.userId)
+      : this.findTopSimilarUsers(currentUser, allUsers, 20).some(
+          (similarUser) => similarUser.userId === post.userId,
+        );
+
+    const coreInterestScore =
+      userInterests.length > 0 && postTopics.length > 0
+        ? this.jaccardSimilarity(userInterests, postTopics)
+        : 0;
+    const adjacentInterestScore =
+      aiInterests.length > 0 && postTopics.length > 0
+        ? this.jaccardSimilarity(aiInterests, postTopics)
+        : 0;
+
+    const relationshipRaw = (isFollowing ? 1 : 0) + (isSimilarUser ? 0.5 : 0);
+    const relationshipScore = Math.min(1, relationshipRaw / 1.5);
+
+    const predictedEngagementRaw =
+      likesCount * 2 + commentsCount * 3 + bookmarksCount * 5;
+    const predictedEngagementScore = Math.min(predictedEngagementRaw / 120, 1);
+
+    const ageInHours =
+      (Date.now() - new Date(post.createdAt).getTime()) / (1000 * 60 * 60);
+    const recencyScore = this.calculateRecencyScore(ageInHours, feedState.isCold);
+
+    const noveltyScore =
+      (!isFollowing ? 0.6 : 0) +
+      (authorFollowerCount <= this.EMERGING_CREATOR_FOLLOWER_THRESHOLD ? 0.4 : 0);
+    const normalizedNoveltyScore = Math.min(1, noveltyScore);
+
+    const fairnessScore = Math.max(
+      0,
+      1 - authorFollowerCount / (this.EMERGING_CREATOR_FOLLOWER_THRESHOLD * 3),
+    );
+
+    totalScore += coreInterestScore * 0.3;
+    totalScore += adjacentInterestScore * 0.12;
+    totalScore += relationshipScore * 0.14;
+    totalScore += predictedEngagementScore * 0.16;
+    totalScore += recencyScore * 0.1;
+    totalScore += normalizedNoveltyScore * 0.08;
+    totalScore += fairnessScore * 0.08;
+
+    if (post.user.isVerified) {
+      totalScore += this.VERIFIED_PRIOR_WEIGHT;
       reasons.push({
-        type: 'follower',
-        description: `Popular creator`,
-        weight: socialProofScore
+        type: "verified",
+        description: "Verified creator",
+        weight: this.VERIFIED_PRIOR_WEIGHT,
       });
     }
 
-    const ageInHours = (Date.now() - new Date(post.createdAt).getTime()) / (1000 * 60 * 60);
-    const recencyScore = this.calculateRecencyScore(ageInHours, feedState.isCold) * 0.1;
-    totalScore += recencyScore;
+    if (coreInterestScore > 0.15) {
+      const matches = userInterests.filter((interest) =>
+        postTopics.some((topic) =>
+          topic.toLowerCase().includes(interest.toLowerCase()),
+        ),
+      );
+      if (matches.length > 0) {
+        reasons.push({
+          type: "interest",
+          description: `Matches: ${matches.slice(0, 2).join(", ")}`,
+          weight: coreInterestScore * 0.3,
+        });
+      }
+    }
+
+    if (adjacentInterestScore > 0.14) {
+      const adjacentMatches = aiInterests.filter((interest) =>
+        postTopics.some((topic) =>
+          topic.toLowerCase().includes(interest.toLowerCase()),
+        ),
+      );
+      if (adjacentMatches.length > 0) {
+        reasons.push({
+          type: "ai_interest",
+          description: `Adjacent: ${adjacentMatches.slice(0, 2).join(", ")}`,
+          weight: adjacentInterestScore * 0.12,
+        });
+      }
+    }
+
+    if (relationshipScore > 0.45) {
+      reasons.push({
+        type: isFollowing ? "follower" : "similar_users",
+        description: isFollowing ? `From @${post.user.username}` : "From similar user",
+        weight: relationshipScore * 0.14,
+      });
+    }
+
+    if (normalizedNoveltyScore > 0.5 || fairnessScore > 0.5) {
+      const discoveryWeight = Math.max(
+        normalizedNoveltyScore * 0.08,
+        fairnessScore * 0.08,
+      );
+      reasons.push({
+        type: "discovery",
+        description: "Emerging creator",
+        weight: discoveryWeight,
+      });
+    }
+
+    if (predictedEngagementScore > 0.3) {
+      reasons.push({
+        type: "engagement",
+        description: `${likesCount} likes, ${commentsCount} comments`,
+        weight: predictedEngagementScore * 0.16,
+      });
+    }
 
     if (ageInHours < 2) {
       reasons.push({
-        type: 'trending',
-        description: 'Recently posted',
-        weight: recencyScore
-      });
-    } else if (feedState.isCold && ageInHours > this.COLD_FEED_THRESHOLD_HOURS) {
-      reasons.push({
-        type: 'cold_feed',
-        description: 'From earlier posts',
-        weight: recencyScore
+        type: "trending",
+        description: "Recently posted",
+        weight: recencyScore * 0.1,
       });
     }
 
-    const similarUsers = this.findTopSimilarUsers(currentUser, allUsers, 20);
-    const isSimilarUser = similarUsers.some(su => su.userId === post.userId);
+    totalScore += this.calculateEmergingCreatorBoost(authorFollowerCount, exploreRatio);
 
-    if (isSimilarUser) {
-      totalScore += 0.1;
-      reasons.push({
-        type: 'similar_users',
-        description: 'From similar user',
-        weight: 0.1
-      });
-    }
-
-    if (post.likes.some(like => like.userId === currentUser.id)) {
+    if (post.likes.some((like) => like.userId === currentUser.id)) {
       totalScore *= 0.3;
     }
-    if (post.bookmarks.some(bookmark => bookmark.userId === currentUser.id)) {
+    if (post.bookmarks.some((bookmark) => bookmark.userId === currentUser.id)) {
       totalScore *= 0.5;
     }
 
     return {
       postId: post.id,
       score: totalScore,
-      reasons: reasons.sort((a, b) => b.weight - a.weight).slice(0, 2)
+      reasons: reasons.sort((a, b) => b.weight - a.weight).slice(0, 2),
     };
   }
 
@@ -208,14 +282,12 @@ export class SocialFeedAlgorithm {
     currentUser: UserWithRelations,
     allPosts: PostData[],
     allUsers: UserWithRelations[],
-    feedType: 'forYou' | 'following'
+    feedType: "forYou" | "following",
+    personalizationSignals?: FeedPersonalizationSignals,
   ): Array<PostData & { feedScore: FeedScore }> {
-
     const feedState = this.detectFeedState(allPosts);
 
-    console.log(`🔍 Feed State: ${feedState.isCold ? 'COLD' : 'ACTIVE'} | Newest post: ${feedState.newestPostAge.toFixed(1)}h ago | Total posts: ${feedState.totalPosts}`);
-
-    const validPosts = allPosts.filter(post => {
+    const validPosts = allPosts.filter((post) => {
       if (!post.user) {
         console.error("Filtering out post without user data:", post.id);
         return false;
@@ -223,151 +295,89 @@ export class SocialFeedAlgorithm {
       return true;
     });
 
-    const verifiedPosts: PostData[] = [];
-    const nonVerifiedPosts: PostData[] = [];
+    const followingIds = new Set(
+      currentUser.following.map((following) => following.followingId),
+    );
+    const availableUserIds = new Set(allUsers.map((user) => user.id));
 
-    for (const post of validPosts) {
-      if (feedType === 'forYou' && post.userId === currentUser.id) {
-        continue;
+    const candidatePosts = validPosts.filter((post) => {
+      if (feedType === "forYou" && post.userId === currentUser.id) {
+        return false;
       }
 
-      const author = allUsers.find(u => u.id === post.userId);
-      if (!author) continue;
-
-      if (post.user.isVerified) {
-        verifiedPosts.push(post);
-      } else {
-        nonVerifiedPosts.push(post);
+      if (feedType === "following" && !followingIds.has(post.userId)) {
+        return false;
       }
-    }
 
-    const scoredVerifiedPosts = verifiedPosts.map(post => {
-      return {
-        ...post,
-        user: post.user,
-        feedScore: {
-          postId: post.id,
-          score: 999,
-          reasons: [{
-            type: 'follower' as const,
-            description: `Verified creator: @${post.user.username}`,
-            weight: 999
-          }]
-        }
-      };
+      return availableUserIds.has(post.userId);
     });
 
-    let filteredNonVerified = nonVerifiedPosts;
-
-    if (feedType === 'following') {
-      const followingIds = currentUser.following.map(f => f.followingId);
-      filteredNonVerified = nonVerifiedPosts.filter(post =>
-        followingIds.includes(post.userId)
-      );
-    }
-
-    const scoredNonVerifiedPosts = filteredNonVerified
-      .map(post => {
-        const author = allUsers.find(u => u.id === post.userId);
-        if (!author) return null;
-
-        const feedScore = this.scorePostForUser(post, currentUser, allUsers, feedState);
-
-        return {
-          ...post,
-          user: post.user,
-          feedScore
-        };
-      })
-      .filter((item): item is NonNullable<typeof item> => item !== null);
-
-    const scoreThreshold = feedState.isCold ? 0.05 : 0.1;
-
-    const filteredScoredPosts = scoredNonVerifiedPosts
-      .filter(item => item.feedScore.score > scoreThreshold)
-      .sort((a, b) => b.feedScore.score - a.feedScore.score);
-
-    const hasInterestMatches = filteredScoredPosts.some(
-      post => post.feedScore.reasons.some(r => r.type === 'interest')
+    const similarUserIds = new Set(
+      this.findTopSimilarUsers(currentUser, allUsers, 20).map(
+        (similarUser) => similarUser.userId,
+      ),
     );
 
-    let finalNonVerifiedPosts: typeof scoredNonVerifiedPosts;
-
-    if (!hasInterestMatches && feedType === 'forYou') {
-      console.log('🔄 No interest matches found, showing all posts as fallback');
-
-      finalNonVerifiedPosts = nonVerifiedPosts
-        .filter(post => post.userId !== currentUser.id)
-        .map(post => {
-          const author = allUsers.find(u => u.id === post.userId);
-          if (!author) return null;
-
-          const ageInHours = (Date.now() - new Date(post.createdAt).getTime()) / (1000 * 60 * 60);
-          const recencyScore = this.calculateRecencyScore(ageInHours, feedState.isCold);
-          const engagementScore = Math.min(post._count.likes / 100, 1);
-          const fallbackScore = (recencyScore * 0.6) + (engagementScore * 0.4);
-
-          return {
-            ...post,
-            user: post.user,
-            feedScore: {
-              postId: post.id,
-              score: fallbackScore,
-              reasons: [{
-                type: 'engagement' as const,
-                description: feedState.isCold ? 'From earlier posts' : 'Suggested for you',
-                weight: fallbackScore
-              }]
-            }
-          };
-        })
-        .filter((item): item is NonNullable<typeof item> => item !== null)
-        .sort((a, b) => b.feedScore.score - a.feedScore.score);
-    } else {
-      finalNonVerifiedPosts = filteredScoredPosts;
-    }
-
-    const combinedFeed = [
-      ...scoredVerifiedPosts.sort((a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    const scoredPosts = candidatePosts.map((post) => ({
+      ...post,
+      user: post.user,
+      feedScore: this.scorePostForUser(
+        post,
+        currentUser,
+        allUsers,
+        feedState,
+        personalizationSignals,
+        similarUserIds,
       ),
-      ...finalNonVerifiedPosts
-    ];
+    }));
 
-    const diversifiedFeed = this.diversifyByAuthorPreservingVerified(combinedFeed, 3);
+    const scoreThreshold = feedState.isCold ? 0.03 : 0.06;
+    const sortedScoredPosts = scoredPosts
+      .filter((item) => item.feedScore.score > scoreThreshold)
+      .sort((a, b) => b.feedScore.score - a.feedScore.score);
 
-    if (diversifiedFeed.length < this.MIN_FEED_ITEMS && feedType === 'forYou') {
-      console.log(`📦 Backfilling feed: ${diversifiedFeed.length} → ${this.MIN_FEED_ITEMS} posts`);
+    const finalScoredPosts =
+      feedType === "forYou"
+        ? this.composeForYouMix(sortedScoredPosts, currentUser, personalizationSignals)
+        : sortedScoredPosts;
 
-      const includedIds = new Set(diversifiedFeed.map(p => p.id));
+    const verifiedBalancedFeed = this.balanceVerifiedPresence(
+      finalScoredPosts,
+      this.MAX_VERIFIED_RATIO,
+    );
+    const diversifiedFeed = this.diversifyByAuthor(verifiedBalancedFeed, 2);
+    const jitteredFeed = this.jitterWithinBands(diversifiedFeed);
+
+    if (jitteredFeed.length < this.MIN_FEED_ITEMS && feedType === "forYou") {
+      const includedIds = new Set(jitteredFeed.map((post) => post.id));
       const remainingPosts = validPosts
-        .filter(post =>
-          !includedIds.has(post.id) &&
-          post.userId !== currentUser.id
-        )
-        .sort((a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        .filter((post) => !includedIds.has(post.id) && post.userId !== currentUser.id)
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         );
 
       const backfillNeeded = this.MIN_FEED_ITEMS - diversifiedFeed.length;
-      const backfillPosts = remainingPosts.slice(0, backfillNeeded).map(post => ({
+      const backfillPosts = remainingPosts.slice(0, backfillNeeded).map((post) => ({
         ...post,
         user: post.user,
         feedScore: {
           postId: post.id,
           score: 0.01,
-          reasons: [{
-            type: 'cold_feed' as const,
-            description: 'Showing posts due to low activity',
-            weight: 0.01
-          }]
-        }
+          reasons: [
+            {
+              type: "cold_feed" as const,
+              description: "Showing posts due to low activity",
+              weight: 0.01,
+            },
+          ],
+        },
       }));
 
-      return [...diversifiedFeed, ...backfillPosts];
+      return [...jitteredFeed, ...backfillPosts];
     }
 
-    return diversifiedFeed;
+    return jitteredFeed;
   }
 
   findSimilarUsers(
@@ -480,25 +490,161 @@ export class SocialFeedAlgorithm {
       .slice(0, limit);
   }
 
-  private diversifyByAuthorPreservingVerified<T extends { userId: string; user: any; feedScore: { score: number } }>(
+  private composeForYouMix<
+    T extends {
+      userId: string;
+      user: { isVerified?: boolean; _count?: { followers?: number } };
+      feedScore: FeedScore;
+    },
+  >(
     items: T[],
-    maxPerAuthor: number
+    currentUser: UserWithRelations,
+    personalizationSignals?: FeedPersonalizationSignals,
   ): T[] {
-    const verified = items.filter(item => item.feedScore.score >= 999);
-    const others = items.filter(item => item.feedScore.score < 999);
+    const exploreRatio = personalizationSignals?.exploreRatio ?? 0.24;
+    const followingSet = new Set(
+      currentUser.following.map((following) => following.followingId),
+    );
 
-    const authorCounts = new Map<string, number>();
-    const diversifiedOthers: T[] = [];
+    const coreInterestPool = items.filter((item) =>
+      item.feedScore.reasons.some((reason) => reason.type === "interest"),
+    );
+    const adjacentInterestPool = items.filter((item) =>
+      item.feedScore.reasons.some((reason) => reason.type === "ai_interest"),
+    );
+    const socialPool = items.filter((item) => followingSet.has(item.userId));
+    const emergingPool = items.filter((item) => {
+      const followers = item.user._count?.followers || 0;
+      return followers <= this.EMERGING_CREATOR_FOLLOWER_THRESHOLD;
+    });
+    const wildcardPool = [...items];
 
-    for (const item of others) {
-      const count = authorCounts.get(item.userId) || 0;
-      if (count < maxPerAuthor) {
-        diversifiedOthers.push(item);
-        authorCounts.set(item.userId, count + 1);
+    const targetCount = Math.max(this.MIN_FEED_ITEMS, Math.min(items.length, 40));
+    const counts = {
+      core: Math.max(4, Math.floor(targetCount * (0.45 - exploreRatio * 0.2))),
+      social: Math.max(2, Math.floor(targetCount * 0.2)),
+      emerging: Math.max(3, Math.floor(targetCount * (0.18 + exploreRatio * 0.25))),
+      adjacent: Math.max(2, Math.floor(targetCount * (0.1 + exploreRatio * 0.2))),
+      wildcard: Math.max(1, Math.floor(targetCount * 0.07)),
+    };
+
+    const selected: T[] = [];
+    const selectedIds = new Set<string>();
+
+    const pickFromPool = (pool: T[], amount: number) => {
+      if (amount <= 0) {
+        return;
+      }
+
+      let picked = 0;
+
+      for (const item of pool) {
+        if (selected.length >= targetCount || picked >= amount) {
+          break;
+        }
+
+        if (selectedIds.has(item.feedScore.postId)) {
+          continue;
+        }
+
+        selected.push(item);
+        selectedIds.add(item.feedScore.postId);
+        picked += 1;
+      }
+    };
+
+    pickFromPool(coreInterestPool, counts.core);
+    pickFromPool(socialPool, counts.social);
+    pickFromPool(emergingPool, counts.emerging);
+    pickFromPool(adjacentInterestPool, counts.adjacent);
+    pickFromPool(wildcardPool, counts.wildcard);
+
+    for (const item of items) {
+      if (selected.length >= items.length) {
+        break;
+      }
+
+      if (selectedIds.has(item.feedScore.postId)) {
+        continue;
+      }
+
+      selected.push(item);
+      selectedIds.add(item.feedScore.postId);
+    }
+
+    return selected;
+  }
+
+  private jitterWithinBands<T extends { feedScore: { score: number } }>(
+    items: T[],
+  ): T[] {
+    if (items.length <= 6) {
+      return items;
+    }
+
+    const sorted = [...items].sort((a, b) => b.feedScore.score - a.feedScore.score);
+    const chunkSize = 4;
+    const jittered: T[] = [];
+
+    for (let index = 0; index < sorted.length; index += chunkSize) {
+      const chunk = sorted.slice(index, index + chunkSize);
+      chunk.sort(() => Math.random() - 0.5);
+      jittered.push(...chunk);
+    }
+
+    return jittered;
+  }
+
+  private balanceVerifiedPresence<
+    T extends { userId: string; user: { isVerified?: boolean } },
+  >(
+    items: T[],
+    maxVerifiedRatio: number,
+  ): T[] {
+    if (!items.length) {
+      return items;
+    }
+
+    const maxVerifiedItems = Math.max(1, Math.floor(items.length * maxVerifiedRatio));
+    let includedVerified = 0;
+
+    const prioritized: T[] = [];
+    const deferredVerified: T[] = [];
+
+    for (const item of items) {
+      if (item.user?.isVerified) {
+        if (includedVerified < maxVerifiedItems) {
+          prioritized.push(item);
+          includedVerified += 1;
+        } else {
+          deferredVerified.push(item);
+        }
+      } else {
+        prioritized.push(item);
       }
     }
 
-    return [...verified, ...diversifiedOthers];
+    return [...prioritized, ...deferredVerified];
+  }
+
+  private diversifyByAuthor<T extends { userId: string }>(
+    items: T[],
+    maxPerAuthor: number,
+  ): T[] {
+    const authorCounts = new Map<string, number>();
+    const diversifiedItems: T[] = [];
+
+    for (const item of items) {
+      const count = authorCounts.get(item.userId) || 0;
+      if (count >= maxPerAuthor) {
+        continue;
+      }
+
+      diversifiedItems.push(item);
+      authorCounts.set(item.userId, count + 1);
+    }
+
+    return diversifiedItems;
   }
 
   getTrendingPosts(allPosts: PostData[], hoursWindow: number = 24): PostData[] {
