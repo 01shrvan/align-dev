@@ -2,7 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { PlusSignIcon } from "hugeicons-react";
-import { completeOnboarding } from "@/app/onboarding/actions";
+import {
+  completeOnboarding,
+  getGlobalInterests,
+} from "@/app/onboarding/actions";
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -64,6 +67,24 @@ export default function Step3Interests() {
     hasTyped.current ? 0 : 30,
   );
   const [showSubtitle, setShowSubtitle] = useState(hasTyped.current);
+
+  // Fetch global interests on mount
+  useEffect(() => {
+    async function fetchInterests() {
+      try {
+        const globalInterests = await getGlobalInterests();
+        if (globalInterests.length > 0) {
+          setAvailableInterests((prev) => {
+            const combined = new Set([...prev, ...globalInterests]);
+            return Array.from(combined);
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch interests", err);
+      }
+    }
+    fetchInterests();
+  }, []);
 
   useEffect(() => {
     if (isComplete && !hasTyped.current) {
@@ -170,7 +191,9 @@ export default function Step3Interests() {
         <p
           className={cn(
             "text-sm text-muted-foreground transition-all duration-500 sm:text-base",
-            showSubtitle ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
+            showSubtitle
+              ? "translate-y-0 opacity-100"
+              : "translate-y-4 opacity-0",
           )}
         >
           {showSubtitle && subtitle}
@@ -187,7 +210,10 @@ export default function Step3Interests() {
               : "translate-y-4 opacity-0",
           )}
         >
-          <form onSubmit={handleAddInterest} className="shrink-0 relative flex items-center gap-2">
+          <form
+            onSubmit={handleAddInterest}
+            className="shrink-0 relative flex items-center gap-2"
+          >
             <Input
               type="text"
               placeholder="Can't find yours? Type and press Enter..."

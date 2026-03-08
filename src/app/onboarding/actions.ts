@@ -7,6 +7,27 @@ import { onboardingSchema, OnboardingValues } from "@/lib/validation";
 import { redirect } from "next/navigation";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
+export async function getGlobalInterests(): Promise<string[]> {
+  try {
+    const { user } = await validateRequest();
+    if (!user) return [];
+
+    const users = await prisma.user.findMany({
+      select: { interests: true },
+    });
+
+    const allInterests = new Set<string>();
+    users.forEach((u) => {
+      u.interests.forEach((interest) => allInterests.add(interest));
+    });
+
+    return Array.from(allInterests);
+  } catch (error) {
+    console.error("Failed to fetch global interests:", error);
+    return [];
+  }
+}
+
 export async function completeOnboarding(
   data: OnboardingValues,
 ): Promise<{ error?: string; success?: boolean }> {
@@ -19,11 +40,7 @@ export async function completeOnboarding(
 
     const validatedData = onboardingSchema.parse(data);
 
-    const bio = [
-      validatedData.story,
-      validatedData.creating,
-      validatedData.why,
-    ]
+    const bio = [validatedData.story, validatedData.creating, validatedData.why]
       .filter(Boolean)
       .join("\n\n");
 

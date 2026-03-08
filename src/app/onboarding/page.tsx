@@ -43,10 +43,7 @@ export default function OnboardingPage() {
           <div className="space-y-6">
             <Image src={logo} alt="Align" className="h-14 w-14" priority />
             <div className="space-y-4">
-              {/*<p className="text-xs uppercase tracking-[0.28em] text-foreground/80 drop-shadow-md">
-                Onboarding
-              </p>*/}
-              <h1 className="font-serif text-6xl leading-[1.05] text-foreground drop-shadow-sm">
+              <h1 className="font-serif text-6xl leading-[1.05] text-[#dddbcb] drop-shadow-sm">
                 Let&apos;s tune
                 <br />
                 your profile.
@@ -61,13 +58,18 @@ export default function OnboardingPage() {
                 <div
                   key={label}
                   className={cn(
-                    "rounded-2xl border px-4 py-3 text-sm transition-all",
+                    "rounded-2xl border px-4 py-3 text-sm transition-all font-medium",
                     isActive
-                      ? "border-primary/40 bg-primary/10 text-foreground"
-                      : "border-border/40 bg-background/20 text-muted-foreground",
+                      ? "border-primary/40 bg-black/80 text-[#dddbcb] shadow-lg"
+                      : "border-border/20 bg-black/40 text-[#dddbcb]/70 backdrop-blur-sm",
                   )}
                 >
-                  <span className="mr-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                  <span
+                    className={cn(
+                      "mr-3 text-xs uppercase tracking-[0.18em]",
+                      isActive ? "text-primary" : "text-muted-foreground/60",
+                    )}
+                  >
                     0{index + 1}
                   </span>
                   {label}
@@ -95,7 +97,7 @@ export default function OnboardingPage() {
           <div className="shrink-0">
             <OnboardingProgress />
           </div>
-          
+
           <div className="flex-1 min-h-0 w-full pt-8 pb-4 flex flex-col">
             {renderStep()}
           </div>
