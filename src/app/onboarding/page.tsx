@@ -78,9 +78,9 @@ export default function OnboardingPage() {
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-4 sm:px-6 lg:px-16 py-8 relative">
-        <div className="w-full max-w-xl mx-auto">
-          <div className="mb-8 flex items-center justify-between lg:hidden">
+      <div className="w-full lg:w-1/2 flex flex-col px-4 sm:px-6 lg:px-16 py-8 relative h-screen overflow-hidden">
+        <div className="w-full max-w-xl mx-auto h-full flex flex-col">
+          <div className="shrink-0 mb-8 flex items-center justify-between lg:hidden">
             <div className="flex items-center gap-3">
               <Image src={logo} alt="Align" className="h-10 w-10" priority />
               <span className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
@@ -92,8 +92,13 @@ export default function OnboardingPage() {
             </span>
           </div>
 
-          <OnboardingProgress />
-          {renderStep()}
+          <div className="shrink-0">
+            <OnboardingProgress />
+          </div>
+          
+          <div className="flex-1 min-h-0 w-full pt-8 pb-4 flex flex-col">
+            {renderStep()}
+          </div>
         </div>
       </div>
     </div>
