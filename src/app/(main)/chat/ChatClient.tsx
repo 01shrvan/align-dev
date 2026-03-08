@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Compass, CornerDownLeft } from "@/lib/icons";
+import { Compass, ChevronUpIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSession } from "../SessionProvider";
@@ -143,8 +143,8 @@ export default function ChatClient({
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6">
-        <div className="flex flex-col min-h-full space-y-8">
+      <div className="flex-1 overflow-y-auto custom-scrollbar relative">
+        <div className="flex flex-col min-h-full space-y-8 p-4 sm:p-6 pb-6">
           {messages.map((msg, idx) => (
             <ChatMessage
               key={idx}
@@ -159,7 +159,7 @@ export default function ChatClient({
         </div>
       </div>
 
-      <div className="flex-none p-4 border-t border-dashed border-border/60 bg-background/60 backdrop-blur-md">
+      <div className="sticky bottom-[60px] sm:bottom-0 p-4 border-t border-dashed border-border/60 bg-background/80 backdrop-blur-md z-20 mt-auto">
         <div className="max-w-4xl mx-auto">
           <div className="relative flex items-end gap-2 bg-background border border-border shadow-sm rounded-xl p-2 focus-within:ring-1 focus-within:ring-primary/30 focus-within:border-primary/50 transition-all">
             <Textarea
@@ -183,7 +183,7 @@ export default function ChatClient({
                   : "bg-muted text-muted-foreground hover:bg-muted opacity-50 cursor-not-allowed",
               )}
             >
-              <CornerDownLeft className="w-4 h-4" />
+              <ChevronUpIcon className="w-5 h-5" />
             </Button>
           </div>
           <div className="flex justify-between items-center mt-2 px-1">
