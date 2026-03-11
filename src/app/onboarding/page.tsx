@@ -80,7 +80,7 @@ export default function OnboardingPage() {
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 flex flex-col px-4 sm:px-6 lg:px-16 py-8 relative h-screen overflow-hidden">
+      <div className="w-full lg:w-1/2 flex flex-col px-4 sm:px-6 lg:px-16 py-8 relative min-h-screen lg:h-screen overflow-y-auto overflow-x-hidden">
         <div className="w-full max-w-xl mx-auto h-full flex flex-col">
           <div className="shrink-0 mb-8 flex items-center justify-between lg:hidden">
             <div className="flex items-center gap-3">
@@ -98,7 +98,7 @@ export default function OnboardingPage() {
             <OnboardingProgress />
           </div>
 
-          <div className="flex-1 min-h-0 w-full pt-8 pb-4 flex flex-col">
+          <div className="flex-1 min-h-0 w-full pt-8 pb-10 sm:pb-12 flex flex-col">
             {renderStep()}
           </div>
         </div>
