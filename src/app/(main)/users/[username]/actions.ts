@@ -17,26 +17,31 @@ export async function updateUserProfile(values: UpdateUserProfileValues) {
 
   if (!user) throw new Error("Unauthorized");
 
-  const bio = validatedValues.bio?.trim();
+  const story = validatedValues.story.trim();
+  const creating = validatedValues.creating.trim();
+  const why = validatedValues.why.trim();
+  const bio = [story, creating, why].filter(Boolean).join("\n\n");
   let bioEmbeddingVector: string | null | undefined;
 
-  if (typeof validatedValues.bio === "string") {
-    if (bio) {
-      try {
-        const embedding = await getEmbedding(bio);
-        bioEmbeddingVector = `[${embedding.join(",")}]`;
-      } catch (error) {
-        console.error("Failed to refresh bio embedding", error);
-        bioEmbeddingVector = null;
-      }
-    } else {
+  if (bio) {
+    try {
+      const embedding = await getEmbedding(bio);
+      bioEmbeddingVector = `[${embedding.join(",")}]`;
+    } catch (error) {
+      console.error("Failed to refresh bio embedding", error);
       bioEmbeddingVector = null;
     }
+  } else {
+    bioEmbeddingVector = null;
   }
 
   const updatedUser = await prisma.user.update({
     where: { id: user.id },
-    data: validatedValues,
+    data: {
+      displayName: validatedValues.displayName,
+      bio: bio || null,
+      interests: validatedValues.interests,
+    },
     select: getUserDataSelect(user.id),
   });
 

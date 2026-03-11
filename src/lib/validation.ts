@@ -86,7 +86,13 @@ export type CreatePostValues = z.infer<typeof createPostSchema>;
 
 export const updateUserProfileSchema = z.object({
   displayName: requiredString,
-  bio: z.string().max(1000, "Must be at most 1000 characters"),
+  story: z.string().max(500, "Must be at most 500 characters"),
+  creating: z.string().max(300, "Must be at most 300 characters"),
+  why: z.string().max(300, "Must be at most 300 characters"),
+  interests: z
+    .array(z.string().trim().min(1, "Interest cannot be empty"))
+    .min(3, "Select at least 3 interests")
+    .max(5, "Select up to 5 interests"),
 });
 
 export const createCommentSchema = z.object({

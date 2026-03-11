@@ -6,7 +6,7 @@ import { useState } from "react";
 import EditProfileDialog from "./EditProfileDialog";
 
 interface EditProfileButtonProps {
-  user: UserData;
+  user: UserData & { interests: string[] };
 }
 
 export default function EditProfileButton({ user }: EditProfileButtonProps) {
