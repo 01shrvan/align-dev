@@ -8,6 +8,8 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
+const NOTIFICATION_EVENT_NAME = "align:notification-received";
+
 interface NotificationsButtonProps {
   initialState: NotificationCountInfo;
   className?: string;
@@ -38,11 +40,34 @@ export default function NotificationsButton({
     };
 
     fetchUnreadCount();
-    const intervalId = setInterval(fetchUnreadCount, 60 * 1000);
+
+    const handlePushNotification = () => {
+      void fetchUnreadCount();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        void fetchUnreadCount();
+      }
+    };
+
+    window.addEventListener(NOTIFICATION_EVENT_NAME, handlePushNotification);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    const intervalId = setInterval(() => {
+      if (document.visibilityState === "visible") {
+        void fetchUnreadCount();
+      }
+    }, 30 * 1000);
 
     return () => {
       isMounted = false;
       clearInterval(intervalId);
+      window.removeEventListener(
+        NOTIFICATION_EVENT_NAME,
+        handlePushNotification,
+      );
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 

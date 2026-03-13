@@ -1,4 +1,5 @@
 import { validateRequest } from "@/auth";
+import { createNotificationAndDeliver } from "@/lib/notifications/delivery";
 import prisma from "@/lib/prisma";
 import { LikeInfo } from "@/lib/types";
 
@@ -72,33 +73,28 @@ export async function POST(
       return Response.json({ error: "Post not found" }, { status: 404 });
     }
 
-    await prisma.$transaction([
-      prisma.like.upsert({
-        where: {
-          userId_postId: {
-            userId: loggedInUser.id,
-            postId,
-          },
-        },
-        create: {
+    await prisma.like.upsert({
+      where: {
+        userId_postId: {
           userId: loggedInUser.id,
           postId,
         },
-        update: {},
-      }),
-      ...(loggedInUser.id !== post.userId
-        ? [
-            prisma.notification.create({
-              data: {
-                issuerId: loggedInUser.id,
-                recipientId: post.userId,
-                postId,
-                type: "LIKE",
-              },
-            }),
-          ]
-        : []),
-    ]);
+      },
+      create: {
+        userId: loggedInUser.id,
+        postId,
+      },
+      update: {},
+    });
+
+    if (loggedInUser.id !== post.userId) {
+      await createNotificationAndDeliver({
+        issuerId: loggedInUser.id,
+        recipientId: post.userId,
+        postId,
+        type: "LIKE",
+      });
+    }
 
     return new Response();
   } catch (error) {

@@ -26,6 +26,12 @@ function getNotificationText(notification: NotificationData): string {
     case "ALIGNERS":
       return "mentioned @aligners";
 
+    case "COMMENT_LIKE":
+      return "liked your comment";
+
+    case "COMMENT_REPLY":
+      return "replied to your comment";
+
     default:
       return "New notification";
   }
@@ -50,6 +56,14 @@ function getNotificationIcon(type: NotificationType) {
     case "ALIGNERS":
       return <Users className="size-5 md:size-7 text-primary" />;
 
+    case "COMMENT_LIKE":
+      return <Heart className="size-5 md:size-7 fill-red-500 text-red-500" />;
+
+    case "COMMENT_REPLY":
+      return (
+        <MessageCircle className="size-5 md:size-7 fill-primary text-primary" />
+      );
+
     default:
       return <Bell className="size-5 md:size-7" />;
   }
@@ -64,10 +78,14 @@ function getNotificationHref(notification: NotificationData): string {
     case "COMMENT":
     case "MENTION":
     case "ALIGNERS":
-      return `/posts/${notification.postId}`;
+    case "COMMENT_LIKE":
+    case "COMMENT_REPLY":
+      return notification.postId
+        ? `/posts/${notification.postId}`
+        : "/notifications";
 
     default:
-      return "/";
+      return "/notifications";
   }
 }
 

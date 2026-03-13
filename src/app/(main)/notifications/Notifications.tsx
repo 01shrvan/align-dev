@@ -13,6 +13,8 @@ import { Loader2 } from "@/lib/icons";
 import { useEffect } from "react";
 import Notification from "./Notification";
 
+const NOTIFICATION_EVENT_NAME = "align:notification-received";
+
 export default function Notifications() {
   const {
     data,
@@ -20,6 +22,7 @@ export default function Notifications() {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
+    refetch,
     status,
   } = useInfiniteQuery({
     queryKey: ["notifications"],
@@ -56,6 +59,21 @@ export default function Notifications() {
       mutate();
     }
   }, [mutate, data]);
+
+  useEffect(() => {
+    const handlePushNotification = () => {
+      void refetch();
+    };
+
+    window.addEventListener(NOTIFICATION_EVENT_NAME, handlePushNotification);
+
+    return () => {
+      window.removeEventListener(
+        NOTIFICATION_EVENT_NAME,
+        handlePushNotification,
+      );
+    };
+  }, [refetch]);
 
   const notifications = data?.pages.flatMap((page) => page.notifications) || [];
 

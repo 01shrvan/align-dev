@@ -1,6 +1,7 @@
 "use server";
 
 import { validateRequest } from "@/auth";
+import { createManyNotificationsAndDeliver } from "@/lib/notifications/delivery";
 import prisma from "@/lib/prisma";
 import { extractMentions } from "@/lib/utils/mentions";
 
@@ -28,30 +29,31 @@ export async function submitPost(input: {
       const usersWithTag = await prisma.user.findMany({
         where: {
           tags: {
-            has: tag
+            has: tag,
           },
-          id: { not: user.id }
+          id: { not: user.id },
         },
-        select: { id: true }
+        select: { id: true },
       });
 
       if (usersWithTag.length > 0) {
         const BATCH_SIZE = 1000;
+
         for (let i = 0; i < usersWithTag.length; i += BATCH_SIZE) {
           const batch = usersWithTag.slice(i, i + BATCH_SIZE);
 
-          await prisma.notification.createMany({
-            data: batch.map(u => ({
+          await createManyNotificationsAndDeliver(
+            batch.map((recipient) => ({
               issuerId: user.id,
-              recipientId: u.id,
+              recipientId: recipient.id,
               postId: newPost.id,
               type: "ALIGNERS",
             })),
-            skipDuplicates: true,
-          });
+            {
+              skipDuplicates: true,
+            },
+          );
         }
-
-        console.log(`🔔 Sent @${tag} notification to ${usersWithTag.length} users`);
       }
     }
   }
@@ -60,21 +62,23 @@ export async function submitPost(input: {
     const mentionedUsers = await prisma.user.findMany({
       where: {
         username: { in: userMentions },
-        id: { not: user.id }
+        id: { not: user.id },
       },
-      select: { id: true }
+      select: { id: true },
     });
 
     if (mentionedUsers.length > 0) {
-      await prisma.notification.createMany({
-        data: mentionedUsers.map(u => ({
+      await createManyNotificationsAndDeliver(
+        mentionedUsers.map((mentionedUser) => ({
           issuerId: user.id,
-          recipientId: u.id,
+          recipientId: mentionedUser.id,
           postId: newPost.id,
           type: "MENTION",
         })),
-        skipDuplicates: true,
-      });
+        {
+          skipDuplicates: true,
+        },
+      );
     }
   }
 

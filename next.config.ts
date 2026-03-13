@@ -36,24 +36,24 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/manifest.json',
+        source: "/manifest.json",
         headers: [
           {
-            key: 'Content-Type',
-            value: 'application/manifest+json',
+            key: "Content-Type",
+            value: "application/manifest+json",
           },
         ],
       },
       {
-        source: '/sw.js',
+        source: "/service-worker.js",
         headers: [
           {
-            key: 'Content-Type',
-            value: 'application/javascript',
+            key: "Content-Type",
+            value: "application/javascript",
           },
           {
-            key: 'Service-Worker-Allowed',
-            value: '/',
+            key: "Service-Worker-Allowed",
+            value: "/",
           },
         ],
       },

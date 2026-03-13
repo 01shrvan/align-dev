@@ -1,4 +1,5 @@
 import { validateRequest } from "@/auth";
+import { createNotificationAndDeliver } from "@/lib/notifications/delivery";
 import prisma from "@/lib/prisma";
 import { FollowerInfo } from "@/lib/types";
 
@@ -61,28 +62,25 @@ export async function POST(
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await prisma.$transaction([
-      prisma.follow.upsert({
-        where: {
-          followerId_followingId: {
-            followerId: loggedInUser.id,
-            followingId: userId,
-          },
-        },
-        create: {
+    await prisma.follow.upsert({
+      where: {
+        followerId_followingId: {
           followerId: loggedInUser.id,
           followingId: userId,
         },
-        update: {},
-      }),
-      prisma.notification.create({
-        data: {
-          issuerId: loggedInUser.id,
-          recipientId: userId,
-          type: "FOLLOW",
-        },
-      }),
-    ]);
+      },
+      create: {
+        followerId: loggedInUser.id,
+        followingId: userId,
+      },
+      update: {},
+    });
+
+    await createNotificationAndDeliver({
+      issuerId: loggedInUser.id,
+      recipientId: userId,
+      type: "FOLLOW",
+    });
 
     return new Response();
   } catch (error) {

@@ -14,7 +14,8 @@
     "verify:list": "tsx scripts/verify-user.ts list",
     "add-aligners-tag": "tsx scripts/add-aligners-tag.ts",
     "backfill:embeddings": "tsx scripts/generate-embeddings.ts",
-    "refresh:feed-profiles": "tsx scripts/refresh-feed-personalization.ts"
+    "refresh:feed-profiles": "tsx scripts/refresh-feed-personalization.ts",
+    "vapid:generate": "web-push generate-vapid-keys"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
@@ -74,6 +75,7 @@
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^7.7.2",
     "vaul": "^1.1.2",
+    "web-push": "^3.6.7",
     "zod": "^3.25.57",
     "zustand": "^5.0.6"
   },
@@ -84,6 +86,7 @@
     "@types/nodemailer": "^7.0.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/web-push": "^3.6.4",
     "eslint": "^9",
     "eslint-config-next": "15.5.7",
     "eslint-config-prettier": "^10.1.5",

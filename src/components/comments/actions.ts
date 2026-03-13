@@ -1,6 +1,7 @@
 "use server";
 
 import { validateRequest } from "@/auth";
+import { createNotificationAndDeliver } from "@/lib/notifications/delivery";
 import prisma from "@/lib/prisma";
 import { getCommentDataInclude, PostData } from "@/lib/types";
 import { createCommentSchema } from "@/lib/validation";
@@ -18,28 +19,23 @@ export async function submitComment({
 
   const { content: contentValidated } = createCommentSchema.parse({ content });
 
-  const [newComment] = await prisma.$transaction([
-    prisma.comment.create({
-      data: {
-        content: contentValidated,
-        postId: post.id,
-        userId: user.id,
-      },
-      include: getCommentDataInclude(user.id),
-    }),
-    ...(post.user.id !== user.id
-      ? [
-          prisma.notification.create({
-            data: {
-              issuerId: user.id,
-              recipientId: post.user.id,
-              postId: post.id,
-              type: "COMMENT",
-            },
-          }),
-        ]
-      : []),
-  ]);
+  const newComment = await prisma.comment.create({
+    data: {
+      content: contentValidated,
+      postId: post.id,
+      userId: user.id,
+    },
+    include: getCommentDataInclude(user.id),
+  });
+
+  if (post.user.id !== user.id) {
+    await createNotificationAndDeliver({
+      issuerId: user.id,
+      recipientId: post.user.id,
+      postId: post.id,
+      type: "COMMENT",
+    });
+  }
 
   return newComment;
 }

@@ -36,6 +36,7 @@ model User {
   comments                    Comment[]
   receivedNotifications       Notification[]     @relation("Recipient")
   issuedNotifications         Notification[]     @relation("Issuer")
+  pushSubscriptions           PushSubscription[]
   createdCommunities          Community[]        @relation("CommunityCreator")
   communityMemberships        CommunityMember[]
   communityPosts              CommunityPost[]    @relation("CommunityPosts")
@@ -191,6 +192,21 @@ model Notification {
   createdAt DateTime @default(now())
 
   @@map("notifications")
+}
+
+model PushSubscription {
+  id             String    @id @default(cuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint       String    @unique
+  p256dh         String
+  auth           String
+  expirationTime DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("push_subscriptions")
 }
 
 enum NotificationType {
